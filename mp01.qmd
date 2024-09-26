@@ -1,0 +1,376 @@
+---
+title: "Mini Project 01"
+author: "Christian Montano"
+date: "2024-09-25"
+format: 
+  html:
+    theme: flatly
+    toc: true
+    toc-title: "Contents"
+    toc-depth: 2
+    code-fold: true
+---
+
+# Introduction
+
+This report provides an analysis of transit systems' financials, ridership, and efficiency metrics. The data is sourced from ridership, fare revenue, and expenses datasets for 2022.
+
+# Loading Libraries and Data
+
+```{r}
+required_packages <- c("tidyverse", "readxl", "DT", "lubridate", "dplyr")
+
+for (package in required_packages) {
+  if (!require(package, character.only = TRUE)) {
+    install.packages(package, dependencies = TRUE)
+    library(package, character.only = TRUE)
+  } else {
+    library(package, character.only = TRUE)
+  }
+}
+```
+
+# Data Preparation
+
+```{r}
+FARES <- readxl::read_xlsx("2022_fare_revenue.xlsx") |>
+  select(-`State/Parent NTD ID`, 
+         -`Reporter Type`,
+         -`Reporting Module`,
+         -`TOS`,
+         -`Passenger Paid Fares`,
+         -`Organization Paid Fares`) |>
+  filter(`Expense Type` == "Funds Earned During Period") |>
+  select(-`Expense Type`) |>
+  group_by(`NTD ID`,       
+           `Agency Name`,  
+           `Mode`) |>      
+  summarize(`Total Fares` = sum(`Total Fares`)) |>
+  ungroup()
+
+EXPENSES <- readr::read_csv("2022_expenses.csv") |>
+  select(`NTD ID`, 
+         `Agency`,
+         `Total`, 
+         `Mode`) |>
+  mutate(`NTD ID` = as.integer(`NTD ID`)) |>
+  rename(Expenses = Total) |>
+  group_by(`NTD ID`, `Mode`) |>
+  summarize(Expenses = sum(Expenses)) |>
+  ungroup()
+
+FINANCIALS <- inner_join(FARES, EXPENSES, join_by(`NTD ID`, `Mode`))
+
+TRIPS <- readxl::read_xlsx("ridership.xlsx", sheet="UPT") |>
+  filter(`Mode/Type of Service Status` == "Active") |>
+  select(-`Legacy NTD ID`, 
+         -`Reporter Type`, 
+         -`Mode/Type of Service Status`, 
+         -`UACE CD`, 
+         -`TOS`) |>
+  pivot_longer(-c(`NTD ID`:`3 Mode`), 
+               names_to="month", 
+               values_to="UPT") |>
+  drop_na() |>
+  mutate(month=my(month)) 
+MILES <- readxl::read_xlsx("ridership.xlsx", sheet="VRM") |>
+  filter(`Mode/Type of Service Status` == "Active") |>
+  select(-`Legacy NTD ID`, 
+         -`Reporter Type`, 
+         -`Mode/Type of Service Status`, 
+         -`UACE CD`, 
+         -`TOS`) |>
+  pivot_longer(-c(`NTD ID`:`3 Mode`), 
+               names_to="month", 
+               values_to="VRM") |>
+  drop_na() |>
+  group_by(`NTD ID`, `Agency`, `UZA Name`, 
+           `Mode`, `3 Mode`, month) |>
+  summarize(VRM = sum(VRM)) |>
+  ungroup() |>
+  mutate(month=my(month))
+
+USAGE <- inner_join(TRIPS, MILES) |>
+  mutate(`NTD ID` = as.integer(`NTD ID`))
+
+sample_n(USAGE, 1000) |> 
+  mutate(month=as.character(month)) |> 
+  DT::datatable()
+```
+
+## Task 1
+
+Rename a column: `UZA Name` to `metro_area`.
+
+```{r}
+USAGE <- USAGE %>%
+  rename(
+    metro_area = `UZA Name`,
+    Unlinked_Passenger_Trips = UPT,
+    Vehicle_Revenue_Miles = VRM
+  )
+```
+
+## Task 2
+
+Recoding the `Mode` column
+
+```{r}
+unique_modes <- USAGE %>% distinct(Mode)
+print(unique_modes)
+
+USAGE <- USAGE |>
+  mutate(Mode=case_when(
+    Mode == "HR" ~ "Heavy Rail", 
+    Mode == "DR" ~ "Demand Response",
+    Mode == "FB" ~ "Ferry Boat",
+    Mode == "MB" ~ "Bus",
+    Mode == "SR" ~ "Streetcar Rail",
+    Mode == "TB" ~ "Trolleybus",
+    Mode == "VP" ~ "Vanpool",
+    Mode == "CB" ~ "Commuter Bus",
+    Mode == "RB" ~ "Rapid Bus",
+    Mode == "LR" ~ "Light Rail",
+    Mode == "YR" ~ "Hybrid Rail",
+    Mode == "MG" ~ "Monorail/Automated Guideway",
+    Mode == "CR" ~ "Commuter Rail",
+    Mode == "AR" ~ "Alaska Railroad",
+    Mode == "TR" ~ "Tram",
+    Mode == "IP" ~ "Inclined Plane",
+    Mode == "PB" ~ "Public Bike",
+    Mode == "CC" ~ "Cable Car",
+    TRUE ~ "Unknown"))
+
+sample_n(USAGE, 1000) %>%
+  select(-`NTD ID`, -`3 Mode`) %>%
+  mutate(month = as.character(month)) %>%
+  DT::datatable(options = list(pageLength = 25, lengthMenu = c(25, 50, 100), scrollX = TRUE))
+
+```
+
+# Data Analysis
+
+## Task 3: Analysis of Transit Data
+
+### 1. Which Transit Agency Had the Most Total VRM?
+
+The MTA New York City transportation is the transportation company with the most total Vehicle Revenue Miles (VRM) in our dataset. This agency has a total VRM of 1,083,285,350 on file. This suggests that MTA New York City Transit is a major participant in terms of operational reach since it offers a wide range of vehicle services.
+
+```{r}
+most_vrm_agency <- USAGE %>%
+  group_by(Agency) %>%
+  summarize(total_VRM = sum(Vehicle_Revenue_Miles, na.rm = TRUE)) %>%
+  arrange(desc(total_VRM)) %>%
+  slice(1)
+```
+
+### 2. What transit mode had the most total VRM in our data set?
+
+The 'Bus' mode is the transportation mode with the largest total Vehicle Revenue Miles (VRM) in our dataset, with 4,944,449,088 VRM. This shows how many service kilometers buses go, underscoring their important function in the transportation network.
+
+```{r}
+most_vrm_mode <- USAGE %>%
+  group_by(Mode) %>%
+  summarize(total_VRM = sum(Vehicle_Revenue_Miles, na.rm = TRUE)) %>%
+  arrange(desc(total_VRM)) %>%
+  slice(1) 
+```
+
+### 3. How many trips were taken on the NYC Subway (Heavy Rail) in May 2024?
+
+1,804,588,19 unlinked passenger journeys were made on the MTA New York City Transit-operated NYC Subway (Heavy Rail) in May 2024. This graph illustrates how frequently the subway system was used in that particular month.
+
+```{r}
+nyc_subway_may_2024 <- USAGE %>%
+  filter(Agency == "MTA New York City Transit", Mode == "Heavy Rail", month == as.Date("2024-05-01")) %>%
+  summarize(total_trips = sum(Unlinked_Passenger_Trips, na.rm = TRUE))
+```
+
+### 5. How much did NYC subway ridership fall between April 2019 and April 2020?
+
+There was a notable decline in the number of riders of the NYC subway system from April 2019 to April 2020. There was a 2,119,696,600 reduction in unlinked passenger journeys overall. The COVID-19 epidemic, which resulted in significant cutbacks in public transportation utilization during that time, is blamed for this steep fall.
+
+```{r}
+nyc_subway_ridership_fall <- USAGE %>%
+  filter(Agency == "MTA New York City Transit", Mode == "Heavy Rail", month %in% as.Date(c("2019-04-01", "2020-04-01"))) %>%
+  group_by(month) %>%
+  summarize(total_trips = sum(Unlinked_Passenger_Trips, na.rm = TRUE))
+
+fall_in_ridership <- diff(nyc_subway_ridership_fall$total_trips)
+```
+
+## Task 4
+
+### Which agency recorded the highest number of unlinked passenger trips (UPT) in 2022.
+
+With 2,278,853,098 unlinked passenger journeys (UPT) in total, the MTA New York City Transit was the agency that logged the most UPT in 2022. In a heavily populated urban region, this emphasizes the critical role the NYC transportation system plays in facilitating passenger movement.
+
+```{r}
+top_agency_2022 <- USAGE %>%
+  filter(year(month) == 2022) %>%
+  group_by(Agency) %>%
+  summarize(total_trips = sum(Unlinked_Passenger_Trips, na.rm = TRUE)) %>%
+  arrange(desc(total_trips)) %>%
+  slice(1)
+```
+
+### Identify the mode of transport that showed the highest percentage growth in unlinked passenger trips (UPT) from 2021 to 2022.
+
+According to the available statistics, Cable Car demonstrated the greatest percentage growth in unlinked passenger trips (UPT) between 2021 and 2022, growing at a pace of almost 221.15%. When compared to other forms of transportation, this suggests a notable comeback or rise in the use of cable cars during this time.
+
+```{r}
+growth_mode <- USAGE %>%
+  filter(year(month) %in% c(2021, 2022)) %>%
+  group_by(Mode, year = year(month)) %>%
+  summarize(total_trips = sum(Unlinked_Passenger_Trips, na.rm = TRUE)) %>%
+  spread(year, total_trips) %>%
+  mutate(growth = (`2022` - `2021`) / `2021` * 100) %>%
+  arrange(desc(growth)) %>%
+  slice(1)
+
+print(growth_mode)
+```
+
+### Which transit mode was the most common in terms of vehicle revenue miles (VRM) in 2022.
+
+With a total of 2,178,902,024 vehicle revenue miles in 2022, bus travel was the most popular mode of transportation (VRM). This suggests that, in terms of distance traveled in revenue-generating services, buses were the most popular form of transportation.
+
+```{r}
+common_mode_2022 <- USAGE %>%
+filter(year(month) == 2022) %>%
+  group_by(Mode) %>%
+  summarize(total_vrm = sum(Vehicle_Revenue_Miles, na.rm = TRUE)) %>%
+  arrange(desc(total_vrm)) %>%
+  slice(1)
+```
+
+# Table Summization
+
+## Task 5
+
+Creating a new table from `USAGE` that has annual total (sum) `UPT` and `VRM` for 2022.
+
+```{r}
+USAGE_2022_ANNUAL <- USAGE %>%
+  mutate(year = year(as.Date(month))) %>% 
+  filter(year == 2022) %>%  
+  group_by(`NTD ID`, Agency, metro_area, Mode) %>%  
+  summarize(
+    UPT = sum(Unlinked_Passenger_Trips, na.rm = TRUE),  
+    VRM = sum(Vehicle_Revenue_Miles, na.rm = TRUE)  
+  ) %>%
+  ungroup()
+```
+
+```{r}
+USAGE_2022_ANNUAL <- USAGE_2022_ANNUAL %>%
+  mutate(
+    Mode = case_when(
+      Mode == "Bus" ~ "MB",
+      Mode == "Heavy Rail" ~ "HR",
+      Mode == "Commuter Rail" ~ "CR",
+      Mode == "Ferry Boat" ~ "FB",
+      Mode == "Light Rail" ~ "LR",
+      Mode == "Trolleybus" ~ "TB",
+      Mode == "Vanpool" ~ "VP",
+      Mode == "Demand Response" ~ "DR",
+      Mode == "Streetcar Rail" ~ "SR",
+      Mode == "Hybrid Rail" ~ "YR",
+      Mode == "Monorail/Automated Guideway" ~ "MG",
+      Mode == "Alaska Railroad" ~ "AR",
+      Mode == "Tram" ~ "TR",
+      Mode == "Inclined Plane" ~ "IP",
+      Mode == "Public Bike" ~ "PB",
+      Mode == "Cable Car" ~ "CC",
+      
+      TRUE ~ "Unknown"
+    )
+  )
+
+USAGE_AND_FINANCIALS <- left_join(USAGE_2022_ANNUAL, FINANCIALS, by = c("NTD ID", "Mode")) %>%
+  drop_na()
+
+
+print(USAGE_AND_FINANCIALS)
+```
+
+# Farebox Recovery Among Major Systems
+
+## Task 6
+
+### Which transit system (agency and mode) had the most UPT in 2022?
+
+With a total of 1,793,073,801 journeys, the MTA New York City Transit operating in the Heavy Rail (HR) mode was the transit system with the most unlinked passenger trips (UPT) in 2022. This suggests that New York City's subway system is used rather frequently.
+
+```{r}
+most_upt <- USAGE_AND_FINANCIALS %>%
+  arrange(desc(UPT)) %>%
+  slice(1) %>%
+  select(Agency, Mode, UPT)
+```
+
+### Which transit system (agency and mode) had the highest farebox recovery, defined as the highest ratio of Total Fares to Expenses?
+
+With a farebox recovery ratio of 2.38—the ratio of total fares to expenses—the Transit Authority, which operated the Vanpool (VP) mode, was the transit system with the greatest farebox recovery. This implies that the vanpool service is quite effective at using fare income to pay for its operating costs.
+
+```{r}
+highest_farebox_recovery <- USAGE_AND_FINANCIALS %>%
+  mutate(farebox_recovery = `Total Fares` / Expenses) %>%
+  arrange(desc(farebox_recovery)) %>%
+  slice(1) %>%
+  select(Agency, Mode, farebox_recovery)
+```
+
+### Which transit system (agency and mode) has the lowest expenses per UPT?
+
+With costs of around 1.18 per trip, the North Carolina State Agency, which runs the Bus (MB) mode, is the transportation system with the lowest expenses per unlinked passenger trip (UPT). This suggests a very economical bus service.
+
+```{r}
+lowest_expenses_per_upt <- USAGE_AND_FINANCIALS %>%
+  mutate(expenses_per_upt = Expenses / UPT) %>%
+  arrange(expenses_per_upt) %>%
+  slice(1) %>%
+  select(Agency, Mode, expenses_per_upt)
+```
+
+### Which transit system (agency and mode) has the highest total fares per UPT?
+
+With an average fee of 660.12 per trip, Altoona Metro Transit, which operates in the Demand Response (DR) mode, is the transit system with the highest total charges per UPT. This points to a demand-responsive fare structure that is expensive or premium services.
+
+```{r}
+highest_fares_per_upt <- USAGE_AND_FINANCIALS %>%
+  mutate(fares_per_upt = `Total Fares` / UPT) %>%
+  arrange(desc(fares_per_upt)) %>%
+  slice(1) %>%
+  select(Agency, Mode, fares_per_upt)
+```
+
+### Which transit system (agency and mode) has the lowest expenses per VRM?
+
+The New Mexico Department of Transportation, which uses the Vanpool (VP) mode, is the transportation system with the lowest costs per vehicle revenue mile (VRM), spending only 0.34 per VRM. This suggests a particularly economical operation in relation to the miles of the vehicle.
+
+```{r}
+lowest_expenses_per_vrm <- USAGE_AND_FINANCIALS %>%
+  mutate(expenses_per_vrm = Expenses / VRM) %>%
+  arrange(expenses_per_vrm) %>%
+  slice(1) %>%
+  select(Agency, Mode, expenses_per_vrm)
+```
+
+### Which transit system (agency and mode) has the highest total fares per VRM?
+
+The Chicago Water Taxi, which uses the Ferry Boat (FB) mode and generates around 237.46 in revenues per VRM, is the transportation system with the highest total fares per VRM. This implies a high income generation per mile traveled, which might be brought about by a high amount of passengers or premium services.
+
+```{r}
+highest_fares_per_vrm <- USAGE_AND_FINANCIALS %>%
+  mutate(fares_per_vrm = `Total Fares` / VRM) %>%
+  arrange(desc(fares_per_vrm)) %>%
+  slice(1) %>%
+  select(Agency, Mode, fares_per_vrm)
+```
+
+# Conclusion
+
+Based on all of this, what do you believe to be the most efficient transit system in the country? (Your answer may differ depending on which form of ‘efficiency’ you care most about)?
+
+Farebox Recovery (income Efficiency): If you were to rank the transit systems based on how much revenue they generate relative to their expenses, the system with the largest farebox recovery would be considered the most efficient. This illustrates how effectively fare income offsets system expenses. The system with the lowest expenses per Vehicle Revenue Mile (VRM) or Unlinked is the one with the most operational efficiency (Cost per Vehicle Revenue Mile, or UPT). If operational efficiency is more important, passenger trip (UPT). This demonstrates which system can continue to provide services with low operational expenses. If the objective is to maximize fare income per trip or mile, the system with the greatest total fares per UPT or per VRM may be examined. This is known as user efficiency (total fares per UPT or per VRM).
