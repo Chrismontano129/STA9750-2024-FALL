@@ -4,6 +4,7 @@ author: "Christian Montano"
 date: "2024-10-23"
 format:
   html:
+    theme: lux
     toc: true
     code-fold: true
 ---
@@ -12,7 +13,7 @@ In this mini-project, we analyzed the IMDb dataset to identify key characteristi
 
 # The Business of Show Business
 
-```{r}
+```{r chunk0, output: false}
 # Install and load required packages
 required_packages <- c("dplyr", "stringr", "ggplot2", "scales", "readr", "tidyr", "knitr", "rmarkdown")
 new_packages <- required_packages[!(required_packages %in% installed.packages()[,"Package"])]
@@ -23,7 +24,7 @@ if(length(new_packages)) install.packages(new_packages)
 lapply(required_packages, library, character.only = TRUE)
 ```
 
-IMBD data from provided source
+### IMBD data from provided source
 
 ```{r}
 # Load IMDb data from the provided source
@@ -69,11 +70,9 @@ TITLE_RATINGS |>
     scale_y_continuous(label=scales::comma)
 ```
 
-![](/docs/MP02/mp02_files/figure-html/unnamed-chunk-3-1.png)
-
 To keep our computers from working too hard, let's throw out any title with less than 100 ratings. As well as filtering our data significantly to begin analyzing the data set.
 
-```{r}
+```{r chunk1, output: false}
 TITLE_RATINGS |>
     pull(numVotes) |>
     quantile()
@@ -118,20 +117,20 @@ To fix this, we need to use:
 
 2.  the as.numeric command to change the type of the column.
 
-```{r}
+```{r chunk2, output: false}
 
 ## Task 1 - Column Type Correction
-
 TITLE_BASICS <- TITLE_BASICS %>%
   mutate(
-    startYear = as.numeric(startYear),  # NA values introduced due to non-numeric data
-    endYear = as.numeric(endYear),      # Same here for endYear
-    isAdult = as.logical(isAdult)       # Assuming 1 = TRUE, 0 = FALSE
+    startYear = as.numeric(startYear),
+    endYear = as.numeric(endYear),
+    isAdult = as.logical(isAdult)
   )
 
 # To inspect how many NA values were introduced:
-sum(is.na(TITLE_BASICS$startYear))
-sum(is.na(TITLE_BASICS$endYear))
+sum(is.na(TITLE_BASICS$startYear))  # Count NAs in startYear
+sum(is.na(TITLE_BASICS$endYear))    # Count NAs in endYear
+
 
 
 TITLE_RATINGS <- TITLE_RATINGS %>%
@@ -165,8 +164,6 @@ TITLE_CREW <- TITLE_CREW %>%
   mutate(writers = str_remove(writers, "nm")) %>%
   mutate(writers = as.numeric(writers))
 
-head(TITLE_CREW)
-
 TITLE_PRINCIPALS <- TITLE_PRINCIPALS %>%
   mutate(job = na_if(job, "\\N"),
          characters = na_if(characters, "\\N"))
@@ -193,7 +190,7 @@ glimpse(TITLE_PRINCIPALS)
 
     TV episodes 15,6967
 
-    ```{r}
+    ```{r chunk3, output: false}
 
     movie_count <- TITLE_BASICS %>%
       filter(titleType == "movie") %>%
@@ -211,7 +208,7 @@ glimpse(TITLE_PRINCIPALS)
 
 2.  Who is the oldest living person in our data set?
 
-    ```{r}
+    ```{r chunk4, output: false}
 
     oldest_living_person <- NAME_BASICS %>%
       filter(is.na(deathYear)) %>%
@@ -236,7 +233,7 @@ glimpse(TITLE_PRINCIPALS)
 
     Ozymandias
 
-    ```{r}
+    ```{r chunk5, output: false}
     perfect_episode <- TITLE_RATINGS %>%
       filter(averageRating == 10, numVotes >= 200000) %>%
       inner_join(TITLE_BASICS, by = "tconst") %>%
@@ -248,7 +245,7 @@ glimpse(TITLE_PRINCIPALS)
 
     Star Wars IV , V, VI and VIII
 
-    ```{r}
+    ```{r chunk6, output: false}
     mark_hamill <- NAME_BASICS %>%
       filter(primaryName == "Mark Hamill") %>%
       select(knownForTitles)
@@ -262,7 +259,7 @@ glimpse(TITLE_PRINCIPALS)
 
     Jogandofoddaci
 
-    ```{r}
+    ```{r chunk7, output: false}
     best_tv_series <- TITLE_BASICS %>%
       filter(titleType == "tvSeries") %>%
       inner_join(TITLE_RATINGS, by = "tconst") %>%
@@ -280,7 +277,7 @@ glimpse(TITLE_PRINCIPALS)
 
     Later Season Episodes Average rating : 6.81
 
-    ```{r}
+    ```{r chunk8, output: false}
     # Check if there are any *Happy Days* episodes in the data
     happy_days_titles <- TITLE_BASICS %>%
       filter(primaryTitle == "Happy Days", titleType == "tvEpisode")
@@ -329,7 +326,7 @@ This equation uses averageRating as a measure of quality. Takes the logarithm of
 
 Adding Success Metric to Title Ratings
 
-```{r}
+```{r chunk9, output: false}
 TITLE_RATINGS <- TITLE_RATINGS %>%
   mutate(success_metric = averageRating * log(numVotes + 1))
 
@@ -340,7 +337,7 @@ head(TITLE_RATINGS)
 
 1.  Choose the top 5-10 movies on your metric and confirm that they were indeed box office successes.
 
-    ```{r}
+    ```{r chunk10, output: false}
     top_movies <- TITLE_RATINGS %>%
       arrange(desc(success_metric)) %>%
       slice(1:10)
@@ -351,7 +348,7 @@ head(TITLE_RATINGS)
 
 2.  Choose 3-5 movies with large numbers of IMDb votes that score poorly on your success metric and confirm that they are indeed of low quality.
 
-    ```{r}
+    ```{r chunk11, output: false}
     low_scoring_movies <- TITLE_RATINGS %>%
       filter(numVotes > 50000) %>%
       arrange(success_metric) %>%
@@ -362,7 +359,7 @@ head(TITLE_RATINGS)
 
 3.  Choose a prestige actor or director and confirm that they have many projects with high scores on your success metric.
 
-    ```{r}
+    ```{r chunk12, output: false}
     prestige_movies <- TITLE_PRINCIPALS %>%
       filter(nconst == "nm0000229") %>%  # Spielberg's IMDb ID as an example
       inner_join(TITLE_RATINGS, by = "tconst") %>%
@@ -437,8 +434,6 @@ head(TITLE_RATINGS)
 
     ```
 
-    ![](Success%20by%20Genre%20and%20Decade)
-
 2.  What genre consistently has the most “successes”? What genre used to reliably produced “successes” and has fallen out of favor?
 
     Documentaries have seen a sharp rise, particularly after 2000. This could indicate growing interest in non-fiction storytelling in the last two decades. Animation (yellow) and Sci-Fi (purple) have had significant success post-2000, showing a growing trend in family-oriented and futuristic content.
@@ -504,8 +499,6 @@ summary_table <- top_personnel_condensed %>%
 # Print the summary table
 print(summary_table)
 ```
-
-![](Top%2010%20Actors%20and%20Directors%20in%20Documentary%20Films)
 
 For our upcoming documentary project, we have strategically selected two of the most successful actors and one director, all of whom have a proven track record of success in the documentary genre.
 
