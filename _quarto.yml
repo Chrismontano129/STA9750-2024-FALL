@@ -1,0 +1,17 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "STA/OPR 9750 2024 Submission Material"
+  description:
+    Course Projects for STA/OPR 9750 at Baruch College
+  site-url: "https://chrismontano129.github.io/STA9750-2024-FALL/"
+  navbar:
+    background: primary
+    search: false
+    
+format:
+  html:
+    theme: lux
+    toc: false
