@@ -1,0 +1,581 @@
+---
+title: "Mini-Project #02"
+author: "Christian Montano"
+date: "2024-10-23"
+format:
+  html:
+    theme: lux
+    toc: true
+    code-fold: true
+---
+
+In this mini-project, we analyzed the IMDb dataset to identify key characteristics of successful movies, examined top actors and directors, and proposed a documentary remake of Bob Ross's \*The Joy of Painting\*. I explored trends by genre and decade, created a custom success metric, and provided recommendations for key personnel for the remake.
+
+# The Business of Show Business
+
+```{r chunk0, output: false}
+# Install and load required packages
+required_packages <- c("dplyr", "stringr", "ggplot2", "scales", "readr", "tidyr", "knitr", "rmarkdown")
+new_packages <- required_packages[!(required_packages %in% installed.packages()[,"Package"])]
+
+if(length(new_packages)) install.packages(new_packages)
+
+# Load all libraries
+lapply(required_packages, library, character.only = TRUE)
+```
+
+### IMBD data from provided source
+
+```{r}
+# Load IMDb data from the provided source
+get_imdb_file <- function(fname){
+  BASE_URL <- "https://datasets.imdbws.com/"
+  fname_ext <- paste0(fname, ".tsv.gz")
+  if(!file.exists(fname_ext)){
+    FILE_URL <- paste0(BASE_URL, fname_ext)
+    download.file(FILE_URL, destfile = fname_ext)
+  }
+  as.data.frame(readr::read_tsv(fname_ext, lazy=FALSE))
+}
+
+NAME_BASICS <- get_imdb_file("name.basics")
+TITLE_BASICS <- get_imdb_file("title.basics")
+TITLE_EPISODES   <- get_imdb_file("title.episode")
+TITLE_RATINGS <- get_imdb_file("title.ratings")
+TITLE_PRINCIPALS <- get_imdb_file("title.principals")
+TITLE_CREW <- get_imdb_file("title.crew")
+
+# Filter data (customize your filters here)
+NAME_BASICS <- NAME_BASICS %>%
+  filter(str_count(knownForTitles, ",") > 1)
+
+```
+
+## Data Sub-Sampling
+
+Data is large enough that we're going to need to down-select to get a data set we can analyze fluidly
+
+```{r}
+NAME_BASICS <- NAME_BASICS %>%
+    filter(str_count(knownForTitles, ",") > 1)
+    
+TITLE_RATINGS |>
+    ggplot(aes(x=numVotes)) + 
+    geom_histogram(bins=30) +
+    xlab("Number of IMDB Ratings") + 
+    ylab("Number of Titles") + 
+    ggtitle("Majority of IMDB Titles Have Less than 100 Ratings") + 
+    theme_bw() + 
+    scale_x_log10(label=scales::comma) + 
+    scale_y_continuous(label=scales::comma)
+```
+
+To keep our computers from working too hard, let's throw out any title with less than 100 ratings. As well as filtering our data significantly to begin analyzing the data set.
+
+```{r chunk1, output: false}
+TITLE_RATINGS |>
+    pull(numVotes) |>
+    quantile()
+
+TITLE_RATINGS <- TITLE_RATINGS |>
+    filter(numVotes >= 100)
+
+TITLE_BASICS <- TITLE_BASICS |>
+    semi_join(TITLE_RATINGS, 
+              join_by(tconst == tconst))
+
+TITLE_CREW <- TITLE_CREW |>
+    semi_join(TITLE_RATINGS, 
+              join_by(tconst == tconst))
+
+TITLE_EPISODES_1 <- TITLE_EPISODES |>
+    semi_join(TITLE_RATINGS, 
+              join_by(tconst == tconst))
+TITLE_EPISODES_2 <- TITLE_EPISODES |>
+    semi_join(TITLE_RATINGS, 
+              join_by(parentTconst == tconst))
+
+TITLE_EPISODES <- bind_rows(TITLE_EPISODES_1,
+                            TITLE_EPISODES_2) |>
+    distinct()
+
+TITLE_PRINCIPALS <- TITLE_PRINCIPALS |>
+    semi_join(TITLE_RATINGS, join_by(tconst == tconst))
+
+
+rm(TITLE_EPISODES_1)
+rm(TITLE_EPISODES_2)
+```
+
+## Task 1: Column type Correction
+
+For this data set, most columns appear to be read in as *character* (string) vectors, even when they should be numeric. This can occur when “null” values are represented in some non-standard way. For instance, in these files, we see that missing values are represented as \\\\N. R does not know that these are NA values and so retains them as strings.
+
+To fix this, we need to use:
+
+1.  the mutate command, since we’re changing the type of a column
+
+2.  the as.numeric command to change the type of the column.
+
+```{r chunk2, output: false}
+
+## Task 1 - Column Type Correction
+TITLE_BASICS <- TITLE_BASICS %>%
+  mutate(
+    startYear = as.numeric(startYear),
+    endYear = as.numeric(endYear),
+    isAdult = as.logical(isAdult)
+  )
+
+# To inspect how many NA values were introduced:
+sum(is.na(TITLE_BASICS$startYear))  # Count NAs in startYear
+sum(is.na(TITLE_BASICS$endYear))    # Count NAs in endYear
+
+
+
+TITLE_RATINGS <- TITLE_RATINGS %>%
+  mutate(
+    averageRating = as.numeric(averageRating),
+    numVotes = as.numeric(numVotes)
+  )
+
+TITLE_CREW <- TITLE_CREW %>%
+  mutate(directors = as.character(directors)) %>%
+  mutate(directors = na_if(directors, "\\N")) %>%
+  separate_rows(directors, sep = ",")
+
+TITLE_CREW <- TITLE_CREW %>%
+  mutate(directors = str_remove(directors, "nm")) %>%
+  mutate(directors = as.numeric(directors))
+
+TITLE_CREW <- TITLE_CREW %>%
+  filter(!is.na(directors))
+
+# Step 1: Replace \N with NA in writers column
+TITLE_CREW <- TITLE_CREW %>%
+  mutate(writers = na_if(writers, "\\N"))
+
+# Step 2 (Optional): If writers contains multiple comma-separated IDs, separate them into rows
+TITLE_CREW <- TITLE_CREW %>%
+  separate_rows(writers, sep = ",")
+
+# Step 3: Remove 'nm' prefix from writers and convert to numeric (if needed)
+TITLE_CREW <- TITLE_CREW %>%
+  mutate(writers = str_remove(writers, "nm")) %>%
+  mutate(writers = as.numeric(writers))
+
+TITLE_PRINCIPALS <- TITLE_PRINCIPALS %>%
+  mutate(job = na_if(job, "\\N"),
+         characters = na_if(characters, "\\N"))
+
+TITLE_PRINCIPALS <- TITLE_PRINCIPALS %>%
+  separate_rows(characters, sep = ",")
+
+head(TITLE_PRINCIPALS)
+
+glimpse(TITLE_BASICS)
+glimpse(TITLE_RATINGS)
+glimpse(TITLE_CREW)
+glimpse(TITLE_PRINCIPALS)
+
+```
+
+## Task 2 : Instructor-Provided Questions
+
+1.  How many movies are in our data set? How many TV series? How many TV episodes?
+
+    Movies 132,369
+
+    TV series 30,043
+
+    TV episodes 15,6967
+
+    ```{r chunk3, output: false}
+
+    movie_count <- TITLE_BASICS %>%
+      filter(titleType == "movie") %>%
+      nrow()
+
+    tv_series_count <- TITLE_BASICS %>%
+      filter(titleType == "tvSeries") %>%
+      nrow()
+
+    tv_episode_count <- TITLE_BASICS %>%
+      filter(titleType == "tvEpisode") %>%
+      nrow()
+
+    ```
+
+2.  Who is the oldest living person in our data set?
+
+    ```{r chunk4, output: false}
+
+    oldest_living_person <- NAME_BASICS %>%
+      filter(is.na(deathYear)) %>%
+      arrange(birthYear) %>%
+      slice(1)
+
+    oldest_living_person
+
+    table(NAME_BASICS$deathYear, useNA = "ifany")
+
+    NAME_BASICS <- NAME_BASICS %>%
+      mutate(deathYear = na_if(deathYear, "\\N"))
+
+    oldest_living_person <- NAME_BASICS %>%
+      filter(is.na(deathYear) & birthYear >= 1850) %>%
+      arrange(birthYear) %>%
+      slice(1)
+
+    ```
+
+3.  There is one TV Episode in this data set with a perfect 10/10 rating and at least 200,000 IMDb ratings. What is it? What series does it belong to?
+
+    Ozymandias
+
+    ```{r chunk5, output: false}
+    perfect_episode <- TITLE_RATINGS %>%
+      filter(averageRating == 10, numVotes >= 200000) %>%
+      inner_join(TITLE_BASICS, by = "tconst") %>%
+      filter(titleType == "tvEpisode")
+
+    ```
+
+4.  What four projects is the actor Mark Hamill most known for?
+
+    Star Wars IV , V, VI and VIII
+
+    ```{r chunk6, output: false}
+    mark_hamill <- NAME_BASICS %>%
+      filter(primaryName == "Mark Hamill") %>%
+      select(knownForTitles)
+
+    mark_hamill_projects <- TITLE_BASICS %>%
+      filter(tconst %in% strsplit(mark_hamill$knownForTitles, ",")[[1]])
+
+    ```
+
+5.  What TV series, with more than 12 episodes, has the highest *average* rating?
+
+    Jogandofoddaci
+
+    ```{r chunk7, output: false}
+    best_tv_series <- TITLE_BASICS %>%
+      filter(titleType == "tvSeries") %>%
+      inner_join(TITLE_RATINGS, by = "tconst") %>%
+      filter(numVotes > 12) %>%
+      arrange(desc(averageRating)) %>%
+      slice(1)
+
+    ```
+
+6.  The TV series *Happy Days* (1974-1984) gives us the common idiom [“jump the shark”](https://en.wikipedia.org/wiki/Jumping_the_shark). The phrase comes from a controversial fifth season episode (aired in 1977) in which a lead character literally jumped over a shark on water skis. Idiomatically, it is used to refer to the moment when a once-great show becomes ridiculous and rapidly looses quality.
+
+    Is it true that episodes from later seasons of *Happy Days* have lower average ratings than the early seasons?
+
+    Early Season Episodes Average rating : 7.46
+
+    Later Season Episodes Average rating : 6.81
+
+    ```{r chunk8, output: false}
+    # Check if there are any *Happy Days* episodes in the data
+    happy_days_titles <- TITLE_BASICS %>%
+      filter(primaryTitle == "Happy Days", titleType == "tvEpisode")
+
+    # Display the first few rows of Happy Days titles
+    head(happy_days_titles)
+
+    # Check the number of rows
+    nrow(happy_days_titles)
+
+    ## There are multiple entries, including movies, a TV series, and shorts, but the main Happy Days TV series seems to be listed under tconst = tt0070992 (with start year 1974 and end year 1984).
+
+    # Find episodes for the Happy Days TV series (tt0070992)
+    happy_days_episodes <- TITLE_EPISODES %>%
+      filter(parentTconst == "tt0070992")
+
+    # Display the first few rows of episodes
+    head(happy_days_episodes)
+
+    # Join with TITLE_RATINGS to get ratings for Happy Days episodes
+    happy_days_ratings <- happy_days_episodes %>%
+      inner_join(TITLE_RATINGS, by = "tconst")
+
+    # Display the first few rows of episodes with ratings
+    head(happy_days_ratings)
+
+    # Compare average ratings for early (seasons 1-5) and late seasons (6+)
+    early_seasons <- happy_days_ratings %>%
+      filter(seasonNumber <= 5) %>%
+      summarise(avg_rating = mean(averageRating, na.rm = TRUE))
+
+    late_seasons <- happy_days_ratings %>%
+      filter(seasonNumber > 5) %>%
+      summarise(avg_rating = mean(averageRating, na.rm = TRUE))
+
+    # Display the comparison
+    early_seasons
+    late_seasons
+    ```
+
+## Task 3: Custom Success Metric
+
+***Success_metric = averageRating × log (numVotes+1)***
+
+This equation uses averageRating as a measure of quality. Takes the logarithm of numVotes to diminish the impact of extremely popular titles with many votes while still recognizing their significance.
+
+Adding Success Metric to Title Ratings
+
+```{r chunk9, output: false}
+TITLE_RATINGS <- TITLE_RATINGS %>%
+  mutate(success_metric = averageRating * log(numVotes + 1))
+
+head(TITLE_RATINGS)
+```
+
+### Validating Success Metric
+
+1.  Choose the top 5-10 movies on your metric and confirm that they were indeed box office successes.
+
+    ```{r chunk10, output: false}
+    top_movies <- TITLE_RATINGS %>%
+      arrange(desc(success_metric)) %>%
+      slice(1:10)
+
+    top_movies
+
+    ```
+
+2.  Choose 3-5 movies with large numbers of IMDb votes that score poorly on your success metric and confirm that they are indeed of low quality.
+
+    ```{r chunk11, output: false}
+    low_scoring_movies <- TITLE_RATINGS %>%
+      filter(numVotes > 50000) %>%
+      arrange(success_metric) %>%
+      slice(1:5)
+
+    low_scoring_movies
+    ```
+
+3.  Choose a prestige actor or director and confirm that they have many projects with high scores on your success metric.
+
+    ```{r chunk12, output: false}
+    prestige_movies <- TITLE_PRINCIPALS %>%
+      filter(nconst == "nm0000229") %>%  # Spielberg's IMDb ID as an example
+      inner_join(TITLE_RATINGS, by = "tconst") %>%
+      arrange(desc(success_metric))
+
+    prestige_movies
+    ```
+
+4.  Perform at least one other form of ‘spot check’ validation.
+
+    ```{r}
+    #Comparing Against Known Box Office Successes
+
+    movie_titles <- c("Avatar", "Avengers: Endgame", "Titanic", "The Dark Knight")
+
+    movie_tconst <- TITLE_BASICS %>%
+      filter(primaryTitle %in% movie_titles)
+
+    movie_tconst %>%
+      select(tconst, primaryTitle, originalTitle, startYear)
+
+    known_hits <- c("tt0499549", "tt4154796", "tt0120338", "tt0468569")
+
+    known_hits_success <- TITLE_RATINGS %>%
+      filter(tconst %in% known_hits) %>%
+      arrange(desc(success_metric))
+
+    known_hits_success
+
+    ```
+
+5.  Come up with a numerical threshold for a project to be a ‘success’; that is, determine a value v such that movies above v are all “solid” or better.'
+
+    ```{r}
+    success_threshold <- 8.0
+
+    successful_movies <- TITLE_RATINGS %>%
+      filter(success_metric > success_threshold)
+
+    head(successful_movies)
+    ```
+
+## Task 4 - Trends in Success Over Time
+
+1.  What was the genre with the most “successes” in each decade?
+
+    2000s and 2010s: The most successful genre seems to be Documentary (green bar), followed by Drama (light blue), Comedy (light green), and Action (orange). Documentaries have been increasingly successful in recent decades. 1990s: Drama and Comedy were dominant genres, and this pattern continues into the 2000s. 1980s and earlier: The most successful genres were more evenly spread, but Drama and Action were consistently significant.
+
+    ```{r}
+    TITLE_BASICS <- TITLE_BASICS %>%
+      mutate(decade = floor(startYear / 10) * 10)  # Group years by decades
+
+    movies_with_ratings <- TITLE_BASICS %>%
+      inner_join(TITLE_RATINGS, by = "tconst") %>%
+      filter(!is.na(averageRating) & !is.na(genres) & !is.na(decade))  # Ensure no missing values
+
+    movies_with_ratings <- movies_with_ratings %>%
+      separate_rows(genres, sep = ",")
+
+    success_threshold <- 8.0
+
+    success_by_genre_decade <- movies_with_ratings %>%
+      filter(success_metric > success_threshold) %>%
+      group_by(genres, decade) %>%
+      summarise(success_count = n()) %>%
+      arrange(desc(success_count))
+
+    ggplot(success_by_genre_decade, aes(x = factor(decade), y = success_count, fill = genres)) +
+      geom_bar(stat = "identity", position = "dodge") +
+      labs(title = "Success by Genre and Decade", x = "Decade", y = "Number of Successful Movies") +
+      theme_minimal()
+
+    ```
+
+2.  What genre consistently has the most “successes”? What genre used to reliably produced “successes” and has fallen out of favor?
+
+    Documentaries have seen a sharp rise, particularly after 2000. This could indicate growing interest in non-fiction storytelling in the last two decades. Animation (yellow) and Sci-Fi (purple) have had significant success post-2000, showing a growing trend in family-oriented and futuristic content.
+
+3.  What genre has produced the most “successes” since 2010? Does it have the highest success *rate* or does it only have a large number of successes because there are many productions in that genre?
+
+    Musicals (pink) and Western (light yellow) had much more success in the early 1900s and mid-century but have since declined dramatically, almost disappearing by the 2000s. Film-Noir (dark gray) and History (gray) were more successful earlier in cinema history but have diminished in modern decades.
+
+4.  What genre has become more popular in recent years?
+
+    Documentaries dominate in the 2010s, followed by Drama, Comedy, and Action, showing a continued focus on both factual and dramatic storytelling.
+
+## Task 5 - Key Personnel
+
+Identify (at least) two actors and one director who you will target as the key talent for your movie. Write a short “pitch” as to why they are likely to be successful. You should support your pitch with at least one graphic and one table.
+
+```{r}
+
+# Define the success threshold (this can be adjusted as needed)
+success_threshold <- 8.0
+
+# Select your target genre (e.g., "Documentary")
+target_genre <- "Documentary"
+
+# Filter movies by the target genre and success metric
+successful_movies_in_genre <- movies_with_ratings %>%
+  filter(genres == target_genre & success_metric > success_threshold)
+
+# Join with TITLE_PRINCIPALS to find actors and directors for successful movies
+key_personnel <- successful_movies_in_genre %>%
+  inner_join(TITLE_PRINCIPALS, by = "tconst") %>%
+  filter(category %in% c("actor", "director"))  # Only get actors and directors
+
+# Join with NAME_BASICS to get actual names of the actors and directors
+key_personnel_named <- key_personnel %>%
+  inner_join(NAME_BASICS, by = "nconst")  # Join to get the primaryName
+
+# Summarize the number of successful projects by person and category (actor/director)
+top_personnel <- key_personnel_named %>%
+  group_by(nconst, person_name = primaryName, category) %>%  # Group by person and category
+  summarise(num_successes = n(), .groups = 'drop') %>%  # Summarize the number of successes
+  ungroup() %>%
+  arrange(desc(num_successes))
+
+# Limit the results to top 10 actors and directors combined
+top_personnel_condensed <- top_personnel %>%
+  slice_max(order_by = num_successes, n = 10)  # Select top 10 based on num_successes
+
+# Plot the top 10 actors and directors together in the same graph
+ggplot(top_personnel_condensed, aes(x = reorder(person_name, num_successes), y = num_successes, fill = category)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Top 10 Actors and Directors in Documentary",
+       x = "Person",
+       y = "Number of Successful Projects") +
+  coord_flip() +  # Rotate for readability
+  theme_minimal() +
+  theme(axis.text.y = element_text(size = 10))  # Adjust text size for readability
+
+# Create a summary table for the top actors and directors (optional, can use for the pitch)
+summary_table <- top_personnel_condensed %>%
+  select(person_name, category, num_successes)
+
+# Print the summary table
+print(summary_table)
+```
+
+For our upcoming documentary project, we have strategically selected two of the most successful actors and one director, all of whom have a proven track record of success in the documentary genre.
+
+Jonathan Aris: Known for his versatility and compelling performances, Jonathan Aris has been part of over 150 successful documentary projects. His ability to engage audiences with authoritative and insightful narration makes him a perfect fit to bring depth to our documentary's storyline.
+
+Peter Thomas: With over 100 successful projects under his belt, Peter Thomas is a legendary voice in the documentary field. His iconic narration has captivated audiences for decades, and his deep connection to factual storytelling ensures that our documentary will resonate with viewers.
+
+James H. White: As one of the most prolific documentary directors, James H. White has directed over 90 successful projects. His vision and leadership in documentary filmmaking have been critical to the success of many well-regarded films. His experience will ensure our project is both artistically captivating and commercially successful.
+
+This combination of top talent will allow us to craft a documentary that not only informs but also captivates viewers with compelling visuals and narration. With such a highly acclaimed team, we are confident that this project will become a standout success in the genre.
+
+## Task 6 - Finding a Classic Move to Remake
+
+Find a classic movie to remake with your key talent. The original should have a large number of IMDb ratings, a high average rating, and not have been remade in the past 25 years.^[4](https://michael-weylandt.com/STA9750/miniprojects/mini02.html#fn4)^
+
+Once you have found your classic movie to remake, confirm whether key actors, directors, or writers from the original are still alive. If so, you need to contact your legal department to ensure they can secure the rights to the project. You may also want to include the classic actors as “fan service.”
+
+```{r}
+
+# Define the cutoff year for remakes (25 years ago)
+cutoff_year <- 1999
+
+# Filter for highly-rated documentaries made before 1999
+classic_documentaries <- movies_with_ratings %>%
+  filter(genres == "Documentary" & startYear < cutoff_year & averageRating >= 7.5) %>%
+  arrange(desc(averageRating))
+
+# Check for large number of IMDb ratings (e.g., at least 1000 votes)
+classic_documentaries_high_votes <- classic_documentaries %>%
+  filter(numVotes >= 1000)
+
+
+print(classic_documentaries_high_votes)
+
+```
+
+**Remake Proposal - "The Joy of Painting with Bob Ross"**
+
+**Classic Movie to Remake**: *The Joy of Painting with Bob Ross* (1983)
+
+**Reason for Selection**: *The Joy of Painting with Bob Ross* is an iconic TV series that ran from 1983 to 1994, and it still enjoys a cult following today. With a remarkable IMDb rating of 9.3, the series has captured the hearts of generations with its calming, instructive approach to painting. The show’s philosophy of "happy little trees" and Bob Ross’s soothing voice made it a favorite for art lovers and general audiences alike. However, this series has not been remade or revisited in the last 25 years, making it an ideal candidate for a modern remake.
+
+**Remake Concept**: This remake could take the form of a documentary that not only pays tribute to the original *Joy of Painting* but also explores Bob Ross’s lasting cultural impact. The film could dive into the rise of "Bob Ross" as a phenomenon, his philosophy of art and life, and how his gentle approach continues to inspire new artists. Additionally, we could explore the lesser-known aspects of his personal life and artistic journey.
+
+**Potential Fan Service**: While Bob Ross passed away in 1995, his legacy has been preserved by the *Bob Ross Inc.* company. By involving people who worked closely with him during the original show, such as his son Steve Ross (who occasionally appeared on the original series), we could add a heartfelt, nostalgic element for longtime fans. Moreover, utilizing original footage from the show, remastered in higher quality, can further connect the new documentary to the beloved original series.
+
+**Key Talent**:
+
+-   **Jonathan Aris** (Actor/Narrator): His soothing, authoritative voice would be perfect for narrating the life and philosophy of Bob Ross.
+
+-   **Peter Thomas** (Narrator): A veteran narrator with experience in documentaries, he can bring gravitas and warmth to the documentary.
+
+-   **James H. White** (Director): With his extensive experience in documentary filmmaking, James H. White can guide the film, blending modern storytelling with classic archival footage to create a compelling narrative.
+
+**Next Steps**:
+
+-   **Confirming Rights**: Since Bob Ross’s image and legacy are controlled by *Bob Ross Inc.*, we will need to ensure that the legal rights to use his name and likeness are secured.
+
+-   **Engaging Original Cast/Contributors**: Reach out to key people who worked with Bob Ross, like his son Steve Ross, to participate in the documentary.
+
+Remaking *The Joy of Painting with Bob Ross* as a modern documentary will not only cater to the nostalgic audience but will also introduce a new generation to the calming, creative magic of Bob Ross. With the right talent and storytelling approach, this project has the potential to be both a critical and commercial success.
+
+## Task 7 - Write and Deliver Your Pitch
+
+Now that you have completed your analysis, write an “elevator pitch” of approximately 200-250 words for your proposed Hollywood project. This is the pitch you will bring to the studio head (your boss); if the studio head likes your pitch, you will be given a small sum of money to start securing the story rights and locking down tentative deals with key talent.
+
+Your pitch needs to synthesize the analysis above into two to three quick and compelling points. (*E.g.*, “The market for animated young adult horror musicals has grown 200% in the past decade” or “Over 90% of Director D’s movies are successes.”) You need to present the strongest argument for each element of your pitch, including genre, director, actors, and story.
+
+If your boss approves the pitch, you will need to have a brief trailer ready for the next quarterly earnings call. The marketing department has asked that you prepare a classic 90’s style teaser for them.
+
+| In the world of art and relaxation, few figures have achieved the cult status of Bob Ross. His iconic series, *The Joy of Painting*, has captivated audiences since its debut in 1983, earning a staggering 9.3 IMDb rating. With today’s resurgence of nostalgia and the rising trend of soothing, feel-good content, now is the perfect time to introduce *The Joy of Painting* to a new generation through a modern documentary.
+| 
+| Our project will focus on exploring the cultural phenomenon of Bob Ross—how his gentle, positive approach to art continues to inspire millions even decades after his passing. This documentary will include never-before-seen remastered footage from the original series, along with insights from his son Steve Ross, bringing both nostalgia and fresh perspectives.
+| 
+| We’ve assembled top talent for this film: *Jonathan Aris*, whose calm and authoritative narration will complement the meditative tone of the project, and *James H. White*, a director with a proven track record of producing successful documentaries. With Bob Ross’s signature “happy little trees” at its core, this film is guaranteed to attract fans old and new.
+| 
+| This documentary, which blends inspiration, art, and tranquility, has the potential to become the next big success in the world of feel-good content. Let's bring Bob Ross’s timeless message of positivity back to the forefront, with a modern twist.
+| 
+| "From *James H. White*, the visionary mind behind Connections, and *Jonathan Aris*, the beloved star of Good Omens, comes the timeless tale of 'Bob Ross. A story of art, peace, and happy little trees.' Coming soon to a theater near you."
+| 
