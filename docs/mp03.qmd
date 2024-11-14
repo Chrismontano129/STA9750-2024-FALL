@@ -37,23 +37,25 @@ library(sf)
 download_shapefile <- function(file_number, base_url, dest_dir) {
   # Format the file number to be three digits (e.g., 094, 095)
   file_id <- sprintf("%03d", file_number)
-  zip_filename <- paste0("districts", file_id, ".zip")
+  zip_filename <- paste0("districts_", file_id, ".zip")
   zip_file <- file.path(dest_dir, zip_filename)
   shapefile_folder <- file.path(dest_dir, paste0("district_", file_id))
-  
+
   # Check if the shapefile folder exists to avoid re-downloading
   if (!dir_exists(shapefile_folder)) {
     # Construct the full URL
     url <- paste0(base_url, zip_filename)
-    
-    # Attempt to download the file
-    tryCatch({
-      download.file(url, destfile = zip_file, mode = "wb")
-      unzip(zip_file, exdir = shapefile_folder)
-      file_delete(zip_file)  # Delete the zip file after extraction
-      message("Downloaded and extracted shapefiles for file number ", file_id)
-    }, error = function(e) {
-      message("Could not download shapefiles for file number ", file_id, ": ", e$message)
+
+    # Attempt to download the file with warnings suppressed
+    suppressWarnings({
+      tryCatch({
+        download.file(url, destfile = zip_file, mode = "wb")
+        unzip(zip_file, exdir = shapefile_folder)
+        file_delete(zip_file)  # Delete the zip file after extraction
+        message("Downloaded and extracted shapefiles for file number ", file_id)
+      }, error = function(e) {
+        message("Could not download shapefiles for file number ", file_id, ": ", e$message)
+      })
     })
   } else {
     message("Shapefiles already exist for file number ", file_id)
@@ -64,17 +66,18 @@ download_shapefile <- function(file_number, base_url, dest_dir) {
 base_url <- "https://cdmaps.polisci.ucla.edu/shp/"
 dest_dir <- here("data/congressional_shapefiles")
 
-# Create the directory if it doesn't exist
+# Create the directory if it doesn’t exist
 dir_create(dest_dir)
 
-# Define the file numbers corresponding to the Congress sessions from 94th to 112th Congress
+# Define the file numbers corresponding to the Congress sessions from 94th to 112th
 file_numbers <- 94:112
 
 # Loop through each file number and download shapefiles if they don’t exist
-for (file_number in file_numbers) {
-  download_shapefile(file_number, base_url, dest_dir)
-}
-
+suppressMessages({
+  for (file_number in file_numbers) {
+    download_shapefile(file_number, base_url, dest_dir)
+  }
+})
 
 ```
 
@@ -96,16 +99,25 @@ download_shapefile_census <- function(year, congress_id, dest_dir) {
   # Check if the shapefile folder exists to avoid re-downloading
   if (!dir_exists(shapefile_folder)) {
     # Attempt to download the file
-    tryCatch({
-      download.file(url, destfile = zip_file, mode = "wb")
-      unzip(zip_file, exdir = shapefile_folder)
-      file_delete(zip_file)  # Delete the zip file after extraction
-      message("Downloaded and extracted shapefiles for year ", year)
-    }, error = function(e) {
-      message("Could not download shapefiles for year ", year, ": ", e$message)
-    })
+    suppressWarnings(
+      suppressMessages(
+        tryCatch({
+          download.file(url, destfile = zip_file, mode = "wb", quiet = TRUE)
+          unzip(zip_file, exdir = shapefile_folder)
+          file_delete(zip_file)  # Delete the zip file after extraction
+          message("Downloaded and extracted shapefiles for year ", year)
+        }, error = function(e) {
+          if (grepl("404 Not Found", e$message)) {
+            # Suppress specific "404 Not Found" messages silently
+            invisible(NULL)
+          } else {
+            message("Could not download shapefiles for year ", year, ": ", e$message)
+          }
+        })
+      )
+    )
   } else {
-    message("Shapefiles already exist for year ", year)
+    suppressMessages(message("Shapefiles already exist for year ", year))
   }
 }
 
@@ -121,21 +133,30 @@ download_segmented_shapefiles <- function(year, congress_id, num_segments, dest_
     # Check if the shapefile folder exists to avoid re-downloading
     if (!dir_exists(shapefile_folder)) {
       # Attempt to download the file and handle missing files gracefully
-      tryCatch({
-        download.file(url, destfile = zip_file, mode = "wb")
-        if (file.info(zip_file)$size > 0) {  # Check if file actually downloaded
-          unzip(zip_file, exdir = shapefile_folder)
-          file_delete(zip_file)  # Delete the zip file after extraction
-          message("Downloaded and extracted shapefile for ", year, " file ", file_id)
-        } else {
-          file_delete(zip_file)  # Delete the empty file
-          message("File for ", year, " file ", file_id, " not found on server and was skipped.")
-        }
-      }, error = function(e) {
-        message("Could not download shapefile for ", year, " file ", file_id, ": ", e$message)
-      })
+      suppressWarnings(
+        suppressMessages(
+          tryCatch({
+            download.file(url, destfile = zip_file, mode = "wb", quiet = TRUE)
+            if (file.info(zip_file)$size > 0) {  # Check if file actually downloaded
+              unzip(zip_file, exdir = shapefile_folder)
+              file_delete(zip_file)  # Delete the zip file after extraction
+              message("Downloaded and extracted shapefile for ", year, " file ", file_id)
+            } else {
+              file_delete(zip_file)  # Delete the empty file
+              invisible(NULL)  # Suppress message for non-existing files
+            }
+          }, error = function(e) {
+            if (grepl("404 Not Found", e$message)) {
+              # Suppress specific "404 Not Found" messages silently
+              invisible(NULL)
+            } else {
+              message("Could not download shapefile for ", year, " file ", file_id, ": ", e$message)
+            }
+          })
+        )
+      )
     } else {
-      message("Shapefile for ", year, " file ", file_id, " already exists")
+      suppressMessages(message("Shapefile for ", year, " file ", file_id, " already exists"))
     }
   }
 }
@@ -151,9 +172,11 @@ years <- c(2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021)
 congress_ids <- c("cd114", "cd114", "cd115", "cd115", "cd116", "cd116", "cd116", "cd116")  # Congress IDs corresponding to each year
 
 # Download shapefiles for all years except 2022, 2023, and 2024, which have segmented files
-for (i in seq_along(years)) {
-  download_shapefile_census(years[i], congress_ids[i], dest_dir)
-}
+suppressMessages({
+  for (i in seq_along(years)) {
+    download_shapefile_census(years[i], congress_ids[i], dest_dir)
+  }
+})
 
 # Download segmented shapefiles for 2022, 2023, and 2024, which have multiple parts
 download_segmented_shapefiles(2022, "cd118", 52, dest_dir)  # 52 files for 2022
