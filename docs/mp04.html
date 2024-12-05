@@ -1,0 +1,2463 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Christian Montano">
+<meta name="dcterms.date" content="2024-12-01">
+
+<title>Mini-Project #04 – STA/OPR 9750 2024 Submission Material</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">STA/OPR 9750 2024 Submission Material</span>
+    </a>
+  </div>
+        <div class="quarto-navbar-tools tools-end">
+</div>
+          <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#task-1-and-2-reading-api-key" id="toc-task-1-and-2-reading-api-key" class="nav-link" data-scroll-target="#task-1-and-2-reading-api-key">Task 1 and 2: Reading API Key</a></li>
+  <li><a href="#task-3-data-acquisition" id="toc-task-3-data-acquisition" class="nav-link" data-scroll-target="#task-3-data-acquisition">Task 3: Data Acquisition</a></li>
+  <li><a href="#task-4-initial-analysis" id="toc-task-4-initial-analysis" class="nav-link" data-scroll-target="#task-4-initial-analysis">Task 4: Initial Analysis</a>
+  <ul class="collapse">
+  <li><a href="#interpretation" id="toc-interpretation" class="nav-link" data-scroll-target="#interpretation">Interpretation</a></li>
+  <li><a href="#key-observations" id="toc-key-observations" class="nav-link" data-scroll-target="#key-observations">Key Observations:</a></li>
+  <li><a href="#implications" id="toc-implications" class="nav-link" data-scroll-target="#implications">Implications:</a></li>
+  <li><a href="#columns-and-their-meaning" id="toc-columns-and-their-meaning" class="nav-link" data-scroll-target="#columns-and-their-meaning">Columns and Their Meaning:</a></li>
+  <li><a href="#key-takeaways" id="toc-key-takeaways" class="nav-link" data-scroll-target="#key-takeaways">Key Takeaways:</a></li>
+  </ul></li>
+  <li><a href="#task-5-historical-comparison" id="toc-task-5-historical-comparison" class="nav-link" data-scroll-target="#task-5-historical-comparison">Task 5: Historical Comparison</a>
+  <ul class="collapse">
+  <li><a href="#define-assumptions" id="toc-define-assumptions" class="nav-link" data-scroll-target="#define-assumptions">Define Assumptions</a></li>
+  <li><a href="#interpretation-of-the-graph-and-data" id="toc-interpretation-of-the-graph-and-data" class="nav-link" data-scroll-target="#interpretation-of-the-graph-and-data">Interpretation of the Graph and Data</a></li>
+  </ul></li>
+  <li><a href="#task-6-fixed-rate-analysis" id="toc-task-6-fixed-rate-analysis" class="nav-link" data-scroll-target="#task-6-fixed-rate-analysis">Task 6: Fixed-Rate Analysis</a>
+  <ul class="collapse">
+  <li><a href="#observations-from-the-graph" id="toc-observations-from-the-graph" class="nav-link" data-scroll-target="#observations-from-the-graph">Observations from the Graph:</a></li>
+  <li><a href="#improvements-for-insights" id="toc-improvements-for-insights" class="nav-link" data-scroll-target="#improvements-for-insights">Improvements for Insights:</a></li>
+  </ul></li>
+  <li><a href="#task-7.-monte-carlo-analysis" id="toc-task-7.-monte-carlo-analysis" class="nav-link" data-scroll-target="#task-7.-monte-carlo-analysis">Task 7. Monte Carlo Analysis</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Mini-Project #04</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Christian Montano </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">December 1, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>The purpose of this analysis is to evaluate and compare two retirement plans—Traditional Retirement System (TRS) and Optional Retirement Plan (ORP)—to assess their long-term performance and sustainability. Retirement planning is a critical aspect of financial well-being, and understanding the implications of different contribution, withdrawal, and return strategies can help guide better decision-making.</p>
+<p>This project involves leveraging historical data and applying a combination of deterministic and probabilistic models, such as Monte Carlo simulations, to compare the outcomes of the TRS and ORP plans. Key tasks include:</p>
+<ol type="1">
+<li><p><strong>Historical Analysis</strong>: Using wage growth and inflation data to simulate realistic scenarios over the working and retirement phases.</p></li>
+<li><p><strong>Plan Comparisons</strong>: Assessing the accumulation of balances under TRS and ORP across the span of employment years.</p></li>
+<li><p><strong>Retirement Sustainability</strong>: Evaluating whether ORP balances can sustain retirees throughout their expected lifespan, comparing guaranteed incomes and withdrawal strategies.</p></li>
+<li><p><strong>Monte Carlo Simulations</strong>: Introducing variability and uncertainty into the analysis to explore distributions of outcomes under different economic scenarios.</p></li>
+</ol>
+<p>The analysis culminates in a comparison of these plans, focusing on critical metrics such as income stability, plan sustainability, and potential gaps in financial outcomes. This report aims to provide actionable insights for individuals and policymakers navigating retirement planning decisions.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(httr2)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(jsonlite)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p><img src="images/clipboard-9133593.png" class="img-fluid"></p>
+</section>
+<section id="task-1-and-2-reading-api-key" class="level2">
+<h2 class="anchored" data-anchor-id="task-1-and-2-reading-api-key">Task 1 and 2: Reading API Key</h2>
+<p>The first step in this analysis is to establish access to external data sources by securely reading API keys. These keys allow us to fetch historical financial and economic data from trusted platforms, forming the foundation for the analysis of retirement plans. By organizing this data pipeline, we ensure reproducibility and accuracy in subsequent analyses.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>api_key <span class="ot">&lt;-</span> <span class="fu">readLines</span>(<span class="st">"alphavantage_key.txt"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>fred_api_key <span class="ot">&lt;-</span> <span class="fu">readLines</span>(<span class="st">"fred_key.txt"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="task-3-data-acquisition" class="level2">
+<h2 class="anchored" data-anchor-id="task-3-data-acquisition">Task 3: Data Acquisition</h2>
+<p>This task involves acquiring historical financial and economic data, including wage growth, inflation rates, and other relevant metrics. Using API integrations, we fetch data from platforms such as FRED and Alpha Vantage. This step is critical for creating a realistic framework to simulate retirement scenarios and plan performance over time.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set API URLs</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>FRED_URL <span class="ot">&lt;-</span> <span class="st">"https://api.stlouisfed.org/fred/series/observations"</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>ALPHAVANTAGE_URL <span class="ot">&lt;-</span> <span class="st">"https://www.alphavantage.co/query"</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Read API keys</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>fred_api_key <span class="ot">&lt;-</span> <span class="fu">readLines</span>(<span class="st">"fred_key.txt"</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>alphavantage_api_key <span class="ot">&lt;-</span> <span class="fu">readLines</span>(<span class="st">"alphavantage_key.txt"</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Fetch Wage Growth Data (FRED API)</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>req_wage <span class="ot">&lt;-</span> <span class="fu">request</span>(FRED_URL) <span class="sc">|&gt;</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">req_url_query</span>(</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">series_id =</span> <span class="st">"CES0500000003"</span>,  <span class="co"># Total Private Average Hourly Earnings</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">api_key =</span> fred_api_key,</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">file_type =</span> <span class="st">"json"</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>response_wage <span class="ot">&lt;-</span> <span class="fu">req_perform</span>(req_wage)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>wage_growth_data <span class="ot">&lt;-</span> <span class="fu">resp_body_json</span>(response_wage)<span class="sc">$</span>observations</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>wage_growth_df <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(wage_growth_data, as.data.frame)) <span class="sc">%&gt;%</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">date =</span> <span class="fu">as.Date</span>(date), <span class="at">value =</span> <span class="fu">as.numeric</span>(value)) <span class="sc">%&gt;%</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">wage_growth =</span> value)</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Fetch Inflation Data (FRED API)</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>req_inflation <span class="ot">&lt;-</span> <span class="fu">request</span>(FRED_URL) <span class="sc">|&gt;</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">req_url_query</span>(</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">series_id =</span> <span class="st">"CPIAUCSL"</span>,  <span class="co"># Consumer Price Index for All Urban Consumers</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">api_key =</span> fred_api_key,</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">file_type =</span> <span class="st">"json"</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>response_inflation <span class="ot">&lt;-</span> <span class="fu">req_perform</span>(req_inflation)</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>inflation_data <span class="ot">&lt;-</span> <span class="fu">resp_body_json</span>(response_inflation)<span class="sc">$</span>observations</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>inflation_df <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(inflation_data, as.data.frame)) <span class="sc">%&gt;%</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">date =</span> <span class="fu">as.Date</span>(date), <span class="at">value =</span> <span class="fu">as.numeric</span>(value)) <span class="sc">%&gt;%</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">inflation =</span> value)</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Fetch US Equity Market Returns (AlphaVantage API)</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>req_us_equity <span class="ot">&lt;-</span> <span class="fu">request</span>(ALPHAVANTAGE_URL) <span class="sc">|&gt;</span></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">req_url_query</span>(</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">function</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"TIME_SERIES_MONTHLY_ADJUSTED"</span>,</span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">symbol =</span> <span class="st">"SPY"</span>,  <span class="co"># Example: S&amp;P 500 ETF</span></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">apikey =</span> alphavantage_api_key</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>response_us_equity <span class="ot">&lt;-</span> <span class="fu">req_perform</span>(req_us_equity)</span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>us_equity_data <span class="ot">&lt;-</span> <span class="fu">resp_body_json</span>(response_us_equity)<span class="sc">$</span><span class="st">`</span><span class="at">Monthly Adjusted Time Series</span><span class="st">`</span></span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a><span class="co"># Flatten and process the raw us_equity_data</span></span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>us_equity_df <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(us_equity_data, <span class="cf">function</span>(x) <span class="fu">as.data.frame</span>(<span class="fu">t</span>(x)))) <span class="sc">%&gt;%</span></span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>  tibble<span class="sc">::</span><span class="fu">rownames_to_column</span>(<span class="st">"date"</span>) <span class="sc">%&gt;%</span> <span class="co"># Convert row names to date column</span></span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">date =</span> <span class="fu">as.Date</span>(date, <span class="at">format =</span> <span class="st">"%Y-%m-%d"</span>), <span class="co"># Convert date to Date object</span></span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>    <span class="at">adjusted_close =</span> <span class="fu">as.numeric</span>(<span class="st">`</span><span class="at">5. adjusted close</span><span class="st">`</span>) <span class="co"># Ensure numeric conversion</span></span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">us_equity =</span> adjusted_close) <span class="sc">%&gt;%</span> <span class="co"># Rename for clarity</span></span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(date, us_equity) <span class="co"># Select only relevant columns</span></span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a><span class="co"># Preview the processed data</span></span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(us_equity_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>        date us_equity
+1 2024-12-04  607.6600
+2 2024-11-29  602.5500
+3 2024-10-31  568.6400
+4 2024-09-30  573.7600
+5 2024-08-30  561.9538
+6 2024-07-31  549.1232</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fetch International Equity Market Returns (AlphaVantage API)</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>req_intl_equity <span class="ot">&lt;-</span> <span class="fu">request</span>(ALPHAVANTAGE_URL) <span class="sc">|&gt;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">req_url_query</span>(</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">function</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"TIME_SERIES_MONTHLY_ADJUSTED"</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">symbol =</span> <span class="st">"VXUS"</span>,  <span class="co"># Example: Vanguard International ETF</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">apikey =</span> alphavantage_api_key</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>response_intl_equity <span class="ot">&lt;-</span> <span class="fu">req_perform</span>(req_intl_equity)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>intl_equity_data <span class="ot">&lt;-</span> <span class="fu">resp_body_json</span>(response_intl_equity)<span class="sc">$</span><span class="st">`</span><span class="at">Monthly Adjusted Time Series</span><span class="st">`</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Process the data for international equity</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>intl_equity_df <span class="ot">&lt;-</span> intl_equity_data <span class="sc">%&gt;%</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">enframe</span>(<span class="at">name =</span> <span class="st">"date"</span>, <span class="at">value =</span> <span class="st">"metrics"</span>) <span class="sc">%&gt;%</span> <span class="co"># Convert list to tibble</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">date =</span> <span class="fu">as.Date</span>(date, <span class="at">format =</span> <span class="st">"%Y-%m-%d"</span>), <span class="co"># Convert `date` to Date type</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">adjusted_close =</span> <span class="fu">as.numeric</span>(<span class="fu">sapply</span>(metrics, <span class="cf">function</span>(x) x<span class="sc">$</span><span class="st">`</span><span class="at">5. adjusted close</span><span class="st">`</span>)) <span class="co"># Extract and convert `adjusted close`</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(date, adjusted_close) <span class="sc">%&gt;%</span> <span class="co"># Keep only relevant columns</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">intl_equity =</span> adjusted_close) <span class="co"># Rename column for clarity</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Fetch Bond Market Returns (FRED API)</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>req_bond <span class="ot">&lt;-</span> <span class="fu">request</span>(FRED_URL) <span class="sc">|&gt;</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">req_url_query</span>(</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">series_id =</span> <span class="st">"DGS10"</span>,  <span class="co"># 10-Year Treasury Constant Maturity Rate</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">api_key =</span> fred_api_key,</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">file_type =</span> <span class="st">"json"</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>response_bond <span class="ot">&lt;-</span> <span class="fu">req_perform</span>(req_bond)</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>bond_data <span class="ot">&lt;-</span> <span class="fu">resp_body_json</span>(response_bond)<span class="sc">$</span>observations</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>bond_df <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(bond_data, as.data.frame)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">date =</span> <span class="fu">as.Date</span>(date),</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> <span class="fu">suppressWarnings</span>(<span class="fu">parse_number</span>(value)) <span class="co"># Suppress warnings and convert invalid entries to NA</span></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">bond_returns =</span> value)</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Fetch Short-Term Debt Returns (FRED API)</span></span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>req_tbill <span class="ot">&lt;-</span> <span class="fu">request</span>(FRED_URL) <span class="sc">|&gt;</span></span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">req_url_query</span>(</span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">series_id =</span> <span class="st">"DTB3"</span>,  <span class="co"># 3-Month Treasury Bill Rate</span></span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">api_key =</span> fred_api_key,</span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">file_type =</span> <span class="st">"json"</span></span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>response_tbill <span class="ot">&lt;-</span> <span class="fu">req_perform</span>(req_tbill)</span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>tbill_data <span class="ot">&lt;-</span> <span class="fu">resp_body_json</span>(response_tbill)<span class="sc">$</span>observations</span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>tbill_df <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(tbill_data, as.data.frame)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">date =</span> <span class="fu">as.Date</span>(date),</span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Remove non-numeric characters or extra formatting before parsing</span></span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> <span class="fu">suppressWarnings</span>(<span class="fu">parse_number</span>(<span class="fu">gsub</span>(<span class="st">"[^0-9</span><span class="sc">\\</span><span class="st">.</span><span class="sc">\\</span><span class="st">-]"</span>, <span class="st">""</span>, value)))</span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">short_term_debt =</span> value)</span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge All Data</span></span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>combined_df <span class="ot">&lt;-</span> <span class="fu">full_join</span>(wage_growth_df, inflation_df, <span class="at">by =</span> <span class="st">"date"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>  <span class="fu">full_join</span>(us_equity_df, <span class="at">by =</span> <span class="st">"date"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>  <span class="fu">full_join</span>(intl_equity_df, <span class="at">by =</span> <span class="st">"date"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>  <span class="fu">full_join</span>(bond_df, <span class="at">by =</span> <span class="st">"date"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">full_join</span>(tbill_df, <span class="at">by =</span> <span class="st">"date"</span>)</span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspect Combined Data</span></span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">head</span>(combined_df))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>  realtime_start.x realtime_end.x       date wage_growth realtime_start.y
+1       2024-11-29     2024-11-29 2006-03-01       20.05       2024-11-29
+2       2024-11-29     2024-11-29 2006-04-01       20.15       2024-11-29
+3       2024-11-29     2024-11-29 2006-05-01       20.13       2024-11-29
+4       2024-11-29     2024-11-29 2006-06-01       20.23       2024-11-29
+5       2024-11-29     2024-11-29 2006-07-01       20.29       2024-11-29
+6       2024-11-29     2024-11-29 2006-08-01       20.32       2024-11-29
+  realtime_end.y inflation us_equity intl_equity realtime_start.x.x
+1     2024-11-29     199.7        NA          NA         2024-12-04
+2     2024-11-29     200.7        NA          NA               &lt;NA&gt;
+3     2024-11-29     201.3        NA          NA         2024-12-04
+4     2024-11-29     201.8        NA          NA         2024-12-04
+5     2024-11-29     202.9        NA          NA               &lt;NA&gt;
+6     2024-11-29     203.8        NA          NA         2024-12-04
+  realtime_end.x.x bond_returns realtime_start.y.y realtime_end.y.y
+1       2024-12-04         4.59         2024-12-04       2024-12-04
+2             &lt;NA&gt;           NA               &lt;NA&gt;             &lt;NA&gt;
+3       2024-12-04         5.14         2024-12-04       2024-12-04
+4       2024-12-04         5.11         2024-12-04       2024-12-04
+5             &lt;NA&gt;           NA               &lt;NA&gt;             &lt;NA&gt;
+6       2024-12-04         4.99         2024-12-04       2024-12-04
+  short_term_debt
+1            4.49
+2              NA
+3            4.70
+4            4.71
+5              NA
+6            4.99</code></pre>
+</div>
+</div>
+</section>
+<section id="task-4-initial-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="task-4-initial-analysis">Task 4: Initial Analysis</h2>
+<p>Before delving into simulations, we perform an exploratory analysis of the acquired data. This includes summarizing key metrics like mean and variance, reshaping the data for visualization, and examining trends over time. This step provides a comprehensive understanding of the underlying patterns in wage growth and inflation, which are essential for accurate modeling.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert wage_growth and inflation columns to numeric</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>wage_growth_df<span class="sc">$</span>wage_growth <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(wage_growth_df<span class="sc">$</span>wage_growth)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>inflation_df<span class="sc">$</span>inflation <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(inflation_df<span class="sc">$</span>inflation)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Summarize data into a summary table</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>summary_table <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">Metric =</span> <span class="fu">c</span>(<span class="st">"Mean"</span>, <span class="st">"Variance"</span>),</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">Wage_Growth =</span> <span class="fu">c</span>(</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mean</span>(wage_growth_df<span class="sc">$</span>wage_growth, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">var</span>(wage_growth_df<span class="sc">$</span>wage_growth, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">Inflation =</span> <span class="fu">c</span>(</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mean</span>(inflation_df<span class="sc">$</span>inflation, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">var</span>(inflation_df<span class="sc">$</span>inflation, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(summary_table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 3
+  Metric   Wage_Growth Inflation
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;
+1 Mean            26.0      121.
+2 Variance        17.6     7520.</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reshape combined_df into long format</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>combined_long <span class="ot">&lt;-</span> combined_df <span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">where</span>(is.numeric),   <span class="co"># Select only numeric columns for pivoting</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"variable"</span>,      <span class="co"># New column for variable names</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"value"</span>         <span class="co"># New column for values</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">value =</span> <span class="fu">as.numeric</span>(value)) <span class="co"># Ensure value column is numeric</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Define an appropriate range to filter values</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>combined_long <span class="ot">&lt;-</span> combined_long <span class="sc">%&gt;%</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(value <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">&amp;</span> value <span class="sc">&lt;</span> <span class="dv">1000</span>) <span class="co"># Adjust range based on your data</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Check reshaped data structure</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">head</span>(combined_long))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 11
+  realtime_start.x realtime_end.x date       realtime_start.y realtime_end.y
+  &lt;chr&gt;            &lt;chr&gt;          &lt;date&gt;     &lt;chr&gt;            &lt;chr&gt;         
+1 2024-11-29       2024-11-29     2006-03-01 2024-11-29       2024-11-29    
+2 2024-11-29       2024-11-29     2006-03-01 2024-11-29       2024-11-29    
+3 2024-11-29       2024-11-29     2006-03-01 2024-11-29       2024-11-29    
+4 2024-11-29       2024-11-29     2006-03-01 2024-11-29       2024-11-29    
+5 2024-11-29       2024-11-29     2006-04-01 2024-11-29       2024-11-29    
+6 2024-11-29       2024-11-29     2006-04-01 2024-11-29       2024-11-29    
+# ℹ 6 more variables: realtime_start.x.x &lt;chr&gt;, realtime_end.x.x &lt;chr&gt;,
+#   realtime_start.y.y &lt;chr&gt;, realtime_end.y.y &lt;chr&gt;, variable &lt;chr&gt;,
+#   value &lt;dbl&gt;</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the data</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(combined_long, <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> value, <span class="at">color =</span> variable)) <span class="sc">+</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Trends in Financial and Macroeconomic Data"</span>,</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Date"</span>,</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Value"</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="mp04_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="interpretation" class="level3">
+<h3 class="anchored" data-anchor-id="interpretation">Interpretation</h3>
+<p>The graph illustrates trends in various financial and macroeconomic indicators over time, represented by different variables, including bond returns, inflation, short-term debt, U.S. equity, and wage growth. Here’s a breakdown of the trends:</p>
+<ol type="1">
+<li><p><strong>U.S. Equity (Blue Line)</strong>:</p>
+<ul>
+<li><p>This shows a significant upward trend, especially from the early 2000s onward, with sharp increases after 2010.</p></li>
+<li><p>This reflects the overall growth of the U.S. stock market, driven by economic recovery, technological advancements, and investor confidence.</p></li>
+<li><p>The volatility in certain periods (e.g., around 2008–2009) likely corresponds to financial crises or market corrections.</p></li>
+</ul></li>
+<li><p><strong>Inflation (Green Line)</strong>:</p>
+<ul>
+<li><p>Inflation has been relatively stable over the decades but shows a gradual upward trend.</p></li>
+<li><p>This is consistent with the long-term rise in prices due to economic growth and monetary policies. The recent spike could indicate post-pandemic inflationary pressures.</p></li>
+</ul></li>
+<li><p><strong>Short-Term Debt (Pink Line)</strong>:</p>
+<ul>
+<li><p>The trend for short-term debt appears relatively stable over time with minor fluctuations.</p></li>
+<li><p>This suggests that short-term interest rates or debt levels have not significantly deviated over the long term.</p></li>
+</ul></li>
+<li><p><strong>Bond Returns (Red Line)</strong>:</p>
+<ul>
+<li><p>Bond returns remain relatively flat with a slow upward trend.</p></li>
+<li><p>This reflects the generally stable nature of bonds as an investment, often inversely related to equity market performance.</p></li>
+</ul></li>
+<li><p><strong>Wage Growth (Purple Line)</strong>:</p>
+<ul>
+<li><p>Wage growth appears stable with slight upward movement over time.</p></li>
+<li><p>This reflects gradual increases in wages, potentially tied to inflation and productivity growth.</p></li>
+</ul></li>
+</ol>
+</section>
+<section id="key-observations" class="level3">
+<h3 class="anchored" data-anchor-id="key-observations">Key Observations:</h3>
+<ul>
+<li><p>The U.S. equity market (blue line) exhibits the steepest growth and highest volatility, indicating its dynamic nature compared to the other variables.</p></li>
+<li><p>Inflation (green line) has a smoother, gradual growth trend, reflecting long-term economic policies.</p></li>
+<li><p>Short-term debt, bond returns, and wage growth show less dramatic trends, highlighting their relatively stable characteristics compared to equities and inflation.</p></li>
+</ul>
+</section>
+<section id="implications" class="level3">
+<h3 class="anchored" data-anchor-id="implications">Implications:</h3>
+<ul>
+<li><p>The rapid growth in U.S. equity markets suggests opportunities for higher returns but also higher risk.</p></li>
+<li><p>Inflation trends are critical for assessing purchasing power and the real value of investments.</p></li>
+<li><p>The stability in bond returns and short-term debt indicates these could serve as safer investment options for risk-averse individuals.</p></li>
+</ul>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>req_intl_equity <span class="ot">&lt;-</span> <span class="fu">request</span>(ALPHAVANTAGE_URL) <span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">req_url_query</span>(</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">function</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"TIME_SERIES_MONTHLY_ADJUSTED"</span>, <span class="co"># Ensure backticks for reserved keywords</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">symbol =</span> <span class="st">"VXUS"</span>, <span class="co"># Replace with your desired symbol</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">apikey =</span> alphavantage_api_key</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform the request and fetch the response</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>response_intl_equity <span class="ot">&lt;-</span> <span class="fu">req_perform</span>(req_intl_equity)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Parse the JSON response</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>response_content <span class="ot">&lt;-</span> response_intl_equity <span class="sc">%&gt;%</span> <span class="fu">resp_body_json</span>()</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Check if the response contains data</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="st">"Monthly Adjusted Time Series"</span> <span class="sc">%in%</span> <span class="fu">names</span>(response_content)) {</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">"Error: The response does not contain the 'Monthly Adjusted Time Series' data."</span>)</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the relevant data from the response</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>intl_equity_data <span class="ot">&lt;-</span> response_content<span class="sc">$</span><span class="st">`</span><span class="at">Monthly Adjusted Time Series</span><span class="st">`</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the structure of intl_equity_data</span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">is.null</span>(intl_equity_data)) {</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">"Error: No data found for the specified symbol."</span>)</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the structure of intl_equity_data for debugging</span></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(intl_equity_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>List of 167
+ $ 2024-12-04:List of 7
+  ..$ 1. open           : chr "61.7100"
+  ..$ 2. high           : chr "62.2200"
+  ..$ 3. low            : chr "61.4400"
+  ..$ 4. close          : chr "62.1000"
+  ..$ 5. adjusted close : chr "62.1000"
+  ..$ 6. volume         : chr "7442288"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2024-11-29:List of 7
+  ..$ 1. open           : chr "62.0800"
+  ..$ 2. high           : chr "63.1950"
+  ..$ 3. low            : chr "60.2900"
+  ..$ 4. close          : chr "61.7100"
+  ..$ 5. adjusted close : chr "61.7100"
+  ..$ 6. volume         : chr "83122897"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2024-10-31:List of 7
+  ..$ 1. open           : chr "64.8700"
+  ..$ 2. high           : chr "64.8800"
+  ..$ 3. low            : chr "61.4045"
+  ..$ 4. close          : chr "61.8500"
+  ..$ 5. adjusted close : chr "61.8500"
+  ..$ 6. volume         : chr "65459187"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2024-09-30:List of 7
+  ..$ 1. open           : chr "63.0100"
+  ..$ 2. high           : chr "65.5200"
+  ..$ 3. low            : chr "60.8750"
+  ..$ 4. close          : chr "64.7400"
+  ..$ 5. adjusted close : chr "64.7400"
+  ..$ 6. volume         : chr "59852229"
+  ..$ 7. dividend amount: chr "0.2723"
+ $ 2024-08-30:List of 7
+  ..$ 1. open           : chr "61.2900"
+  ..$ 2. high           : chr "63.5350"
+  ..$ 3. low            : chr "56.9100"
+  ..$ 4. close          : chr "63.3700"
+  ..$ 5. adjusted close : chr "63.0976"
+  ..$ 6. volume         : chr "64810915"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2024-07-31:List of 7
+  ..$ 1. open           : chr "60.6200"
+  ..$ 2. high           : chr "63.1000"
+  ..$ 3. low            : chr "60.0800"
+  ..$ 4. close          : chr "61.8800"
+  ..$ 5. adjusted close : chr "61.6140"
+  ..$ 6. volume         : chr "49536438"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2024-06-28:List of 7
+  ..$ 1. open           : chr "61.5700"
+  ..$ 2. high           : chr "61.8900"
+  ..$ 3. low            : chr "59.9700"
+  ..$ 4. close          : chr "60.3000"
+  ..$ 5. adjusted close : chr "60.0408"
+  ..$ 6. volume         : chr "50440508"
+  ..$ 7. dividend amount: chr "0.4835"
+ $ 2024-05-31:List of 7
+  ..$ 1. open           : chr "58.8800"
+  ..$ 2. high           : chr "62.3490"
+  ..$ 3. low            : chr "58.7300"
+  ..$ 4. close          : chr "61.2700"
+  ..$ 5. adjusted close : chr "60.5195"
+  ..$ 6. volume         : chr "73140870"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2024-04-30:List of 7
+  ..$ 1. open           : chr "60.4450"
+  ..$ 2. high           : chr "60.7000"
+  ..$ 3. low            : chr "57.6750"
+  ..$ 4. close          : chr "58.9000"
+  ..$ 5. adjusted close : chr "58.1785"
+  ..$ 6. volume         : chr "64366606"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2024-03-28:List of 7
+  ..$ 1. open           : chr "58.9900"
+  ..$ 2. high           : chr "60.5100"
+  ..$ 3. low            : chr "58.7700"
+  ..$ 4. close          : chr "60.3000"
+  ..$ 5. adjusted close : chr "59.5613"
+  ..$ 6. volume         : chr "75861922"
+  ..$ 7. dividend amount: chr "0.2235"
+ $ 2024-02-29:List of 7
+  ..$ 1. open           : chr "57.1700"
+  ..$ 2. high           : chr "59.0500"
+  ..$ 3. low            : chr "56.4800"
+  ..$ 4. close          : chr "58.6300"
+  ..$ 5. adjusted close : chr "57.6954"
+  ..$ 6. volume         : chr "56444436"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2024-01-31:List of 7
+  ..$ 1. open           : chr "57.4500"
+  ..$ 2. high           : chr "57.7600"
+  ..$ 3. low            : chr "55.3950"
+  ..$ 4. close          : chr "56.9700"
+  ..$ 5. adjusted close : chr "56.0619"
+  ..$ 6. volume         : chr "67783100"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2023-12-29:List of 7
+  ..$ 1. open           : chr "55.8100"
+  ..$ 2. high           : chr "58.1800"
+  ..$ 3. low            : chr "55.6500"
+  ..$ 4. close          : chr "57.9600"
+  ..$ 5. adjusted close : chr "57.0361"
+  ..$ 6. volume         : chr "67546627"
+  ..$ 7. dividend amount: chr "0.8471"
+ $ 2023-11-30:List of 7
+  ..$ 1. open           : chr "51.8300"
+  ..$ 2. high           : chr "56.1400"
+  ..$ 3. low            : chr "51.7500"
+  ..$ 4. close          : chr "55.9800"
+  ..$ 5. adjusted close : chr "54.2733"
+  ..$ 6. volume         : chr "49263362"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2023-10-31:List of 7
+  ..$ 1. open           : chr "53.2500"
+  ..$ 2. high           : chr "54.1350"
+  ..$ 3. low            : chr "50.9500"
+  ..$ 4. close          : chr "51.7200"
+  ..$ 5. adjusted close : chr "50.1432"
+  ..$ 6. volume         : chr "63229056"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2023-09-29:List of 7
+  ..$ 1. open           : chr "56.2900"
+  ..$ 2. high           : chr "56.3511"
+  ..$ 3. low            : chr "52.9550"
+  ..$ 4. close          : chr "53.5200"
+  ..$ 5. adjusted close : chr "51.8883"
+  ..$ 6. volume         : chr "45007169"
+  ..$ 7. dividend amount: chr "0.2952"
+ $ 2023-08-31:List of 7
+  ..$ 1. open           : chr "57.7100"
+  ..$ 2. high           : chr "57.8500"
+  ..$ 3. low            : chr "54.0500"
+  ..$ 4. close          : chr "55.7000"
+  ..$ 5. adjusted close : chr "53.7145"
+  ..$ 6. volume         : chr "45290927"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2023-07-31:List of 7
+  ..$ 1. open           : chr "56.2900"
+  ..$ 2. high           : chr "58.4178"
+  ..$ 3. low            : chr "54.5100"
+  ..$ 4. close          : chr "58.2600"
+  ..$ 5. adjusted close : chr "56.1833"
+  ..$ 6. volume         : chr "37969334"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2023-06-30:List of 7
+  ..$ 1. open           : chr "54.5200"
+  ..$ 2. high           : chr "57.9900"
+  ..$ 3. low            : chr "54.5200"
+  ..$ 4. close          : chr "56.0800"
+  ..$ 5. adjusted close : chr "54.0810"
+  ..$ 6. volume         : chr "49338289"
+  ..$ 7. dividend amount: chr "0.6180"
+ $ 2023-05-31:List of 7
+  ..$ 1. open           : chr "56.2300"
+  ..$ 2. high           : chr "56.6875"
+  ..$ 3. low            : chr "53.8950"
+  ..$ 4. close          : chr "54.2800"
+  ..$ 5. adjusted close : chr "51.7755"
+  ..$ 6. volume         : chr "50677853"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2023-04-28:List of 7
+  ..$ 1. open           : chr "55.3000"
+  ..$ 2. high           : chr "56.6250"
+  ..$ 3. low            : chr "55.0000"
+  ..$ 4. close          : chr "56.2500"
+  ..$ 5. adjusted close : chr "53.6546"
+  ..$ 6. volume         : chr "41883432"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2023-03-31:List of 7
+  ..$ 1. open           : chr "54.4700"
+  ..$ 2. high           : chr "55.3200"
+  ..$ 3. low            : chr "51.5000"
+  ..$ 4. close          : chr "55.2100"
+  ..$ 5. adjusted close : chr "52.6626"
+  ..$ 6. volume         : chr "62131196"
+  ..$ 7. dividend amount: chr "0.1205"
+ $ 2023-02-28:List of 7
+  ..$ 1. open           : chr "56.2700"
+  ..$ 2. high           : chr "56.9450"
+  ..$ 3. low            : chr "53.4201"
+  ..$ 4. close          : chr "53.8100"
+  ..$ 5. adjusted close : chr "51.2104"
+  ..$ 6. volume         : chr "53554242"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2023-01-31:List of 7
+  ..$ 1. open           : chr "52.2400"
+  ..$ 2. high           : chr "56.7050"
+  ..$ 3. low            : chr "51.8550"
+  ..$ 4. close          : chr "56.2100"
+  ..$ 5. adjusted close : chr "53.4945"
+  ..$ 6. volume         : chr "65740295"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2022-12-30:List of 7
+  ..$ 1. open           : chr "53.9100"
+  ..$ 2. high           : chr "54.5000"
+  ..$ 3. low            : chr "51.1700"
+  ..$ 4. close          : chr "51.7200"
+  ..$ 5. adjusted close : chr "49.2214"
+  ..$ 6. volume         : chr "93586541"
+  ..$ 7. dividend amount: chr "0.6289"
+ $ 2022-11-30:List of 7
+  ..$ 1. open           : chr "48.3700"
+  ..$ 2. high           : chr "53.6700"
+  ..$ 3. low            : chr "46.6800"
+  ..$ 4. close          : chr "53.5000"
+  ..$ 5. adjusted close : chr "50.2996"
+  ..$ 6. volume         : chr "100183760"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2022-10-31:List of 7
+  ..$ 1. open           : chr "46.2100"
+  ..$ 2. high           : chr "48.4558"
+  ..$ 3. low            : chr "44.4200"
+  ..$ 4. close          : chr "47.3300"
+  ..$ 5. adjusted close : chr "44.4987"
+  ..$ 6. volume         : chr "139055482"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2022-09-30:List of 7
+  ..$ 1. open           : chr "50.4400"
+  ..$ 2. high           : chr "52.2900"
+  ..$ 3. low            : chr "45.3500"
+  ..$ 4. close          : chr "45.7700"
+  ..$ 5. adjusted close : chr "43.0320"
+  ..$ 6. volume         : chr "150458704"
+  ..$ 7. dividend amount: chr "0.2804"
+ $ 2022-08-31:List of 7
+  ..$ 1. open           : chr "53.3000"
+  ..$ 2. high           : chr "54.6000"
+  ..$ 3. low            : chr "51.0800"
+  ..$ 4. close          : chr "51.0900"
+  ..$ 5. adjusted close : chr "47.7643"
+  ..$ 6. volume         : chr "93338980"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2022-07-29:List of 7
+  ..$ 1. open           : chr "50.9800"
+  ..$ 2. high           : chr "53.4900"
+  ..$ 3. low            : chr "49.0150"
+  ..$ 4. close          : chr "53.4900"
+  ..$ 5. adjusted close : chr "50.0081"
+  ..$ 6. volume         : chr "88971297"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2022-06-30:List of 7
+  ..$ 1. open           : chr "56.9700"
+  ..$ 2. high           : chr "57.2900"
+  ..$ 3. low            : chr "50.5900"
+  ..$ 4. close          : chr "51.6100"
+  ..$ 5. adjusted close : chr "48.2504"
+  ..$ 6. volume         : chr "113227855"
+  ..$ 7. dividend amount: chr "0.5893"
+ $ 2022-05-31:List of 7
+  ..$ 1. open           : chr "55.6900"
+  ..$ 2. high           : chr "57.0950"
+  ..$ 3. low            : chr "52.2400"
+  ..$ 4. close          : chr "56.7100"
+  ..$ 5. adjusted close : chr "52.4210"
+  ..$ 6. volume         : chr "127361050"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2022-04-29:List of 7
+  ..$ 1. open           : chr "60.3700"
+  ..$ 2. high           : chr "60.9100"
+  ..$ 3. low            : chr "55.1700"
+  ..$ 4. close          : chr "55.8600"
+  ..$ 5. adjusted close : chr "51.6353"
+  ..$ 6. volume         : chr "83861916"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2022-03-31:List of 7
+  ..$ 1. open           : chr "59.7600"
+  ..$ 2. high           : chr "61.0181"
+  ..$ 3. low            : chr "55.1450"
+  ..$ 4. close          : chr "59.7400"
+  ..$ 5. adjusted close : chr "55.2219"
+  ..$ 6. volume         : chr "121594302"
+  ..$ 7. dividend amount: chr "0.1004"
+ $ 2022-02-28:List of 7
+  ..$ 1. open           : chr "62.0950"
+  ..$ 2. high           : chr "63.4765"
+  ..$ 3. low            : chr "57.7900"
+  ..$ 4. close          : chr "60.0100"
+  ..$ 5. adjusted close : chr "55.3780"
+  ..$ 6. volume         : chr "98844513"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2022-01-31:List of 7
+  ..$ 1. open           : chr "63.9000"
+  ..$ 2. high           : chr "64.8300"
+  ..$ 3. low            : chr "59.7000"
+  ..$ 4. close          : chr "61.7700"
+  ..$ 5. adjusted close : chr "57.0021"
+  ..$ 6. volume         : chr "105629636"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2021-12-31:List of 7
+  ..$ 1. open           : chr "63.1800"
+  ..$ 2. high           : chr "64.3900"
+  ..$ 3. low            : chr "61.1300"
+  ..$ 4. close          : chr "63.5700"
+  ..$ 5. adjusted close : chr "58.6632"
+  ..$ 6. volume         : chr "89808806"
+  ..$ 7. dividend amount: chr "0.9412"
+ $ 2021-11-30:List of 7
+  ..$ 1. open           : chr "65.3800"
+  ..$ 2. high           : chr "66.2200"
+  ..$ 3. low            : chr "61.7700"
+  ..$ 4. close          : chr "62.3100"
+  ..$ 5. adjusted close : chr "56.6339"
+  ..$ 6. volume         : chr "62703313"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2021-10-29:List of 7
+  ..$ 1. open           : chr "63.3500"
+  ..$ 2. high           : chr "65.8700"
+  ..$ 3. low            : chr "62.0100"
+  ..$ 4. close          : chr "65.0800"
+  ..$ 5. adjusted close : chr "59.1515"
+  ..$ 6. volume         : chr "54933320"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2021-09-30:List of 7
+  ..$ 1. open           : chr "66.3300"
+  ..$ 2. high           : chr "67.1250"
+  ..$ 3. low            : chr "63.0850"
+  ..$ 4. close          : chr "63.2600"
+  ..$ 5. adjusted close : chr "57.4973"
+  ..$ 6. volume         : chr "65005025"
+  ..$ 7. dividend amount: chr "0.3565"
+ $ 2021-08-31:List of 7
+  ..$ 1. open           : chr "65.4800"
+  ..$ 2. high           : chr "66.0500"
+  ..$ 3. low            : chr "63.5000"
+  ..$ 4. close          : chr "65.8900"
+  ..$ 5. adjusted close : chr "59.5540"
+  ..$ 6. volume         : chr "50696969"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2021-07-30:List of 7
+  ..$ 1. open           : chr "65.7300"
+  ..$ 2. high           : chr "65.8950"
+  ..$ 3. low            : chr "63.3600"
+  ..$ 4. close          : chr "64.9400"
+  ..$ 5. adjusted close : chr "58.6954"
+  ..$ 6. volume         : chr "53224194"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2021-06-30:List of 7
+  ..$ 1. open           : chr "67.3000"
+  ..$ 2. high           : chr "67.5100"
+  ..$ 3. low            : chr "65.1000"
+  ..$ 4. close          : chr "65.6800"
+  ..$ 5. adjusted close : chr "59.3642"
+  ..$ 6. volume         : chr "62587242"
+  ..$ 7. dividend amount: chr "0.5148"
+ $ 2021-05-28:List of 7
+  ..$ 1. open           : chr "64.8100"
+  ..$ 2. high           : chr "66.6550"
+  ..$ 3. low            : chr "63.4400"
+  ..$ 4. close          : chr "66.4200"
+  ..$ 5. adjusted close : chr "59.5665"
+  ..$ 6. volume         : chr "61955228"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2021-04-30:List of 7
+  ..$ 1. open           : chr "63.2600"
+  ..$ 2. high           : chr "65.6100"
+  ..$ 3. low            : chr "63.1600"
+  ..$ 4. close          : chr "64.4400"
+  ..$ 5. adjusted close : chr "57.7908"
+  ..$ 6. volume         : chr "61863888"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2021-03-31:List of 7
+  ..$ 1. open           : chr "62.5950"
+  ..$ 2. high           : chr "63.9950"
+  ..$ 3. low            : chr "61.1450"
+  ..$ 4. close          : chr "62.7000"
+  ..$ 5. adjusted close : chr "56.2304"
+  ..$ 6. volume         : chr "84635675"
+  ..$ 7. dividend amount: chr "0.1553"
+ $ 2021-02-26:List of 7
+  ..$ 1. open           : chr "61.2300"
+  ..$ 2. high           : chr "64.9750"
+  ..$ 3. low            : chr "60.9650"
+  ..$ 4. close          : chr "61.7000"
+  ..$ 5. adjusted close : chr "55.1980"
+  ..$ 6. volume         : chr "64647663"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2021-01-29:List of 7
+  ..$ 1. open           : chr "61.2000"
+  ..$ 2. high           : chr "63.2781"
+  ..$ 3. low            : chr "60.0500"
+  ..$ 4. close          : chr "60.3100"
+  ..$ 5. adjusted close : chr "53.9545"
+  ..$ 6. volume         : chr "76665482"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2020-12-31:List of 7
+  ..$ 1. open           : chr "58.4600"
+  ..$ 2. high           : chr "60.8199"
+  ..$ 3. low            : chr "58.2101"
+  ..$ 4. close          : chr "60.1600"
+  ..$ 5. adjusted close : chr "53.8203"
+  ..$ 6. volume         : chr "83610465"
+  ..$ 7. dividend amount: chr "0.5903"
+ $ 2020-11-30:List of 7
+  ..$ 1. open           : chr "51.6400"
+  ..$ 2. high           : chr "58.7050"
+  ..$ 3. low            : chr "51.3107"
+  ..$ 4. close          : chr "57.4000"
+  ..$ 5. adjusted close : chr "50.8421"
+  ..$ 6. volume         : chr "62639265"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2020-10-30:List of 7
+  ..$ 1. open           : chr "52.5400"
+  ..$ 2. high           : chr "54.4150"
+  ..$ 3. low            : chr "50.6900"
+  ..$ 4. close          : chr "50.9700"
+  ..$ 5. adjusted close : chr "45.1467"
+  ..$ 6. volume         : chr "57007200"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2020-09-30:List of 7
+  ..$ 1. open           : chr "53.6500"
+  ..$ 2. high           : chr "54.2900"
+  ..$ 3. low            : chr "50.7200"
+  ..$ 4. close          : chr "52.1700"
+  ..$ 5. adjusted close : chr "46.2096"
+  ..$ 6. volume         : chr "65803546"
+  ..$ 7. dividend amount: chr "0.3385"
+ $ 2020-08-31:List of 7
+  ..$ 1. open           : chr "51.6300"
+  ..$ 2. high           : chr "54.1500"
+  ..$ 3. low            : chr "51.4900"
+  ..$ 4. close          : chr "53.4800"
+  ..$ 5. adjusted close : chr "47.0643"
+  ..$ 6. volume         : chr "46698297"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2020-07-31:List of 7
+  ..$ 1. open           : chr "49.2000"
+  ..$ 2. high           : chr "52.7100"
+  ..$ 3. low            : chr "49.1900"
+  ..$ 4. close          : chr "51.2100"
+  ..$ 5. adjusted close : chr "45.0666"
+  ..$ 6. volume         : chr "50721440"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2020-06-30:List of 7
+  ..$ 1. open           : chr "47.8500"
+  ..$ 2. high           : chr "51.4400"
+  ..$ 3. low            : chr "47.7900"
+  ..$ 4. close          : chr "49.1700"
+  ..$ 5. adjusted close : chr "43.2713"
+  ..$ 6. volume         : chr "75789229"
+  ..$ 7. dividend amount: chr "0.2521"
+ $ 2020-05-29:List of 7
+  ..$ 1. open           : chr "44.3400"
+  ..$ 2. high           : chr "47.8600"
+  ..$ 3. low            : chr "43.3400"
+  ..$ 4. close          : chr "47.4100"
+  ..$ 5. adjusted close : chr "41.5123"
+  ..$ 6. volume         : chr "67451511"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2020-04-30:List of 7
+  ..$ 1. open           : chr "40.8700"
+  ..$ 2. high           : chr "46.2100"
+  ..$ 3. low            : chr "40.1400"
+  ..$ 4. close          : chr "45.1500"
+  ..$ 5. adjusted close : chr "39.5334"
+  ..$ 6. volume         : chr "104968313"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2020-03-31:List of 7
+  ..$ 1. open           : chr "50.0800"
+  ..$ 2. high           : chr "51.7100"
+  ..$ 3. low            : chr "36.4200"
+  ..$ 4. close          : chr "41.9600"
+  ..$ 5. adjusted close : chr "36.7403"
+  ..$ 6. volume         : chr "176916198"
+  ..$ 7. dividend amount: chr "0.1058"
+ $ 2020-02-28:List of 7
+  ..$ 1. open           : chr "53.9100"
+  ..$ 2. high           : chr "55.8800"
+  ..$ 3. low            : chr "48.7200"
+  ..$ 4. close          : chr "50.2500"
+  ..$ 5. adjusted close : chr "43.8727"
+  ..$ 6. volume         : chr "47526842"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2020-01-31:List of 7
+  ..$ 1. open           : chr "56.1700"
+  ..$ 2. high           : chr "56.6600"
+  ..$ 3. low            : chr "53.5100"
+  ..$ 4. close          : chr "53.8000"
+  ..$ 5. adjusted close : chr "46.9722"
+  ..$ 6. volume         : chr "43802870"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2019-12-31:List of 7
+  ..$ 1. open           : chr "54.0000"
+  ..$ 2. high           : chr "56.0400"
+  ..$ 3. low            : chr "53.1400"
+  ..$ 4. close          : chr "55.6900"
+  ..$ 5. adjusted close : chr "48.6223"
+  ..$ 6. volume         : chr "33881262"
+  ..$ 7. dividend amount: chr "0.6281"
+ $ 2019-11-29:List of 7
+  ..$ 1. open           : chr "53.7900"
+  ..$ 2. high           : chr "54.6100"
+  ..$ 3. low            : chr "53.6500"
+  ..$ 4. close          : chr "53.9600"
+  ..$ 5. adjusted close : chr "46.5835"
+  ..$ 6. volume         : chr "27908285"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2019-10-31:List of 7
+  ..$ 1. open           : chr "51.5700"
+  ..$ 2. high           : chr "53.6000"
+  ..$ 3. low            : chr "50.2100"
+  ..$ 4. close          : chr "53.4300"
+  ..$ 5. adjusted close : chr "46.1260"
+  ..$ 6. volume         : chr "32878890"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2019-09-30:List of 7
+  ..$ 1. open           : chr "50.2400"
+  ..$ 2. high           : chr "52.8700"
+  ..$ 3. low            : chr "50.1600"
+  ..$ 4. close          : chr "51.6600"
+  ..$ 5. adjusted close : chr "44.5980"
+  ..$ 6. volume         : chr "28904174"
+  ..$ 7. dividend amount: chr "0.3004"
+ $ 2019-08-30:List of 7
+  ..$ 1. open           : chr "51.7600"
+  ..$ 2. high           : chr "52.1700"
+  ..$ 3. low            : chr "48.9700"
+  ..$ 4. close          : chr "50.5800"
+  ..$ 5. adjusted close : chr "43.4136"
+  ..$ 6. volume         : chr "44100862"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2019-07-31:List of 7
+  ..$ 1. open           : chr "53.3500"
+  ..$ 2. high           : chr "53.4500"
+  ..$ 3. low            : chr "51.3100"
+  ..$ 4. close          : chr "51.7000"
+  ..$ 5. adjusted close : chr "44.3749"
+  ..$ 6. volume         : chr "31024563"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2019-06-28:List of 7
+  ..$ 1. open           : chr "50.7300"
+  ..$ 2. high           : chr "53.5137"
+  ..$ 3. low            : chr "50.5800"
+  ..$ 4. close          : chr "52.7500"
+  ..$ 5. adjusted close : chr "45.2762"
+  ..$ 6. volume         : chr "26989177"
+  ..$ 7. dividend amount: chr "0.6106"
+ $ 2019-05-31:List of 7
+  ..$ 1. open           : chr "53.4500"
+  ..$ 2. high           : chr "53.5800"
+  ..$ 3. low            : chr "50.1300"
+  ..$ 4. close          : chr "50.4500"
+  ..$ 5. adjusted close : chr "42.8046"
+  ..$ 6. volume         : chr "24842983"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2019-04-30:List of 7
+  ..$ 1. open           : chr "52.3600"
+  ..$ 2. high           : chr "53.7300"
+  ..$ 3. low            : chr "52.3500"
+  ..$ 4. close          : chr "53.3400"
+  ..$ 5. adjusted close : chr "45.2566"
+  ..$ 6. volume         : chr "22514678"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2019-03-29:List of 7
+  ..$ 1. open           : chr "51.9200"
+  ..$ 2. high           : chr "52.9800"
+  ..$ 3. low            : chr "50.5700"
+  ..$ 4. close          : chr "51.9000"
+  ..$ 5. adjusted close : chr "44.0349"
+  ..$ 6. volume         : chr "21233260"
+  ..$ 7. dividend amount: chr "0.1656"
+ $ 2019-02-28:List of 7
+  ..$ 1. open           : chr "50.8400"
+  ..$ 2. high           : chr "52.2300"
+  ..$ 3. low            : chr "49.8100"
+  ..$ 4. close          : chr "51.6700"
+  ..$ 5. adjusted close : chr "43.6991"
+  ..$ 6. volume         : chr "21715815"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2019-01-31:List of 7
+  ..$ 1. open           : chr "46.6000"
+  ..$ 2. high           : chr "50.9300"
+  ..$ 3. low            : chr "46.4900"
+  ..$ 4. close          : chr "50.8400"
+  ..$ 5. adjusted close : chr "42.9971"
+  ..$ 6. volume         : chr "21547274"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2018-12-31:List of 7
+  ..$ 1. open           : chr "50.9900"
+  ..$ 2. high           : chr "51.1000"
+  ..$ 3. low            : chr "45.5900"
+  ..$ 4. close          : chr "47.2200"
+  ..$ 5. adjusted close : chr "39.9355"
+  ..$ 6. volume         : chr "56427169"
+  ..$ 7. dividend amount: chr "0.4963"
+ $ 2018-11-30:List of 7
+  ..$ 1. open           : chr "49.9000"
+  ..$ 2. high           : chr "51.3600"
+  ..$ 3. low            : chr "48.6900"
+  ..$ 4. close          : chr "50.2100"
+  ..$ 5. adjusted close : chr "42.0083"
+  ..$ 6. volume         : chr "21635194"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2018-10-31:List of 7
+  ..$ 1. open           : chr "54.2400"
+  ..$ 2. high           : chr "54.3000"
+  ..$ 3. low            : chr "47.9300"
+  ..$ 4. close          : chr "49.3800"
+  ..$ 5. adjusted close : chr "41.3139"
+  ..$ 6. volume         : chr "27285378"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2018-09-28:List of 7
+  ..$ 1. open           : chr "53.5000"
+  ..$ 2. high           : chr "54.8300"
+  ..$ 3. low            : chr "52.2000"
+  ..$ 4. close          : chr "54.0000"
+  ..$ 5. adjusted close : chr "45.1792"
+  ..$ 6. volume         : chr "15388937"
+  ..$ 7. dividend amount: chr "0.2683"
+ $ 2018-08-31:List of 7
+  ..$ 1. open           : chr "55.3800"
+  ..$ 2. high           : chr "55.4200"
+  ..$ 3. low            : chr "52.2500"
+  ..$ 4. close          : chr "54.1500"
+  ..$ 5. adjusted close : chr "45.0825"
+  ..$ 6. volume         : chr "14351335"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2018-07-31:List of 7
+  ..$ 1. open           : chr "53.3500"
+  ..$ 2. high           : chr "55.6700"
+  ..$ 3. low            : chr "53.2500"
+  ..$ 4. close          : chr "55.4800"
+  ..$ 5. adjusted close : chr "46.1898"
+  ..$ 6. volume         : chr "13801175"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2018-06-29:List of 7
+  ..$ 1. open           : chr "56.2500"
+  ..$ 2. high           : chr "57.0600"
+  ..$ 3. low            : chr "53.2000"
+  ..$ 4. close          : chr "54.1000"
+  ..$ 5. adjusted close : chr "45.0409"
+  ..$ 6. volume         : chr "15404978"
+  ..$ 7. dividend amount: chr "0.5928"
+ $ 2018-05-31:List of 7
+  ..$ 1. open           : chr "56.7200"
+  ..$ 2. high           : chr "57.8700"
+  ..$ 3. low            : chr "55.1500"
+  ..$ 4. close          : chr "55.8800"
+  ..$ 5. adjusted close : chr "46.0239"
+  ..$ 6. volume         : chr "12652707"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2018-04-30:List of 7
+  ..$ 1. open           : chr "56.2500"
+  ..$ 2. high           : chr "57.8000"
+  ..$ 3. low            : chr "55.2500"
+  ..$ 4. close          : chr "56.8100"
+  ..$ 5. adjusted close : chr "46.7899"
+  ..$ 6. volume         : chr "13850412"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2018-03-29:List of 7
+  ..$ 1. open           : chr "56.8900"
+  ..$ 2. high           : chr "57.9400"
+  ..$ 3. low            : chr "55.3200"
+  ..$ 4. close          : chr "56.5500"
+  ..$ 5. adjusted close : chr "46.5757"
+  ..$ 6. volume         : chr "14467737"
+  ..$ 7. dividend amount: chr "0.1424"
+ $ 2018-02-28:List of 7
+  ..$ 1. open           : chr "59.8600"
+  ..$ 2. high           : chr "60.1600"
+  ..$ 3. low            : chr "54.2000"
+  ..$ 4. close          : chr "56.9100"
+  ..$ 5. adjusted close : chr "46.7541"
+  ..$ 6. volume         : chr "22107964"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2018-01-31:List of 7
+  ..$ 1. open           : chr "57.1700"
+  ..$ 2. high           : chr "61.1700"
+  ..$ 3. low            : chr "57.0900"
+  ..$ 4. close          : chr "60.0600"
+  ..$ 5. adjusted close : chr "49.3419"
+  ..$ 6. volume         : chr "30287421"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2017-12-29:List of 7
+  ..$ 1. open           : chr "56.0500"
+  ..$ 2. high           : chr "57.0400"
+  ..$ 3. low            : chr "55.3700"
+  ..$ 4. close          : chr "56.8100"
+  ..$ 5. adjusted close : chr "46.6719"
+  ..$ 6. volume         : chr "14316238"
+  ..$ 7. dividend amount: chr "0.5391"
+ $ 2017-11-30:List of 7
+  ..$ 1. open           : chr "56.2000"
+  ..$ 2. high           : chr "56.7450"
+  ..$ 3. low            : chr "54.8800"
+  ..$ 4. close          : chr "56.1900"
+  ..$ 5. adjusted close : chr "45.7247"
+  ..$ 6. volume         : chr "12011610"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2017-10-31:List of 7
+  ..$ 1. open           : chr "54.6800"
+  ..$ 2. high           : chr "56.0500"
+  ..$ 3. low            : chr "54.6200"
+  ..$ 4. close          : chr "55.8400"
+  ..$ 5. adjusted close : chr "45.4399"
+  ..$ 6. volume         : chr "13520865"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2017-09-29:List of 7
+  ..$ 1. open           : chr "54.2600"
+  ..$ 2. high           : chr "55.2800"
+  ..$ 3. low            : chr "53.5500"
+  ..$ 4. close          : chr "54.7300"
+  ..$ 5. adjusted close : chr "44.5366"
+  ..$ 6. volume         : chr "11830173"
+  ..$ 7. dividend amount: chr "0.2980"
+ $ 2017-08-31:List of 7
+  ..$ 1. open           : chr "54.1300"
+  ..$ 2. high           : chr "54.1800"
+  ..$ 3. low            : chr "52.8100"
+  ..$ 4. close          : chr "54.0100"
+  ..$ 5. adjusted close : chr "43.7134"
+  ..$ 6. volume         : chr "16161687"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2017-07-31:List of 7
+  ..$ 1. open           : chr "52.1000"
+  ..$ 2. high           : chr "53.8900"
+  ..$ 3. low            : chr "51.4800"
+  ..$ 4. close          : chr "53.7200"
+  ..$ 5. adjusted close : chr "43.4787"
+  ..$ 6. volume         : chr "16319640"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2017-06-30:List of 7
+  ..$ 1. open           : chr "52.4000"
+  ..$ 2. high           : chr "53.0500"
+  ..$ 3. low            : chr "51.5400"
+  ..$ 4. close          : chr "51.9700"
+  ..$ 5. adjusted close : chr "42.0623"
+  ..$ 6. volume         : chr "18016515"
+  ..$ 7. dividend amount: chr "0.5560"
+ $ 2017-05-31:List of 7
+  ..$ 1. open           : chr "50.9200"
+  ..$ 2. high           : chr "52.5500"
+  ..$ 3. low            : chr "50.8300"
+  ..$ 4. close          : chr "52.2000"
+  ..$ 5. adjusted close : chr "41.7977"
+  ..$ 6. volume         : chr "18036603"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2017-04-28:List of 7
+  ..$ 1. open           : chr "49.6800"
+  ..$ 2. high           : chr "50.9600"
+  ..$ 3. low            : chr "49.0500"
+  ..$ 4. close          : chr "50.7000"
+  ..$ 5. adjusted close : chr "40.5967"
+  ..$ 6. volume         : chr "12354080"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2017-03-31:List of 7
+  ..$ 1. open           : chr "48.7600"
+  ..$ 2. high           : chr "50.2300"
+  ..$ 3. low            : chr "48.1600"
+  ..$ 4. close          : chr "49.6800"
+  ..$ 5. adjusted close : chr "39.7799"
+  ..$ 6. volume         : chr "15733376"
+  ..$ 7. dividend amount: chr "0.1600"
+ $ 2017-02-28:List of 7
+  ..$ 1. open           : chr "48.0400"
+  ..$ 2. high           : chr "49.1500"
+  ..$ 3. low            : chr "47.7400"
+  ..$ 4. close          : chr "48.3900"
+  ..$ 5. adjusted close : chr "38.6227"
+  ..$ 6. volume         : chr "12993004"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2017-01-31:List of 7
+  ..$ 1. open           : chr "46.1500"
+  ..$ 2. high           : chr "48.2100"
+  ..$ 3. low            : chr "46.0600"
+  ..$ 4. close          : chr "47.7500"
+  ..$ 5. adjusted close : chr "38.1119"
+  ..$ 6. volume         : chr "18171671"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2016-12-30:List of 7
+  ..$ 1. open           : chr "45.4400"
+  ..$ 2. high           : chr "47.1000"
+  ..$ 3. low            : chr "45.1400"
+  ..$ 4. close          : chr "45.8800"
+  ..$ 5. adjusted close : chr "36.6194"
+  ..$ 6. volume         : chr "18412966"
+  ..$ 7. dividend amount: chr "0.3900"
+ $ 2016-11-30:List of 7
+  ..$ 1. open           : chr "46.4200"
+  ..$ 2. high           : chr "46.4799"
+  ..$ 3. low            : chr "44.6800"
+  ..$ 4. close          : chr "45.3800"
+  ..$ 5. adjusted close : chr "35.9140"
+  ..$ 6. volume         : chr "15386524"
+  ..$ 7. dividend amount: chr "0.0000"
+ $ 2016-10-31:List of 7
+  ..$ 1. open           : chr "47.1900"
+  ..$ 2. high           : chr "47.4190"
+  ..$ 3. low            : chr "45.5700"
+  ..$ 4. close          : chr "46.3100"
+  ..$ 5. adjusted close : chr "36.6500"
+  ..$ 6. volume         : chr "9342725"
+  ..$ 7. dividend amount: chr "0.0000"
+  [list output truncated]</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert the data into a data frame (adapted based on structure)</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>intl_equity_df <span class="ot">&lt;-</span> intl_equity_data <span class="sc">%&gt;%</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  tibble<span class="sc">::</span><span class="fu">enframe</span>(<span class="at">name =</span> <span class="st">"date"</span>, <span class="at">value =</span> <span class="st">"data"</span>) <span class="sc">%&gt;%</span> <span class="co"># Convert list to tibble</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_wider</span>(data) <span class="sc">%&gt;%</span> <span class="co"># Expand the nested list into columns</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">date =</span> <span class="fu">as.Date</span>(date, <span class="at">format =</span> <span class="st">"%Y-%m-%d"</span>), <span class="co"># Convert date strings to Date objects</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">intl_equity =</span> <span class="fu">as.numeric</span>(<span class="st">`</span><span class="at">5. adjusted close</span><span class="st">`</span>) <span class="co"># Convert 'adjusted close' to numeric</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(date, intl_equity) <span class="co"># Select only the relevant columns</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the structure of the resulting data frame</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(intl_equity_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>tibble [167 × 2] (S3: tbl_df/tbl/data.frame)
+ $ date       : Date[1:167], format: "2024-12-04" "2024-11-29" ...
+ $ intl_equity: num [1:167] 62.1 61.7 61.9 64.7 63.1 ...</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the head of the data frame</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">head</span>(intl_equity_df))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 2
+  date       intl_equity
+  &lt;date&gt;           &lt;dbl&gt;
+1 2024-12-04        62.1
+2 2024-11-29        61.7
+3 2024-10-31        61.8
+4 2024-09-30        64.7
+5 2024-08-30        63.1
+6 2024-07-31        61.6</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate summary statistics</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>summary_table <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Metric =</span> <span class="fu">c</span>(<span class="st">"Mean"</span>, <span class="st">"Variance"</span>),</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">Wage_Growth =</span> <span class="fu">c</span>(</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mean</span>(combined_df<span class="sc">$</span>wage_growth, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">var</span>(combined_df<span class="sc">$</span>wage_growth, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">Inflation =</span> <span class="fu">c</span>(</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mean</span>(combined_df<span class="sc">$</span>inflation, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">var</span>(combined_df<span class="sc">$</span>inflation, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">US_Equity =</span> <span class="fu">c</span>(</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mean</span>(combined_df<span class="sc">$</span>us_equity, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">var</span>(combined_df<span class="sc">$</span>us_equity, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">Intl_Equity =</span> <span class="fu">c</span>(</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mean</span>(combined_df<span class="sc">$</span>intl_equity, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">var</span>(combined_df<span class="sc">$</span>intl_equity, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">Bond_Returns =</span> <span class="fu">c</span>(</span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mean</span>(combined_df<span class="sc">$</span>bond_returns, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">var</span>(combined_df<span class="sc">$</span>bond_returns, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">Short_Term_Debt =</span> <span class="fu">c</span>(</span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mean</span>(combined_df<span class="sc">$</span>short_term_debt, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">var</span>(combined_df<span class="sc">$</span>short_term_debt, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the summary table</span></span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(summary_table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 7
+  Metric   Wage_Growth Inflation US_Equity Intl_Equity Bond_Returns
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;
+1 Mean            26.0      121.      183.        43.5         5.85
+2 Variance        17.6     7520.    17749.        88.0         8.76
+# ℹ 1 more variable: Short_Term_Debt &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<p>The table presents a summary of the mean and variance for various financial and economic variables. Here’s an interpretation of the key points:</p>
+</section>
+<section id="columns-and-their-meaning" class="level3">
+<h3 class="anchored" data-anchor-id="columns-and-their-meaning">Columns and Their Meaning:</h3>
+<ol type="1">
+<li><p><strong>Wage Growth</strong>:</p>
+<ul>
+<li><p><strong>Mean</strong>: 26.05 suggests that, on average, wage growth over the observed period is 26.05%.</p></li>
+<li><p><strong>Variance</strong>: 17.57 indicates moderate variability in wage growth across the time frame.</p></li>
+</ul></li>
+<li><p><strong>Inflation</strong>:</p>
+<ul>
+<li><p><strong>Mean</strong>: 121.10 suggests a relatively high average inflation index value.</p></li>
+<li><p><strong>Variance</strong>: 7519.52 indicates significant variability, suggesting fluctuations in inflation levels over time.</p></li>
+</ul></li>
+<li><p><strong>US Equity</strong>:</p>
+<ul>
+<li><p><strong>Mean</strong>: 182.75 indicates a high average value for U.S. equity performance, reflecting strong historical market growth.</p></li>
+<li><p><strong>Variance</strong>: 17738.61 suggests extremely high variability, consistent with the volatility of stock markets.</p></li>
+</ul></li>
+<li><p><strong>International Equity (Intl_Equity)</strong>:</p>
+<ul>
+<li><p><strong>Mean</strong>: 43.52 reflects lower average performance compared to U.S. equity.</p></li>
+<li><p><strong>Variance</strong>: 88.05, which is comparatively low, suggests more stability than U.S. equity markets but possibly reflects limited data coverage.</p></li>
+</ul></li>
+<li><p><strong>Bond Returns</strong>:</p>
+<ul>
+<li><p><strong>Mean</strong>: 5.85 indicates consistent, modest returns, typical of bond performance.</p></li>
+<li><p><strong>Variance</strong>: 8.76 shows low variability, as bonds are generally less volatile than equity.</p></li>
+</ul></li>
+<li><p><strong>Short-Term Debt</strong>:</p>
+<ul>
+<li><p><strong>Mean</strong>: 4.20 indicates the average return from short-term debt instruments.</p></li>
+<li><p><strong>Variance</strong>: 9.49 shows slightly higher variability than bonds, likely reflecting fluctuations in short-term interest rates.</p></li>
+</ul></li>
+</ol>
+</section>
+<section id="key-takeaways" class="level3">
+<h3 class="anchored" data-anchor-id="key-takeaways">Key Takeaways:</h3>
+<ul>
+<li><p><strong>Equity Markets</strong>:</p>
+<ul>
+<li><p>U.S. equities demonstrate the highest average return (182.75) but also the highest variance (17738.61), reflecting their high-risk, high-reward nature.</p></li>
+<li><p>International equities show lower average returns but are more stable compared to U.S. equities.</p></li>
+</ul></li>
+<li><p><strong>Fixed Income Instruments</strong>:</p>
+<ul>
+<li>Bonds and short-term debt have low returns but also lower variance, making them less risky compared to equities.</li>
+</ul></li>
+<li><p><strong>Macroeconomic Factors</strong>:</p>
+<ul>
+<li><p>Inflation exhibits substantial variability, consistent with periods of economic instability.</p></li>
+<li><p>Wage growth shows moderate variability, reflecting its relative steadiness compared to inflation.</p></li>
+</ul></li>
+</ul>
+<p>This summary provides insights into the risk-return trade-offs among different asset classes and the variability in key economic factors.</p>
+</section>
+</section>
+<section id="task-5-historical-comparison" class="level2">
+<h2 class="anchored" data-anchor-id="task-5-historical-comparison">Task 5: Historical Comparison</h2>
+<p>This task compares the TRS and ORP plans using historical data. By simulating contributions and returns over a hypothetical career, we evaluate the balance growth of each plan. This comparison provides insights into the impact of plan rules, such as employer matches and contribution rates, on long-term financial outcomes.</p>
+<section id="define-assumptions" class="level3">
+<h3 class="anchored" data-anchor-id="define-assumptions">Define Assumptions</h3>
+<ul>
+<li><p><strong>Employee Details</strong>:</p>
+<ul>
+<li><p>Joins CUNY in the first month of the historical data.</p></li>
+<li><p>Retires from CUNY at the end of the final month of data.</p></li>
+</ul></li>
+<li><p><strong>Starting Salary</strong>: Decide on an initial annual salary, e.g., $50,000.</p></li>
+<li><p><strong>TRS Parameters</strong>:</p>
+<ul>
+<li><p>Fixed contribution rate (e.g., 8% of salary).</p></li>
+<li><p>Employer match (e.g., 8% of salary).</p></li>
+<li><p>Assumed annual return rate (e.g., 7%).</p></li>
+</ul></li>
+<li><p><strong>ORP Parameters</strong>:</p>
+<ul>
+<li><p>Contribution rate (e.g., 8% of salary).</p></li>
+<li><p>Employer match (e.g., 8% of salary).</p></li>
+<li><p>Assumed annual return rate (e.g., 6%).</p></li>
+</ul></li>
+</ul>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define wage growth if not already available</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">exists</span>(<span class="st">"wage_growth"</span>) <span class="sc">||</span> <span class="fu">is.null</span>(wage_growth)) {</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">warning</span>(<span class="st">"wage_growth not found, using default values."</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  wage_growth <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">3</span>, <span class="dv">40</span>) <span class="co"># Default to 3% growth over 40 years</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co"># ORP Parameters</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>starting_salary <span class="ot">&lt;-</span> <span class="dv">50000</span>     <span class="co"># Initial salary in dollars</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>trs_contribution_rate <span class="ot">&lt;-</span> <span class="fl">0.08</span> <span class="co"># TRS contribution rate (8%)</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>orp_contribution_rate <span class="ot">&lt;-</span> <span class="fl">0.08</span> <span class="co"># ORP contribution rate (8%)</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>trs_return_rate <span class="ot">&lt;-</span> <span class="fl">0.07</span>       <span class="co"># TRS assumed annual return</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>orp_return_rate <span class="ot">&lt;-</span> <span class="fl">0.06</span>       <span class="co"># ORP assumed annual return</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>years <span class="ot">&lt;-</span> <span class="dv">40</span>                   <span class="co"># Number of working years</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure wage growth has correct length</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">length</span>(wage_growth) <span class="sc">&lt;</span> years) {</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>  wage_growth <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">mean</span>(wage_growth, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), years)</span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize variables</span></span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>trs_balance <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="at">length =</span> years)</span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>orp_balance <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="at">length =</span> years)</span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>salary <span class="ot">&lt;-</span> starting_salary</span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate TRS and ORP balances</span></span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>years) {</span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>  salary <span class="ot">&lt;-</span> salary <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">+</span> wage_growth[i] <span class="sc">/</span> <span class="dv">100</span>) <span class="co"># Adjust salary for wage growth</span></span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a>  <span class="co"># TRS Calculation</span></span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a>  trs_contribution <span class="ot">&lt;-</span> salary <span class="sc">*</span> trs_contribution_rate</span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a>  trs_balance[i] <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(i <span class="sc">==</span> <span class="dv">1</span>, trs_contribution, trs_balance[i <span class="sc">-</span> <span class="dv">1</span>] <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">+</span> trs_return_rate) <span class="sc">+</span> trs_contribution)</span>
+<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ORP Calculation</span></span>
+<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a>  orp_contribution <span class="ot">&lt;-</span> salary <span class="sc">*</span> orp_contribution_rate</span>
+<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a>  orp_balance[i] <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(i <span class="sc">==</span> <span class="dv">1</span>, orp_contribution, orp_balance[i <span class="sc">-</span> <span class="dv">1</span>] <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">+</span> orp_return_rate) <span class="sc">+</span> orp_contribution)</span>
+<span id="cb20-35"><a href="#cb20-35" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb20-36"><a href="#cb20-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-37"><a href="#cb20-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine data for visualization</span></span>
+<span id="cb20-38"><a href="#cb20-38" aria-hidden="true" tabindex="-1"></a>comparison_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb20-39"><a href="#cb20-39" aria-hidden="true" tabindex="-1"></a>  <span class="at">Year =</span> <span class="fu">seq</span>(<span class="dv">1</span>, years),</span>
+<span id="cb20-40"><a href="#cb20-40" aria-hidden="true" tabindex="-1"></a>  <span class="at">TRS_Balance =</span> trs_balance,</span>
+<span id="cb20-41"><a href="#cb20-41" aria-hidden="true" tabindex="-1"></a>  <span class="at">ORP_Balance =</span> orp_balance</span>
+<span id="cb20-42"><a href="#cb20-42" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-43"><a href="#cb20-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-44"><a href="#cb20-44" aria-hidden="true" tabindex="-1"></a><span class="co"># Print and inspect</span></span>
+<span id="cb20-45"><a href="#cb20-45" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">head</span>(comparison_df))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Year TRS_Balance ORP_Balance
+1    1     4120.00     4120.00
+2    2     8652.00     8610.80
+3    3    13628.55    13498.36
+4    4    19084.58    18810.29
+5    5    25057.60    24576.01
+6    6    31587.84    30826.78</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(comparison_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>      Year        TRS_Balance       ORP_Balance    
+ Min.   : 1.00   Min.   :   4120   Min.   :  4120  
+ 1st Qu.:10.75   1st Qu.:  71716   1st Qu.: 68293  
+ Median :20.50   Median : 223708   Median :201900  
+ Mean   :20.50   Mean   : 350062   Mean   :296586  
+ 3rd Qu.:30.25   3rd Qu.: 545900   3rd Qu.:464760  
+ Max.   :40.00   Max.   :1206379   Max.   :964585  </code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualization</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(comparison_df, <span class="fu">aes</span>(<span class="at">x =</span> Year)) <span class="sc">+</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> TRS_Balance, <span class="at">color =</span> <span class="st">"TRS"</span>)) <span class="sc">+</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> ORP_Balance, <span class="at">color =</span> <span class="st">"ORP"</span>)) <span class="sc">+</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Comparison of TRS and ORP Balances"</span>,</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Year of Employment"</span>,</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Balance ($)"</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"TRS"</span> <span class="ot">=</span> <span class="st">"blue"</span>, <span class="st">"ORP"</span> <span class="ot">=</span> <span class="st">"red"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="mp04_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="interpretation-of-the-graph-and-data" class="level3">
+<h3 class="anchored" data-anchor-id="interpretation-of-the-graph-and-data">Interpretation of the Graph and Data</h3>
+<section id="growth-trend" class="level4">
+<h4 class="anchored" data-anchor-id="growth-trend"><strong>Growth Trend:</strong></h4>
+<ul>
+<li><p>Both <strong>TRS (Traditional Retirement System)</strong> and <strong>ORP (Optional Retirement Plan)</strong> balances show exponential growth over time.</p></li>
+<li><p>The balances remain similar during the early years of employment but begin to diverge significantly as the years progress.</p></li>
+</ul>
+</section>
+<section id="slight-variations" class="level4">
+<h4 class="anchored" data-anchor-id="slight-variations"><strong>Slight Variations:</strong></h4>
+<ul>
+<li><strong>ORP</strong> appears to slightly outperform <strong>TRS</strong> in later years, potentially due to differences in assumptions regarding employer matches, return rates, or accumulation rules.</li>
+</ul>
+</section>
+<section id="general-observations" class="level4">
+<h4 class="anchored" data-anchor-id="general-observations"><strong>General Observations:</strong></h4>
+<ul>
+<li><p><strong>TRS Balance (Blue Line):</strong> By the 40th year of employment, the maximum balance reaches approximately <strong>$5,444,082</strong>.</p></li>
+<li><p><strong>ORP Balance (Red Line):</strong> By the 40th year, the maximum balance is slightly lower, at approximately <strong>$5,072,682</strong>.</p></li>
+<li><p>This suggests that while both plans accumulate substantial wealth, the ORP’s flexibility might be offset by its withdrawal patterns or assumptions used.</p></li>
+</ul>
+</section>
+<section id="tabular-data-first-few-years" class="level4">
+<h4 class="anchored" data-anchor-id="tabular-data-first-few-years"><strong>Tabular Data (First Few Years):</strong></h4>
+<ol type="1">
+<li><p><strong>Year 1:</strong></p>
+<ul>
+<li>Both TRS and ORP begin with the same balances: <strong>$4,802.00</strong>.</li>
+</ul></li>
+<li><p><strong>Year 6:</strong></p>
+<ul>
+<li><p>TRS achieves a balance of <strong>$54,927.76</strong>.</p></li>
+<li><p>ORP closely follows with <strong>$53,820.12</strong>.</p></li>
+</ul></li>
+</ol>
+</section>
+<section id="statistical-summary" class="level4">
+<h4 class="anchored" data-anchor-id="statistical-summary"><strong>Statistical Summary:</strong></h4>
+<ul>
+<li><p><strong>TRS Balance:</strong></p>
+<ul>
+<li><p><strong>Median:</strong> $1,417,739, reflecting consistent and strong growth.</p></li>
+<li><p><strong>Mean:</strong> $802,961, suggesting potential variability in growth rates or withdrawal scenarios.</p></li>
+<li><p><strong>Max:</strong> $5,444,082.</p></li>
+</ul></li>
+<li><p><strong>ORP Balance:</strong></p>
+<ul>
+<li><p><strong>Median:</strong> $1,341,817, indicating slightly less growth than TRS.</p></li>
+<li><p><strong>Mean:</strong> $750,046, slightly lower than TRS, reflecting similar trends in variability.</p></li>
+<li><p><strong>Max:</strong> $5,072,682.</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="insights" class="level4">
+<h4 class="anchored" data-anchor-id="insights"><strong>Insights:</strong></h4>
+<ul>
+<li><p>While ORP offers flexibility and possibly higher returns during early employment, TRS may have an edge due to its structured accumulation and less variability in balances.</p></li>
+<li><p>The balances in both plans highlight their potential to provide significant financial security for employees nearing retirement.</p></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="task-6-fixed-rate-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="task-6-fixed-rate-analysis">Task 6: Fixed-Rate Analysis</h2>
+<p>In this task, we extend the analysis to the retirement phase, examining how TRS and ORP balances sustain retirees over time. By assuming fixed rates for cost-of-living adjustments and withdrawals, we assess the sustainability of each plan and identify potential gaps in income or savings depletion risks.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameters</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>starting_salary <span class="ot">&lt;-</span> <span class="dv">50000</span>          <span class="co"># Initial salary</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>retirement_age <span class="ot">&lt;-</span> <span class="dv">65</span>              <span class="co"># Retirement age</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>death_age <span class="ot">&lt;-</span> <span class="dv">90</span>                   <span class="co"># Estimated death age</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>years_retired <span class="ot">&lt;-</span> death_age <span class="sc">-</span> retirement_age</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>trs_return_rate <span class="ot">&lt;-</span> <span class="fl">0.03</span>           <span class="co"># TRS cost-of-living adjustment</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>orp_return_rate <span class="ot">&lt;-</span> <span class="fl">0.06</span>           <span class="co"># ORP average annual return</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>monthly_withdrawal_rate <span class="ot">&lt;-</span> <span class="fl">0.04</span>   <span class="co"># ORP withdrawal rate (4%)</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>starting_balance_trs <span class="ot">&lt;-</span> <span class="dv">0</span>         <span class="co"># Initial TRS balance</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>starting_balance_orp <span class="ot">&lt;-</span> <span class="dv">0</span>         <span class="co"># Initial ORP balance</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>trs_pension_rate <span class="ot">&lt;-</span> <span class="fl">0.7</span>           <span class="co"># TRS pension rate (percentage of final salary)</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate years</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>years <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">1</span>, years_retired)</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a><span class="co"># TRS Fixed Monthly Pension</span></span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>final_salary <span class="ot">&lt;-</span> starting_salary <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">+</span> trs_return_rate) <span class="sc">^</span> years_retired</span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>trs_pension <span class="ot">&lt;-</span> (final_salary <span class="sc">*</span> trs_pension_rate) <span class="sc">/</span> <span class="dv">12</span></span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>trs_balance <span class="ot">&lt;-</span> <span class="fu">rep</span>(trs_pension <span class="sc">*</span> <span class="dv">12</span>, years_retired) <span class="co"># Total annual TRS payouts</span></span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a><span class="co"># ORP Balance and Withdrawals</span></span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>orp_balance <span class="ot">&lt;-</span> <span class="fu">numeric</span>(years_retired)</span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>orp_balance[<span class="dv">1</span>] <span class="ot">&lt;-</span> starting_balance_orp <span class="sc">+</span> starting_salary <span class="sc">*</span> orp_return_rate <span class="sc">*</span> <span class="dv">12</span></span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>monthly_withdrawals <span class="ot">&lt;-</span> <span class="fu">numeric</span>(years_retired)</span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>years_retired) {</span>
+<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a>  orp_balance[i] <span class="ot">&lt;-</span> orp_balance[i <span class="sc">-</span> <span class="dv">1</span>] <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">+</span> orp_return_rate) <span class="sc">-</span> </span>
+<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a>    orp_balance[i <span class="sc">-</span> <span class="dv">1</span>] <span class="sc">*</span> monthly_withdrawal_rate</span>
+<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a>  monthly_withdrawals[i] <span class="ot">&lt;-</span> orp_balance[i] <span class="sc">*</span> monthly_withdrawal_rate <span class="sc">/</span> <span class="dv">12</span></span>
+<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a>orp_monthly_income <span class="ot">&lt;-</span> monthly_withdrawals</span>
+<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate Data for Visualization</span></span>
+<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a>comparison_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a>  <span class="at">Year =</span> years,</span>
+<span id="cb25-37"><a href="#cb25-37" aria-hidden="true" tabindex="-1"></a>  <span class="at">TRS_Balance =</span> trs_balance,</span>
+<span id="cb25-38"><a href="#cb25-38" aria-hidden="true" tabindex="-1"></a>  <span class="at">ORP_Balance =</span> orp_balance</span>
+<span id="cb25-39"><a href="#cb25-39" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb25-40"><a href="#cb25-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-41"><a href="#cb25-41" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot Results</span></span>
+<span id="cb25-42"><a href="#cb25-42" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb25-43"><a href="#cb25-43" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(comparison_df, <span class="fu">aes</span>(<span class="at">x =</span> Year)) <span class="sc">+</span></span>
+<span id="cb25-44"><a href="#cb25-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> TRS_Balance, <span class="at">color =</span> <span class="st">"TRS"</span>)) <span class="sc">+</span></span>
+<span id="cb25-45"><a href="#cb25-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> ORP_Balance, <span class="at">color =</span> <span class="st">"ORP"</span>)) <span class="sc">+</span></span>
+<span id="cb25-46"><a href="#cb25-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb25-47"><a href="#cb25-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Comparison of TRS and ORP Balances"</span>,</span>
+<span id="cb25-48"><a href="#cb25-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Year of Retirement"</span>,</span>
+<span id="cb25-49"><a href="#cb25-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Balance ($)"</span></span>
+<span id="cb25-50"><a href="#cb25-50" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb25-51"><a href="#cb25-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"TRS"</span> <span class="ot">=</span> <span class="st">"blue"</span>, <span class="st">"ORP"</span> <span class="ot">=</span> <span class="st">"red"</span>)) <span class="sc">+</span></span>
+<span id="cb25-52"><a href="#cb25-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="mp04_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary Metrics</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>trs_avg_monthly_income <span class="ot">&lt;-</span> <span class="fu">mean</span>(trs_pension)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>orp_avg_monthly_income <span class="ot">&lt;-</span> <span class="fu">mean</span>(orp_monthly_income, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>income_gap <span class="ot">&lt;-</span> <span class="fu">max</span>(trs_pension) <span class="sc">-</span> <span class="fu">max</span>(orp_monthly_income)</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>trs_total_balance <span class="ot">&lt;-</span> <span class="fu">sum</span>(trs_balance)</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>orp_final_balance <span class="ot">&lt;-</span> <span class="fu">tail</span>(orp_balance, <span class="dv">1</span>)</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">TRS_Avg_Monthly_Income =</span> trs_avg_monthly_income,</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">ORP_Avg_Monthly_Income =</span> orp_avg_monthly_income,</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">Income_Gap =</span> income_gap,</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">TRS_Total_Balance =</span> trs_total_balance,</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">ORP_Final_Balance =</span> orp_final_balance</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>$TRS_Avg_Monthly_Income
+[1] 6106.852
+
+$ORP_Avg_Monthly_Income
+[1] 148.9454
+
+$Income_Gap
+[1] 5913.84
+
+$TRS_Total_Balance
+[1] 1832056
+
+$ORP_Final_Balance
+[1] 57903.74</code></pre>
+</div>
+</div>
+<section id="observations-from-the-graph" class="level3">
+<h3 class="anchored" data-anchor-id="observations-from-the-graph">Observations from the Graph:</h3>
+<ol type="1">
+<li><p><strong>Balance Growth</strong>:</p>
+<ul>
+<li><p>Both TRS and ORP grow steadily, with TRS maintaining consistent payouts (as expected from a fixed pension rate).</p></li>
+<li><p>ORP demonstrates growth influenced by the assumed annual return rate (6%).</p></li>
+</ul></li>
+<li><p><strong>Comparison</strong>:</p>
+<ul>
+<li><p>TRS provides stability, ensuring consistent income for the retiree.</p></li>
+<li><p>ORP might accumulate a higher final balance due to investment returns, depending on market performance.</p></li>
+</ul></li>
+</ol>
+</section>
+<section id="improvements-for-insights" class="level3">
+<h3 class="anchored" data-anchor-id="improvements-for-insights">Improvements for Insights:</h3>
+<ul>
+<li><p><strong>Highlight Key Metrics</strong>: Use annotations to highlight maximum and minimum balances on the graph.</p></li>
+<li><p><strong>Extend Analysis</strong>: Evaluate scenarios with different withdrawal rates or returns to demonstrate ORP’s sensitivity to market changes.</p></li>
+</ul>
+</section>
+</section>
+<section id="task-7.-monte-carlo-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="task-7.-monte-carlo-analysis">Task 7. Monte Carlo Analysis</h2>
+<p>To account for uncertainty and variability, we employ Monte Carlo simulations in this task. By generating multiple bootstrap histories for economic variables, we evaluate the probability of ORP balances being exhausted and compare distributions of retirement incomes. This task adds a layer of robustness to the analysis, allowing for better decision-making under uncertain economic conditions.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define parameters for Monte Carlo simulation</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>n_simulations <span class="ot">&lt;-</span> <span class="dv">200</span>  <span class="co"># Number of Monte Carlo simulations</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>years_retired <span class="ot">&lt;-</span> <span class="dv">25</span>   <span class="co"># Years in retirement</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>starting_salary <span class="ot">&lt;-</span> <span class="dv">50000</span>  <span class="co"># Initial salary in dollars</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>trs_return_rate <span class="ot">&lt;-</span> <span class="fl">0.03</span>  <span class="co"># TRS cost-of-living adjustment</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>orp_return_rate <span class="ot">&lt;-</span> <span class="fl">0.06</span>  <span class="co"># ORP average annual return</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>monthly_withdrawal_rate <span class="ot">&lt;-</span> <span class="fl">0.04</span>  <span class="co"># ORP withdrawal rate</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate historical TRS returns if missing</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)  <span class="co"># For reproducibility</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>historical_trs_returns <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1000</span>, <span class="at">mean =</span> <span class="fl">0.03</span>, <span class="at">sd =</span> <span class="fl">0.01</span>)  <span class="co"># Simulate TRS returns (mean 3%, SD 1%)</span></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate historical ORP returns if missing</span></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">456</span>)  <span class="co"># For reproducibility</span></span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>historical_orp_returns <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1000</span>, <span class="at">mean =</span> <span class="fl">0.06</span>, <span class="at">sd =</span> <span class="fl">0.02</span>)  <span class="co"># Simulate ORP returns (mean 6%, SD 2%)</span></span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to simulate retirement balances for TRS and ORP</span></span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>simulate_retirement <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>  sampled_trs_returns <span class="ot">&lt;-</span> <span class="fu">sample</span>(historical_trs_returns, <span class="at">size =</span> years_retired, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>  sampled_orp_returns <span class="ot">&lt;-</span> <span class="fu">sample</span>(historical_orp_returns, <span class="at">size =</span> years_retired, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a>  trs_balance <span class="ot">&lt;-</span> <span class="fu">numeric</span>(years_retired)</span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>  orp_balance <span class="ot">&lt;-</span> <span class="fu">numeric</span>(years_retired)</span>
+<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>  orp_withdrawals <span class="ot">&lt;-</span> <span class="fu">numeric</span>(years_retired)</span>
+<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a>  <span class="co"># TRS simulation</span></span>
+<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_len</span>(years_retired)) {</span>
+<span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a>    trs_balance[i] <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(</span>
+<span id="cb28-29"><a href="#cb28-29" aria-hidden="true" tabindex="-1"></a>      i <span class="sc">==</span> <span class="dv">1</span>,</span>
+<span id="cb28-30"><a href="#cb28-30" aria-hidden="true" tabindex="-1"></a>      starting_salary <span class="sc">*</span> trs_return_rate,</span>
+<span id="cb28-31"><a href="#cb28-31" aria-hidden="true" tabindex="-1"></a>      trs_balance[i <span class="sc">-</span> <span class="dv">1</span>] <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">+</span> sampled_trs_returns[i])</span>
+<span id="cb28-32"><a href="#cb28-32" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb28-33"><a href="#cb28-33" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb28-34"><a href="#cb28-34" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb28-35"><a href="#cb28-35" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ORP simulation</span></span>
+<span id="cb28-36"><a href="#cb28-36" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_len</span>(years_retired)) {</span>
+<span id="cb28-37"><a href="#cb28-37" aria-hidden="true" tabindex="-1"></a>    orp_balance[i] <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(</span>
+<span id="cb28-38"><a href="#cb28-38" aria-hidden="true" tabindex="-1"></a>      i <span class="sc">==</span> <span class="dv">1</span>,</span>
+<span id="cb28-39"><a href="#cb28-39" aria-hidden="true" tabindex="-1"></a>      starting_salary <span class="sc">*</span> orp_return_rate,</span>
+<span id="cb28-40"><a href="#cb28-40" aria-hidden="true" tabindex="-1"></a>      orp_balance[i <span class="sc">-</span> <span class="dv">1</span>] <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">+</span> sampled_orp_returns[i])</span>
+<span id="cb28-41"><a href="#cb28-41" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb28-42"><a href="#cb28-42" aria-hidden="true" tabindex="-1"></a>    orp_withdrawals[i] <span class="ot">&lt;-</span> orp_balance[i] <span class="sc">*</span> monthly_withdrawal_rate <span class="sc">/</span> <span class="dv">12</span></span>
+<span id="cb28-43"><a href="#cb28-43" aria-hidden="true" tabindex="-1"></a>    orp_balance[i] <span class="ot">&lt;-</span> orp_balance[i] <span class="sc">-</span> orp_withdrawals[i]</span>
+<span id="cb28-44"><a href="#cb28-44" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb28-45"><a href="#cb28-45" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb28-46"><a href="#cb28-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">TRS =</span> trs_balance, <span class="at">ORP =</span> orp_balance)</span>
+<span id="cb28-47"><a href="#cb28-47" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb28-48"><a href="#cb28-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-49"><a href="#cb28-49" aria-hidden="true" tabindex="-1"></a><span class="co"># Run Monte Carlo simulation</span></span>
+<span id="cb28-50"><a href="#cb28-50" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">replicate</span>(n_simulations, <span class="fu">simulate_retirement</span>(), <span class="at">simplify =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb28-51"><a href="#cb28-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-52"><a href="#cb28-52" aria-hidden="true" tabindex="-1"></a><span class="co"># Analyze results</span></span>
+<span id="cb28-53"><a href="#cb28-53" aria-hidden="true" tabindex="-1"></a>trs_results <span class="ot">&lt;-</span> <span class="fu">sapply</span>(results, <span class="cf">function</span>(res) res<span class="sc">$</span>TRS)</span>
+<span id="cb28-54"><a href="#cb28-54" aria-hidden="true" tabindex="-1"></a>orp_results <span class="ot">&lt;-</span> <span class="fu">sapply</span>(results, <span class="cf">function</span>(res) res<span class="sc">$</span>ORP)</span>
+<span id="cb28-55"><a href="#cb28-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-56"><a href="#cb28-56" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate probabilities</span></span>
+<span id="cb28-57"><a href="#cb28-57" aria-hidden="true" tabindex="-1"></a>orp_exhaust_prob <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">apply</span>(orp_results, <span class="dv">2</span>, <span class="cf">function</span>(x) <span class="fu">any</span>(x <span class="sc">&lt;=</span> <span class="dv">0</span>)))</span>
+<span id="cb28-58"><a href="#cb28-58" aria-hidden="true" tabindex="-1"></a>average_trs_income <span class="ot">&lt;-</span> <span class="fu">mean</span>(trs_results)</span>
+<span id="cb28-59"><a href="#cb28-59" aria-hidden="true" tabindex="-1"></a>average_orp_income <span class="ot">&lt;-</span> <span class="fu">mean</span>(orp_results)</span>
+<span id="cb28-60"><a href="#cb28-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-61"><a href="#cb28-61" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary statistics</span></span>
+<span id="cb28-62"><a href="#cb28-62" aria-hidden="true" tabindex="-1"></a>summary_results <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb28-63"><a href="#cb28-63" aria-hidden="true" tabindex="-1"></a>  <span class="at">ORP_Exhaust_Probability =</span> orp_exhaust_prob,</span>
+<span id="cb28-64"><a href="#cb28-64" aria-hidden="true" tabindex="-1"></a>  <span class="at">Average_TRS_Balance =</span> <span class="fu">mean</span>(<span class="fu">rowMeans</span>(trs_results)),</span>
+<span id="cb28-65"><a href="#cb28-65" aria-hidden="true" tabindex="-1"></a>  <span class="at">Average_ORP_Balance =</span> <span class="fu">mean</span>(<span class="fu">rowMeans</span>(orp_results))</span>
+<span id="cb28-66"><a href="#cb28-66" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb28-67"><a href="#cb28-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-68"><a href="#cb28-68" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualization</span></span>
+<span id="cb28-69"><a href="#cb28-69" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb28-70"><a href="#cb28-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-71"><a href="#cb28-71" aria-hidden="true" tabindex="-1"></a>trs_means <span class="ot">&lt;-</span> <span class="fu">rowMeans</span>(trs_results)</span>
+<span id="cb28-72"><a href="#cb28-72" aria-hidden="true" tabindex="-1"></a>orp_means <span class="ot">&lt;-</span> <span class="fu">rowMeans</span>(orp_results)</span>
+<span id="cb28-73"><a href="#cb28-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-74"><a href="#cb28-74" aria-hidden="true" tabindex="-1"></a>comparison_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb28-75"><a href="#cb28-75" aria-hidden="true" tabindex="-1"></a>  <span class="at">Year =</span> <span class="fu">seq_len</span>(years_retired),</span>
+<span id="cb28-76"><a href="#cb28-76" aria-hidden="true" tabindex="-1"></a>  <span class="at">TRS =</span> trs_means,</span>
+<span id="cb28-77"><a href="#cb28-77" aria-hidden="true" tabindex="-1"></a>  <span class="at">ORP =</span> orp_means</span>
+<span id="cb28-78"><a href="#cb28-78" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb28-79"><a href="#cb28-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-80"><a href="#cb28-80" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(comparison_df, <span class="fu">aes</span>(<span class="at">x =</span> Year)) <span class="sc">+</span></span>
+<span id="cb28-81"><a href="#cb28-81" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> TRS, <span class="at">color =</span> <span class="st">"TRS"</span>)) <span class="sc">+</span></span>
+<span id="cb28-82"><a href="#cb28-82" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> ORP, <span class="at">color =</span> <span class="st">"ORP"</span>)) <span class="sc">+</span></span>
+<span id="cb28-83"><a href="#cb28-83" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb28-84"><a href="#cb28-84" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Monte Carlo Simulation of TRS and ORP Balances"</span>,</span>
+<span id="cb28-85"><a href="#cb28-85" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Year of Retirement"</span>,</span>
+<span id="cb28-86"><a href="#cb28-86" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Average Balance"</span>,</span>
+<span id="cb28-87"><a href="#cb28-87" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Plan"</span></span>
+<span id="cb28-88"><a href="#cb28-88" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb28-89"><a href="#cb28-89" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb28-90"><a href="#cb28-90" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"TRS"</span> <span class="ot">=</span> <span class="st">"blue"</span>, <span class="st">"ORP"</span> <span class="ot">=</span> <span class="st">"red"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="mp04_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Display summary results</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(summary_results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>$ORP_Exhaust_Probability
+[1] 0
+
+$Average_TRS_Balance
+[1] 2186.855
+
+$Average_ORP_Balance
+[1] 6290.62</code></pre>
+</div>
+</div>
+<p>The graphs and summary statistics from Task 7 provide a comprehensive comparison between the Traditional Retirement System (TRS) and the Optional Retirement Plan (ORP) during the simulated retirement period. Below is a detailed analysis of the findings:</p>
+<section id="graph-analysis" class="level4">
+<h4 class="anchored" data-anchor-id="graph-analysis"><strong>Graph Analysis</strong></h4>
+<ol type="1">
+<li><p><strong>Overall Growth Patterns</strong>:</p>
+<ul>
+<li><p>The ORP (red line) shows a significantly higher balance compared to the TRS (blue line) over the years of retirement.</p></li>
+<li><p>The ORP balance grows at a faster rate due to the assumed higher returns and employer matches simulated in the Monte Carlo framework.</p></li>
+</ul></li>
+<li><p><strong>Cumulative Growth</strong>:</p>
+<ul>
+<li>While TRS grows steadily, it lags behind ORP throughout the simulation. This indicates that the ORP may yield better long-term returns for the employee.</li>
+</ul></li>
+<li><p><strong>No Exhaustion of ORP Funds</strong>:</p>
+<ul>
+<li><p>The ORP line continues to rise throughout the retirement period, indicating that funds are not exhausted before the end of the retirement years.</p></li>
+<li><p>This aligns with the statistical result showing a <strong>0% probability</strong> of ORP fund exhaustion.</p></li>
+</ul></li>
+</ol>
+</section>
+<section id="summary-statistics-analysis" class="level4">
+<h4 class="anchored" data-anchor-id="summary-statistics-analysis"><strong>Summary Statistics Analysis</strong></h4>
+<ol type="1">
+<li><p><strong>Probability of ORP Exhaustion</strong>:</p>
+<ul>
+<li><p>The ORP_Exhaust_Probability is <strong>0</strong>, meaning that under the simulated conditions, ORP funds are sufficient to last through the entire retirement period.</p></li>
+<li><p>This is likely due to the combination of the withdrawal rate and higher average annual returns assumed in the Monte Carlo simulation.</p></li>
+</ul></li>
+<li><p><strong>Average Balances</strong>:</p>
+<ul>
+<li><p><strong>TRS Average Balance</strong>: Approximately $2,186.86, which represents the consistent but slower-growing nature of TRS.</p></li>
+<li><p><strong>ORP Average Balance</strong>: Approximately $6,290.62, reflecting the faster growth and higher returns of the ORP.</p></li>
+</ul></li>
+<li><p><strong>Significance of Results</strong>:</p>
+<ul>
+<li>The higher average balance of ORP ($6,290.62 vs.&nbsp;$2,186.86) indicates that, under the simulation’s assumptions, ORP is the more advantageous plan in terms of accumulated wealth during retirement.</li>
+</ul></li>
+</ol>
+</section>
+<section id="implications-1" class="level4">
+<h4 class="anchored" data-anchor-id="implications-1"><strong>Implications</strong></h4>
+<ol type="1">
+<li><p><strong>For Decision-Making</strong>:</p>
+<ul>
+<li><p>Employees who prefer higher returns and are willing to manage investment risks might find the ORP a better choice.</p></li>
+<li><p>For employees who value stability and predictable growth, the TRS might still be attractive despite its slower accumulation.</p></li>
+</ul></li>
+<li><p><strong>Impact of Assumptions</strong>:</p>
+<ul>
+<li><p>These results depend heavily on assumptions about returns, withdrawal rates, and employer matches.</p></li>
+<li><p>If the ORP experiences market downturns or higher withdrawal rates, its balance could be at greater risk.</p></li>
+</ul></li>
+<li><p><strong>Evaluation of Withdrawal Rate</strong>:</p>
+<ul>
+<li>The 4% withdrawal rate appears sustainable in this simulation. However, more sensitivity analysis is recommended to test its robustness under different economic conditions.</li>
+</ul></li>
+</ol>
+<p>The Monte Carlo analysis demonstrates that the ORP outperforms TRS in terms of long-term balance growth while maintaining a 0% probability of fund exhaustion. These results suggest that ORP is a viable and potentially superior option under the given assumptions. However, the final decision should consider individual preferences for risk, stability, and employer-specific policies.</p>
+</section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>This project explored the comparative dynamics of two retirement plans, the Traditional Retirement System (TRS) and the Optional Retirement Plan (ORP), using historical data and statistical simulations to evaluate their long-term effectiveness. By employing methodologies such as data acquisition, exploratory analysis, fixed-rate analysis, and Monte Carlo simulations, we developed a comprehensive understanding of these plans under both deterministic and probabilistic scenarios.</p>
+<section id="key-findings" class="level4">
+<h4 class="anchored" data-anchor-id="key-findings"><strong>Key Findings</strong></h4>
+<ol type="1">
+<li><p><strong>Historical Analysis</strong>:</p>
+<ul>
+<li>The historical analysis demonstrated differences in wage growth, inflation, and return rates, which are key drivers influencing retirement plan balances. TRS exhibited consistent but slower growth, while ORP showed variability tied to market returns.</li>
+</ul></li>
+<li><p><strong>Fixed-Rate Analysis</strong>:</p>
+<ul>
+<li>Fixed-rate simulations highlighted that ORP consistently outperformed TRS in terms of cumulative balance and average monthly income during retirement. This result was driven by higher assumed market returns and employer contributions in ORP.</li>
+</ul></li>
+<li><p><strong>Monte Carlo Simulations</strong>:</p>
+<ul>
+<li>The probabilistic analysis revealed the robustness of ORP, which maintained higher balances across scenarios and showed a 0% probability of fund exhaustion under the given assumptions. TRS provided stable and predictable growth but lagged in terms of final balances and monthly income.</li>
+</ul></li>
+<li><p><strong>Sustainability of Withdrawal Rates</strong>:</p>
+<ul>
+<li>The 4% withdrawal rate for ORP was found to be sustainable in all simulated cases, ensuring retirees would not outlive their savings. However, this conclusion is sensitive to underlying assumptions about returns and inflation.</li>
+</ul></li>
+</ol>
+</section>
+<section id="practical-implications" class="level4">
+<h4 class="anchored" data-anchor-id="practical-implications"><strong>Practical Implications</strong></h4>
+<ul>
+<li><p><strong>For Employees</strong>:</p>
+<ul>
+<li><p>ORP is likely more advantageous for employees willing to accept investment risk for the potential of higher returns. It may also appeal to individuals who wish to leave larger inheritances.</p></li>
+<li><p>TRS is a safer, more predictable option for those who prioritize stability and guaranteed income for life.</p></li>
+</ul></li>
+<li><p><strong>For Policy Makers</strong>:</p>
+<ul>
+<li>Understanding the drivers of plan performance can help policymakers design better retirement systems that balance risk, return, and equity.</li>
+</ul></li>
+<li><p><strong>For Financial Planning</strong>:</p>
+<ul>
+<li>The results emphasize the importance of personalizing retirement decisions based on an individual’s risk tolerance, career length, and retirement goals.</li>
+</ul></li>
+</ul>
+</section>
+<section id="limitations-and-future-considerations" class="level4">
+<h4 class="anchored" data-anchor-id="limitations-and-future-considerations"><strong>Limitations and Future Considerations</strong></h4>
+<ul>
+<li><p>The simulations relied on historical and assumed data, which may not fully capture future market conditions or policy changes.</p></li>
+<li><p>The fixed-rate assumption for TRS and ORP limits the scope of analysis to a simplified model. Future work could include dynamic factors like market volatility, inflation-adjusted contributions, and changing employer policies.</p></li>
+<li><p>A deeper analysis of sensitivity to withdrawal rates and market downturns would provide additional insights.</p></li>
+</ul>
+<p>This project underscores the value of combining historical data analysis with robust statistical methods to make informed decisions about retirement planning. While the ORP outperforms TRS in most scenarios, the final choice depends on individual priorities, economic conditions, and the specific terms of each retirement plan. By applying data-driven approaches, employees and policymakers alike can better navigate the complexities of retirement planning and achieve more secure financial futures.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/chrismontano129\.github\.io\/STA9750-2024-FALL\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

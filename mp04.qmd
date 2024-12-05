@@ -1,0 +1,766 @@
+---
+title: "Mini-Project #04"
+author: "Christian Montano"
+date: "2024-12-01"
+format:
+  html:
+    theme: lux
+    toc: true
+    code-fold: true
+execute:
+  warning: false
+---
+
+## Introduction 
+
+The purpose of this analysis is to evaluate and compare two retirement plans—Traditional Retirement System (TRS) and Optional Retirement Plan (ORP)—to assess their long-term performance and sustainability. Retirement planning is a critical aspect of financial well-being, and understanding the implications of different contribution, withdrawal, and return strategies can help guide better decision-making.
+
+This project involves leveraging historical data and applying a combination of deterministic and probabilistic models, such as Monte Carlo simulations, to compare the outcomes of the TRS and ORP plans. Key tasks include:
+
+1.  **Historical Analysis**: Using wage growth and inflation data to simulate realistic scenarios over the working and retirement phases.
+
+2.  **Plan Comparisons**: Assessing the accumulation of balances under TRS and ORP across the span of employment years.
+
+3.  **Retirement Sustainability**: Evaluating whether ORP balances can sustain retirees throughout their expected lifespan, comparing guaranteed incomes and withdrawal strategies.
+
+4.  **Monte Carlo Simulations**: Introducing variability and uncertainty into the analysis to explore distributions of outcomes under different economic scenarios.
+
+The analysis culminates in a comparison of these plans, focusing on critical metrics such as income stability, plan sustainability, and potential gaps in financial outcomes. This report aims to provide actionable insights for individuals and policymakers navigating retirement planning decisions.
+
+```{r}
+library(httr2)
+library(dplyr)
+library(lubridate)
+library(jsonlite)
+library(tibble)
+library(readr)
+library(ggplot2)
+library(tidyr)
+```
+
+![](images/clipboard-9133593.png)
+
+## Task 1 and 2: Reading API Key
+
+The first step in this analysis is to establish access to external data sources by securely reading API keys. These keys allow us to fetch historical financial and economic data from trusted platforms, forming the foundation for the analysis of retirement plans. By organizing this data pipeline, we ensure reproducibility and accuracy in subsequent analyses.
+
+```{r}
+api_key <- readLines("alphavantage_key.txt")
+fred_api_key <- readLines("fred_key.txt")
+```
+
+## Task 3: Data Acquisition
+
+This task involves acquiring historical financial and economic data, including wage growth, inflation rates, and other relevant metrics. Using API integrations, we fetch data from platforms such as FRED and Alpha Vantage. This step is critical for creating a realistic framework to simulate retirement scenarios and plan performance over time.
+
+```{r}
+# Set API URLs
+FRED_URL <- "https://api.stlouisfed.org/fred/series/observations"
+ALPHAVANTAGE_URL <- "https://www.alphavantage.co/query"
+
+# Read API keys
+fred_api_key <- readLines("fred_key.txt")
+alphavantage_api_key <- readLines("alphavantage_key.txt")
+
+# Fetch Wage Growth Data (FRED API)
+req_wage <- request(FRED_URL) |>
+  req_url_query(
+    series_id = "CES0500000003",  # Total Private Average Hourly Earnings
+    api_key = fred_api_key,
+    file_type = "json"
+  )
+response_wage <- req_perform(req_wage)
+wage_growth_data <- resp_body_json(response_wage)$observations
+wage_growth_df <- do.call(rbind, lapply(wage_growth_data, as.data.frame)) %>%
+  mutate(date = as.Date(date), value = as.numeric(value)) %>%
+  rename(wage_growth = value)
+
+# Fetch Inflation Data (FRED API)
+req_inflation <- request(FRED_URL) |>
+  req_url_query(
+    series_id = "CPIAUCSL",  # Consumer Price Index for All Urban Consumers
+    api_key = fred_api_key,
+    file_type = "json"
+  )
+response_inflation <- req_perform(req_inflation)
+inflation_data <- resp_body_json(response_inflation)$observations
+inflation_df <- do.call(rbind, lapply(inflation_data, as.data.frame)) %>%
+  mutate(date = as.Date(date), value = as.numeric(value)) %>%
+  rename(inflation = value)
+
+# Fetch US Equity Market Returns (AlphaVantage API)
+req_us_equity <- request(ALPHAVANTAGE_URL) |>
+  req_url_query(
+    `function` = "TIME_SERIES_MONTHLY_ADJUSTED",
+    symbol = "SPY",  # Example: S&P 500 ETF
+    apikey = alphavantage_api_key
+  )
+response_us_equity <- req_perform(req_us_equity)
+us_equity_data <- resp_body_json(response_us_equity)$`Monthly Adjusted Time Series`
+
+# Flatten and process the raw us_equity_data
+us_equity_df <- do.call(rbind, lapply(us_equity_data, function(x) as.data.frame(t(x)))) %>%
+  tibble::rownames_to_column("date") %>% # Convert row names to date column
+  mutate(
+    date = as.Date(date, format = "%Y-%m-%d"), # Convert date to Date object
+    adjusted_close = as.numeric(`5. adjusted close`) # Ensure numeric conversion
+  ) %>%
+  rename(us_equity = adjusted_close) %>% # Rename for clarity
+  select(date, us_equity) # Select only relevant columns
+
+# Preview the processed data
+head(us_equity_df)
+
+
+# Fetch International Equity Market Returns (AlphaVantage API)
+req_intl_equity <- request(ALPHAVANTAGE_URL) |>
+  req_url_query(
+    `function` = "TIME_SERIES_MONTHLY_ADJUSTED",
+    symbol = "VXUS",  # Example: Vanguard International ETF
+    apikey = alphavantage_api_key
+  )
+response_intl_equity <- req_perform(req_intl_equity)
+intl_equity_data <- resp_body_json(response_intl_equity)$`Monthly Adjusted Time Series`
+
+# Process the data for international equity
+intl_equity_df <- intl_equity_data %>%
+  enframe(name = "date", value = "metrics") %>% # Convert list to tibble
+  mutate(
+    date = as.Date(date, format = "%Y-%m-%d"), # Convert `date` to Date type
+    adjusted_close = as.numeric(sapply(metrics, function(x) x$`5. adjusted close`)) # Extract and convert `adjusted close`
+  ) %>%
+  select(date, adjusted_close) %>% # Keep only relevant columns
+  rename(intl_equity = adjusted_close) # Rename column for clarity
+
+# Fetch Bond Market Returns (FRED API)
+req_bond <- request(FRED_URL) |>
+  req_url_query(
+    series_id = "DGS10",  # 10-Year Treasury Constant Maturity Rate
+    api_key = fred_api_key,
+    file_type = "json"
+  )
+response_bond <- req_perform(req_bond)
+bond_data <- resp_body_json(response_bond)$observations
+bond_df <- do.call(rbind, lapply(bond_data, as.data.frame)) %>%
+  mutate(
+    date = as.Date(date),
+    value = suppressWarnings(parse_number(value)) # Suppress warnings and convert invalid entries to NA
+  ) %>%
+  rename(bond_returns = value)
+
+# Fetch Short-Term Debt Returns (FRED API)
+req_tbill <- request(FRED_URL) |>
+  req_url_query(
+    series_id = "DTB3",  # 3-Month Treasury Bill Rate
+    api_key = fred_api_key,
+    file_type = "json"
+  )
+response_tbill <- req_perform(req_tbill)
+tbill_data <- resp_body_json(response_tbill)$observations
+tbill_df <- do.call(rbind, lapply(tbill_data, as.data.frame)) %>%
+  mutate(
+    date = as.Date(date),
+    # Remove non-numeric characters or extra formatting before parsing
+    value = suppressWarnings(parse_number(gsub("[^0-9\\.\\-]", "", value)))
+  ) %>%
+  rename(short_term_debt = value)
+
+# Merge All Data
+combined_df <- full_join(wage_growth_df, inflation_df, by = "date") %>%
+  full_join(us_equity_df, by = "date") %>%
+  full_join(intl_equity_df, by = "date") %>%
+  full_join(bond_df, by = "date") %>%
+  full_join(tbill_df, by = "date")
+
+# Inspect Combined Data
+print(head(combined_df))
+
+```
+
+## Task 4: Initial Analysis
+
+Before delving into simulations, we perform an exploratory analysis of the acquired data. This includes summarizing key metrics like mean and variance, reshaping the data for visualization, and examining trends over time. This step provides a comprehensive understanding of the underlying patterns in wage growth and inflation, which are essential for accurate modeling.
+
+```{r}
+# Convert wage_growth and inflation columns to numeric
+wage_growth_df$wage_growth <- as.numeric(wage_growth_df$wage_growth)
+inflation_df$inflation <- as.numeric(inflation_df$inflation)
+
+# Summarize data into a summary table
+summary_table <- tibble(
+  Metric = c("Mean", "Variance"),
+  Wage_Growth = c(
+    mean(wage_growth_df$wage_growth, na.rm = TRUE),
+    var(wage_growth_df$wage_growth, na.rm = TRUE)
+  ),
+  Inflation = c(
+    mean(inflation_df$inflation, na.rm = TRUE),
+    var(inflation_df$inflation, na.rm = TRUE)
+  )
+)
+
+print(summary_table)
+
+# Reshape combined_df into long format
+combined_long <- combined_df %>%
+  pivot_longer(
+    cols = where(is.numeric),   # Select only numeric columns for pivoting
+    names_to = "variable",      # New column for variable names
+    values_to = "value"         # New column for values
+  ) %>%
+  mutate(value = as.numeric(value)) # Ensure value column is numeric
+
+# Define an appropriate range to filter values
+combined_long <- combined_long %>%
+  filter(value > 0 & value < 1000) # Adjust range based on your data
+
+# Check reshaped data structure
+print(head(combined_long))
+
+# Plot the data
+ggplot(combined_long, aes(x = date, y = value, color = variable)) +
+  geom_line() +
+  theme_minimal() +
+  labs(
+    title = "Trends in Financial and Macroeconomic Data",
+    x = "Date",
+    y = "Value"
+  )
+
+
+```
+
+### Interpretation
+
+The graph illustrates trends in various financial and macroeconomic indicators over time, represented by different variables, including bond returns, inflation, short-term debt, U.S. equity, and wage growth. Here's a breakdown of the trends:
+
+1.  **U.S. Equity (Blue Line)**:
+
+    -   This shows a significant upward trend, especially from the early 2000s onward, with sharp increases after 2010.
+
+    -   This reflects the overall growth of the U.S. stock market, driven by economic recovery, technological advancements, and investor confidence.
+
+    -   The volatility in certain periods (e.g., around 2008–2009) likely corresponds to financial crises or market corrections.
+
+2.  **Inflation (Green Line)**:
+
+    -   Inflation has been relatively stable over the decades but shows a gradual upward trend.
+
+    -   This is consistent with the long-term rise in prices due to economic growth and monetary policies. The recent spike could indicate post-pandemic inflationary pressures.
+
+3.  **Short-Term Debt (Pink Line)**:
+
+    -   The trend for short-term debt appears relatively stable over time with minor fluctuations.
+
+    -   This suggests that short-term interest rates or debt levels have not significantly deviated over the long term.
+
+4.  **Bond Returns (Red Line)**:
+
+    -   Bond returns remain relatively flat with a slow upward trend.
+
+    -   This reflects the generally stable nature of bonds as an investment, often inversely related to equity market performance.
+
+5.  **Wage Growth (Purple Line)**:
+
+    -   Wage growth appears stable with slight upward movement over time.
+
+    -   This reflects gradual increases in wages, potentially tied to inflation and productivity growth.
+
+### Key Observations:
+
+-   The U.S. equity market (blue line) exhibits the steepest growth and highest volatility, indicating its dynamic nature compared to the other variables.
+
+-   Inflation (green line) has a smoother, gradual growth trend, reflecting long-term economic policies.
+
+-   Short-term debt, bond returns, and wage growth show less dramatic trends, highlighting their relatively stable characteristics compared to equities and inflation.
+
+### Implications:
+
+-   The rapid growth in U.S. equity markets suggests opportunities for higher returns but also higher risk.
+
+-   Inflation trends are critical for assessing purchasing power and the real value of investments.
+
+-   The stability in bond returns and short-term debt indicates these could serve as safer investment options for risk-averse individuals.
+
+```{r}
+req_intl_equity <- request(ALPHAVANTAGE_URL) %>%
+  req_url_query(
+    `function` = "TIME_SERIES_MONTHLY_ADJUSTED", # Ensure backticks for reserved keywords
+    symbol = "VXUS", # Replace with your desired symbol
+    apikey = alphavantage_api_key
+  )
+
+# Perform the request and fetch the response
+response_intl_equity <- req_perform(req_intl_equity)
+
+# Parse the JSON response
+response_content <- response_intl_equity %>% resp_body_json()
+
+# Check if the response contains data
+if (!"Monthly Adjusted Time Series" %in% names(response_content)) {
+  stop("Error: The response does not contain the 'Monthly Adjusted Time Series' data.")
+}
+
+# Extract the relevant data from the response
+intl_equity_data <- response_content$`Monthly Adjusted Time Series`
+# Check the structure of intl_equity_data
+if (is.null(intl_equity_data)) {
+  stop("Error: No data found for the specified symbol.")
+}
+
+# Print the structure of intl_equity_data for debugging
+str(intl_equity_data)
+
+# Convert the data into a data frame (adapted based on structure)
+intl_equity_df <- intl_equity_data %>%
+  tibble::enframe(name = "date", value = "data") %>% # Convert list to tibble
+  unnest_wider(data) %>% # Expand the nested list into columns
+  mutate(
+    date = as.Date(date, format = "%Y-%m-%d"), # Convert date strings to Date objects
+    intl_equity = as.numeric(`5. adjusted close`) # Convert 'adjusted close' to numeric
+  ) %>%
+  select(date, intl_equity) # Select only the relevant columns
+
+# Check the structure of the resulting data frame
+str(intl_equity_df)
+
+# Display the head of the data frame
+print(head(intl_equity_df))
+
+# Calculate summary statistics
+summary_table <- tibble(
+  Metric = c("Mean", "Variance"),
+  Wage_Growth = c(
+    mean(combined_df$wage_growth, na.rm = TRUE),
+    var(combined_df$wage_growth, na.rm = TRUE)
+  ),
+  Inflation = c(
+    mean(combined_df$inflation, na.rm = TRUE),
+    var(combined_df$inflation, na.rm = TRUE)
+  ),
+  US_Equity = c(
+    mean(combined_df$us_equity, na.rm = TRUE),
+    var(combined_df$us_equity, na.rm = TRUE)
+  ),
+  Intl_Equity = c(
+    mean(combined_df$intl_equity, na.rm = TRUE),
+    var(combined_df$intl_equity, na.rm = TRUE)
+  ),
+  Bond_Returns = c(
+    mean(combined_df$bond_returns, na.rm = TRUE),
+    var(combined_df$bond_returns, na.rm = TRUE)
+  ),
+  Short_Term_Debt = c(
+    mean(combined_df$short_term_debt, na.rm = TRUE),
+    var(combined_df$short_term_debt, na.rm = TRUE)
+  )
+)
+
+# Print the summary table
+print(summary_table)
+
+```
+
+The table presents a summary of the mean and variance for various financial and economic variables. Here’s an interpretation of the key points:
+
+### Columns and Their Meaning:
+
+1.  **Wage Growth**:
+
+    -   **Mean**: 26.05 suggests that, on average, wage growth over the observed period is 26.05%.
+
+    -   **Variance**: 17.57 indicates moderate variability in wage growth across the time frame.
+
+2.  **Inflation**:
+
+    -   **Mean**: 121.10 suggests a relatively high average inflation index value.
+
+    -   **Variance**: 7519.52 indicates significant variability, suggesting fluctuations in inflation levels over time.
+
+3.  **US Equity**:
+
+    -   **Mean**: 182.75 indicates a high average value for U.S. equity performance, reflecting strong historical market growth.
+
+    -   **Variance**: 17738.61 suggests extremely high variability, consistent with the volatility of stock markets.
+
+4.  **International Equity (Intl_Equity)**:
+
+    -   **Mean**: 43.52 reflects lower average performance compared to U.S. equity.
+
+    -   **Variance**: 88.05, which is comparatively low, suggests more stability than U.S. equity markets but possibly reflects limited data coverage.
+
+5.  **Bond Returns**:
+
+    -   **Mean**: 5.85 indicates consistent, modest returns, typical of bond performance.
+
+    -   **Variance**: 8.76 shows low variability, as bonds are generally less volatile than equity.
+
+6.  **Short-Term Debt**:
+
+    -   **Mean**: 4.20 indicates the average return from short-term debt instruments.
+
+    -   **Variance**: 9.49 shows slightly higher variability than bonds, likely reflecting fluctuations in short-term interest rates.
+
+### Key Takeaways:
+
+-   **Equity Markets**:
+
+    -   U.S. equities demonstrate the highest average return (182.75) but also the highest variance (17738.61), reflecting their high-risk, high-reward nature.
+
+    -   International equities show lower average returns but are more stable compared to U.S. equities.
+
+-   **Fixed Income Instruments**:
+
+    -   Bonds and short-term debt have low returns but also lower variance, making them less risky compared to equities.
+
+-   **Macroeconomic Factors**:
+
+    -   Inflation exhibits substantial variability, consistent with periods of economic instability.
+
+    -   Wage growth shows moderate variability, reflecting its relative steadiness compared to inflation.
+
+This summary provides insights into the risk-return trade-offs among different asset classes and the variability in key economic factors.
+
+## Task 5: Historical Comparison
+
+This task compares the TRS and ORP plans using historical data. By simulating contributions and returns over a hypothetical career, we evaluate the balance growth of each plan. This comparison provides insights into the impact of plan rules, such as employer matches and contribution rates, on long-term financial outcomes.
+
+### Define Assumptions
+
+-   **Employee Details**:
+
+    -   Joins CUNY in the first month of the historical data.
+
+    -   Retires from CUNY at the end of the final month of data.
+
+-   **Starting Salary**: Decide on an initial annual salary, e.g., \$50,000.
+
+-   **TRS Parameters**:
+
+    -   Fixed contribution rate (e.g., 8% of salary).
+
+    -   Employer match (e.g., 8% of salary).
+
+    -   Assumed annual return rate (e.g., 7%).
+
+-   **ORP Parameters**:
+
+    -   Contribution rate (e.g., 8% of salary).
+
+    -   Employer match (e.g., 8% of salary).
+
+    -   Assumed annual return rate (e.g., 6%).
+
+```{r}
+# Define wage growth if not already available
+if (!exists("wage_growth") || is.null(wage_growth)) {
+  warning("wage_growth not found, using default values.")
+  wage_growth <- rep(3, 40) # Default to 3% growth over 40 years
+}
+
+# ORP Parameters
+starting_salary <- 50000     # Initial salary in dollars
+trs_contribution_rate <- 0.08 # TRS contribution rate (8%)
+orp_contribution_rate <- 0.08 # ORP contribution rate (8%)
+trs_return_rate <- 0.07       # TRS assumed annual return
+orp_return_rate <- 0.06       # ORP assumed annual return
+years <- 40                   # Number of working years
+
+# Ensure wage growth has correct length
+if (length(wage_growth) < years) {
+  wage_growth <- rep(mean(wage_growth, na.rm = TRUE), years)
+}
+
+# Initialize variables
+trs_balance <- numeric(length = years)
+orp_balance <- numeric(length = years)
+salary <- starting_salary
+
+# Calculate TRS and ORP balances
+for (i in 1:years) {
+  salary <- salary * (1 + wage_growth[i] / 100) # Adjust salary for wage growth
+  # TRS Calculation
+  trs_contribution <- salary * trs_contribution_rate
+  trs_balance[i] <- ifelse(i == 1, trs_contribution, trs_balance[i - 1] * (1 + trs_return_rate) + trs_contribution)
+
+  # ORP Calculation
+  orp_contribution <- salary * orp_contribution_rate
+  orp_balance[i] <- ifelse(i == 1, orp_contribution, orp_balance[i - 1] * (1 + orp_return_rate) + orp_contribution)
+}
+
+# Combine data for visualization
+comparison_df <- data.frame(
+  Year = seq(1, years),
+  TRS_Balance = trs_balance,
+  ORP_Balance = orp_balance
+)
+
+# Print and inspect
+print(head(comparison_df))
+summary(comparison_df)
+
+# Visualization
+library(ggplot2)
+ggplot(comparison_df, aes(x = Year)) +
+  geom_line(aes(y = TRS_Balance, color = "TRS")) +
+  geom_line(aes(y = ORP_Balance, color = "ORP")) +
+  labs(
+    title = "Comparison of TRS and ORP Balances",
+    x = "Year of Employment",
+    y = "Balance ($)"
+  ) +
+  theme_minimal() +
+  scale_color_manual(values = c("TRS" = "blue", "ORP" = "red"))
+
+
+```
+
+### Interpretation of the Graph and Data
+
+#### **Growth Trend:**
+
+-   Both **TRS (Traditional Retirement System)** and **ORP (Optional Retirement Plan)** balances show exponential growth over time.
+
+-   The balances remain similar during the early years of employment but begin to diverge significantly as the years progress.
+
+#### **Slight Variations:**
+
+-   **ORP** appears to slightly outperform **TRS** in later years, potentially due to differences in assumptions regarding employer matches, return rates, or accumulation rules.
+
+#### **General Observations:**
+
+-   **TRS Balance (Blue Line):** By the 40th year of employment, the maximum balance reaches approximately **\$5,444,082**.
+
+-   **ORP Balance (Red Line):** By the 40th year, the maximum balance is slightly lower, at approximately **\$5,072,682**.
+
+-   This suggests that while both plans accumulate substantial wealth, the ORP's flexibility might be offset by its withdrawal patterns or assumptions used.
+
+#### **Tabular Data (First Few Years):**
+
+1.  **Year 1:**
+
+    -   Both TRS and ORP begin with the same balances: **\$4,802.00**.
+
+2.  **Year 6:**
+
+    -   TRS achieves a balance of **\$54,927.76**.
+
+    -   ORP closely follows with **\$53,820.12**.
+
+#### **Statistical Summary:**
+
+-   **TRS Balance:**
+
+    -   **Median:** \$1,417,739, reflecting consistent and strong growth.
+
+    -   **Mean:** \$802,961, suggesting potential variability in growth rates or withdrawal scenarios.
+
+    -   **Max:** \$5,444,082.
+
+-   **ORP Balance:**
+
+    -   **Median:** \$1,341,817, indicating slightly less growth than TRS.
+
+    -   **Mean:** \$750,046, slightly lower than TRS, reflecting similar trends in variability.
+
+    -   **Max:** \$5,072,682.
+
+#### **Insights:**
+
+-   While ORP offers flexibility and possibly higher returns during early employment, TRS may have an edge due to its structured accumulation and less variability in balances.
+
+-   The balances in both plans highlight their potential to provide significant financial security for employees nearing retirement.
+
+## Task 6: Fixed-Rate Analysis
+
+In this task, we extend the analysis to the retirement phase, examining how TRS and ORP balances sustain retirees over time. By assuming fixed rates for cost-of-living adjustments and withdrawals, we assess the sustainability of each plan and identify potential gaps in income or savings depletion risks.
+
+```{r}
+# Parameters
+starting_salary <- 50000          # Initial salary
+retirement_age <- 65              # Retirement age
+death_age <- 90                   # Estimated death age
+years_retired <- death_age - retirement_age
+trs_return_rate <- 0.03           # TRS cost-of-living adjustment
+orp_return_rate <- 0.06           # ORP average annual return
+monthly_withdrawal_rate <- 0.04   # ORP withdrawal rate (4%)
+starting_balance_trs <- 0         # Initial TRS balance
+starting_balance_orp <- 0         # Initial ORP balance
+trs_pension_rate <- 0.7           # TRS pension rate (percentage of final salary)
+
+# Generate years
+years <- seq(1, years_retired)
+
+# TRS Fixed Monthly Pension
+final_salary <- starting_salary * (1 + trs_return_rate) ^ years_retired
+trs_pension <- (final_salary * trs_pension_rate) / 12
+trs_balance <- rep(trs_pension * 12, years_retired) # Total annual TRS payouts
+
+# ORP Balance and Withdrawals
+orp_balance <- numeric(years_retired)
+orp_balance[1] <- starting_balance_orp + starting_salary * orp_return_rate * 12
+monthly_withdrawals <- numeric(years_retired)
+
+for (i in 2:years_retired) {
+  orp_balance[i] <- orp_balance[i - 1] * (1 + orp_return_rate) - 
+    orp_balance[i - 1] * monthly_withdrawal_rate
+  monthly_withdrawals[i] <- orp_balance[i] * monthly_withdrawal_rate / 12
+}
+
+orp_monthly_income <- monthly_withdrawals
+
+# Generate Data for Visualization
+comparison_df <- data.frame(
+  Year = years,
+  TRS_Balance = trs_balance,
+  ORP_Balance = orp_balance
+)
+
+# Plot Results
+library(ggplot2)
+ggplot(comparison_df, aes(x = Year)) +
+  geom_line(aes(y = TRS_Balance, color = "TRS")) +
+  geom_line(aes(y = ORP_Balance, color = "ORP")) +
+  labs(
+    title = "Comparison of TRS and ORP Balances",
+    x = "Year of Retirement",
+    y = "Balance ($)"
+  ) +
+  scale_color_manual(values = c("TRS" = "blue", "ORP" = "red")) +
+  theme_minimal()
+
+# Summary Metrics
+trs_avg_monthly_income <- mean(trs_pension)
+orp_avg_monthly_income <- mean(orp_monthly_income, na.rm = TRUE)
+income_gap <- max(trs_pension) - max(orp_monthly_income)
+trs_total_balance <- sum(trs_balance)
+orp_final_balance <- tail(orp_balance, 1)
+
+list(
+  TRS_Avg_Monthly_Income = trs_avg_monthly_income,
+  ORP_Avg_Monthly_Income = orp_avg_monthly_income,
+  Income_Gap = income_gap,
+  TRS_Total_Balance = trs_total_balance,
+  ORP_Final_Balance = orp_final_balance
+)
+
+```
+
+### Observations from the Graph:
+
+1.  **Balance Growth**:
+
+    -   Both TRS and ORP grow steadily, with TRS maintaining consistent payouts (as expected from a fixed pension rate).
+
+    -   ORP demonstrates growth influenced by the assumed annual return rate (6%).
+
+2.  **Comparison**:
+
+    -   TRS provides stability, ensuring consistent income for the retiree.
+
+    -   ORP might accumulate a higher final balance due to investment returns, depending on market performance.
+
+### Improvements for Insights:
+
+-   **Highlight Key Metrics**: Use annotations to highlight maximum and minimum balances on the graph.
+
+-   **Extend Analysis**: Evaluate scenarios with different withdrawal rates or returns to demonstrate ORP's sensitivity to market changes.
+
+## Task 7. Monte Carlo Analysis
+
+```{r}
+# Define parameters for Monte Carlo simulation
+n_simulations <- 200  # Number of Monte Carlo simulations
+years_retired <- 25   # Years in retirement
+starting_salary <- 50000  # Initial salary in dollars
+trs_return_rate <- 0.03  # TRS cost-of-living adjustment
+orp_return_rate <- 0.06  # ORP average annual return
+monthly_withdrawal_rate <- 0.04  # ORP withdrawal rate
+
+# Simulate historical TRS returns if missing
+set.seed(123)  # For reproducibility
+historical_trs_returns <- rnorm(1000, mean = 0.03, sd = 0.01)  # Simulate TRS returns (mean 3%, SD 1%)
+
+# Simulate historical ORP returns if missing
+set.seed(456)  # For reproducibility
+historical_orp_returns <- rnorm(1000, mean = 0.06, sd = 0.02)  # Simulate ORP returns (mean 6%, SD 2%)
+
+# Function to simulate retirement balances for TRS and ORP
+simulate_retirement <- function() {
+  sampled_trs_returns <- sample(historical_trs_returns, size = years_retired, replace = TRUE)
+  sampled_orp_returns <- sample(historical_orp_returns, size = years_retired, replace = TRUE)
+  
+  trs_balance <- numeric(years_retired)
+  orp_balance <- numeric(years_retired)
+  orp_withdrawals <- numeric(years_retired)
+  
+  # TRS simulation
+  for (i in seq_len(years_retired)) {
+    trs_balance[i] <- ifelse(
+      i == 1,
+      starting_salary * trs_return_rate,
+      trs_balance[i - 1] * (1 + sampled_trs_returns[i])
+    )
+  }
+  
+  # ORP simulation
+  for (i in seq_len(years_retired)) {
+    orp_balance[i] <- ifelse(
+      i == 1,
+      starting_salary * orp_return_rate,
+      orp_balance[i - 1] * (1 + sampled_orp_returns[i])
+    )
+    orp_withdrawals[i] <- orp_balance[i] * monthly_withdrawal_rate / 12
+    orp_balance[i] <- orp_balance[i] - orp_withdrawals[i]
+  }
+  
+  list(TRS = trs_balance, ORP = orp_balance)
+}
+
+# Run Monte Carlo simulation
+results <- replicate(n_simulations, simulate_retirement(), simplify = FALSE)
+
+# Analyze results
+trs_results <- sapply(results, function(res) res$TRS)
+orp_results <- sapply(results, function(res) res$ORP)
+
+# Calculate probabilities
+orp_exhaust_prob <- mean(apply(orp_results, 2, function(x) any(x <= 0)))
+average_trs_income <- mean(trs_results)
+average_orp_income <- mean(orp_results)
+
+# Summary statistics
+summary_results <- list(
+  ORP_Exhaust_Probability = orp_exhaust_prob,
+  Average_TRS_Balance = mean(rowMeans(trs_results)),
+  Average_ORP_Balance = mean(rowMeans(orp_results))
+)
+
+# Visualization
+library(ggplot2)
+
+trs_means <- rowMeans(trs_results)
+orp_means <- rowMeans(orp_results)
+
+comparison_df <- data.frame(
+  Year = seq_len(years_retired),
+  TRS = trs_means,
+  ORP = orp_means
+)
+
+ggplot(comparison_df, aes(x = Year)) +
+  geom_line(aes(y = TRS, color = "TRS")) +
+  geom_line(aes(y = ORP, color = "ORP")) +
+  labs(
+    title = "Monte Carlo Simulation of TRS and ORP Balances",
+    x = "Year of Retirement",
+    y = "Average Balance",
+    color = "Plan"
+  ) +
+  theme_minimal() +
+  scale_color_manual(values = c("TRS" = "blue", "ORP" = "red"))
+
+# Display summary results
+print(summary_results)
+
+```
