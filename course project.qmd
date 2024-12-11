@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 title: "Course Project"
 author: "Christian Montano"
@@ -304,3 +305,311 @@ The **Qualified Commercial Clean Vehicle Tax Credit** incentivizes businesses to
 ### **Conclusion**
 
 The examined policies collectively illustrate how strategic incentives can align renewable energy adoption with EV penetration, fostering a cleaner and more sustainable future. By addressing financial barriers, expanding infrastructure, promoting renewable energy growth, and ensuring equitable access, these policies create a synergistic relationship between clean energy and transportation. States with higher renewable energy percentages benefit most from these policies, as they amplify the environmental and economic advantages of EV adoption. As such, these policies not only support the transition to renewable energy but also catalyze the widespread adoption of EVs, reinforcing the critical connection between the two.
+=======
+---
+title: "Course Project"
+author: "Christian Montano"
+date: "2024-12-09"
+format:
+  html:
+    theme: lux
+    toc: true
+    code-fold: true
+execute:
+  warning: false
+---
+
+# Renewable energy impact on EV adopation
+
+```{r}
+library(tidyverse)
+library(readr)
+library(readxl)
+library(ggplot2)
+```
+
+```{r}
+ev_data <- read_excel("docs/EV Project/10861_AFV_registrations_6-11-24.xlsx")
+
+renewable_data <- read_csv("docs/EV Project/Net electricity generation by renewable resources, monthly.csv", skip = 7)
+
+net_generation_data <- read_csv("docs/EV Project/Net_generation_United_States_all_sectors_monthly.csv")
+
+```
+
+## Visualizing AFV Registrations by Type
+
+The data presented in the accompanying graph, sourced from the National Renewable Energy Laboratory (NREL) and Experian Information Solutions, provides a detailed view of light-duty alternative fuel vehicle (AFV) registrations in the United States as of 2023. These two organizations, known for their expertise in renewable energy and vehicle registration analytics, lend credibility and reliability to the dataset, offering a well-rounded representation of national adoption trends.
+
+The dataset reflects approximate registration figures, rounded to the nearest thousand, to capture the scale of AFV adoption across a range of vehicle types. This includes popular options like Flexible Fuel Vehicles (FFVs) and Hybrid Electric Vehicles (HEVs), as well as niche technologies such as Hydrogen Fuel Cell and Compressed Natural Gas (CNG) vehicles. However, it is important to recognize the limitations inherent in this dataset. For instance, propane and CNG vehicles are underrepresented because many of these vehicles are converted from traditional internal combustion engines without updates to registration data. As a result, the true scale of retrofitted propane and CNG vehicles remains partially obscured. Furthermore, the dataset excludes smaller neighborhood electric vehicles (NEVs) and focuses only on standard all-electric vehicles, potentially skewing the representation of the broader EV adoption landscape.
+
+Despite these limitations, the data reveals notable patterns in AFV registrations. FFVs and HEVs dominate the registration numbers, reflecting their compatibility with existing infrastructure and their role as transitional technologies toward sustainable transportation. Conversely, niche AFVs like Hydrogen Fuel Cell and CNG vehicles show limited adoption, highlighting the market's hesitancy toward less-developed infrastructure and higher costs associated with these technologies.
+
+These observations emphasize the importance of contextualizing the data when interpreting trends. While the graph effectively showcases macro-level adoption patterns, the underrepresentation of certain vehicle categories and the exclusion of NEVs suggest that caution should be exercised when drawing conclusions about the adoption of less common AFV types. Overall, this analysis underscores the need for continued investment in both infrastructure and data collection processes to enable a more comprehensive understanding of the trajectory of alternative fuel vehicle adoption in the United States.
+
+```{r}
+# Correct column names (if not already done)
+colnames(ev_data) <- c("AFV_Type", "Approx_Registrations")
+
+# Convert the "Approx_Registrations" column to numeric (with proper handling of NAs)
+ev_data <- ev_data %>%
+  mutate(Approx_Registrations = as.numeric(gsub(",", "", Approx_Registrations)))  # Remove commas if they exist
+
+# List of valid vehicle types
+valid_types <- c("FFV", "HEV", "Biodiesel", "All-Electric", "PHEV", "CNG", "Hydrogen Fuel Cell", "Propane")
+
+# Filter the data to include only valid types
+ev_data_clean <- ev_data %>%
+  filter(AFV_Type %in% valid_types)
+
+# Recheck the unique values in the cleaned data
+print(unique(ev_data_clean$AFV_Type))
+
+# Create a bar plot with all vehicle types
+ggplot(ev_data_clean, aes(x = reorder(AFV_Type, -Approx_Registrations), y = Approx_Registrations, fill = AFV_Type)) +
+  geom_bar(stat = "identity") +  # Include the legend
+  scale_fill_brewer(palette = "Set3", name = "AFV Type") +  # Add a title to the legend
+  labs(title = "AFV Registrations by Type",
+       x = "AFV Type",
+       y = "Approximate Registrations",
+       caption = "Data Source: afdc.energy.gov") +  # Add caption for context
+  scale_y_continuous(labels = scales::comma) +  # Format y-axis numbers with commas
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 12),  # Rotate and enlarge x-axis labels
+    axis.title = element_text(size = 14),  # Increase size of axis titles
+    plot.title = element_text(size = 16, face = "bold"),  # Highlight the title
+    plot.caption = element_text(size = 10)  # Style the caption
+  )
+
+
+```
+
+## Renewable Energy Generation Trends by Source
+
+This graph provides a detailed overview of renewable energy generation trends in the United States, spanning approximately two decades, and breaks down the data by six key renewable energy sources: Hydro, Solar, Wind, Geothermal (Geo), Wave, and Other. The visualization draws on data from the U.S. Energy Information Administration (EIA), with energy output quantified in thousand megawatt-hours.
+
+#### **Dominance of Hydro and Wind Energy:**
+
+Hydro power has consistently dominated the renewable energy mix, maintaining stable energy output levels over the years. Its resilience and scalability position it as a cornerstone of renewable energy generation in the U.S. However, wind energy has emerged as a remarkable growth leader, with a steep upward trajectory in output. From minimal contributions in the early 2000s, wind energy has grown to become the second-largest renewable energy source, reflecting strategic investments in wind infrastructure and supportive policy frameworks.
+
+#### **Exponential Growth in Solar Energy:**
+
+Solar energy presents one of the most striking trends in the graph, with a nearly exponential growth pattern, particularly after 2010. This rapid ascent aligns with the widespread adoption of solar incentives, including tax credits, grants, and falling costs of solar photovoltaic technology. The consistent rise in solar output signifies a shift in renewable energy strategies, with solar energy emerging as a critical component in the energy transition.
+
+#### **Stability in Geothermal and Wave Energy:**
+
+Geothermal energy (Geo) and wave energy (Wave) maintain consistent, albeit minimal, contributions to the renewable energy mix. Their limited scalability and reliance on specific geographic conditions restrict their potential for substantial growth. However, they remain important niche contributors within the broader renewable energy portfolio.
+
+#### **Emerging Technologies in the ‘Other’ Category:**
+
+The "Other" category captures emerging or miscellaneous renewable technologies. While it shows modest growth over time, its contribution remains relatively small compared to more established sources like hydro, wind, and solar energy. This category may include experimental or regional energy sources, emphasizing the ongoing diversification within the renewable energy sector.
+
+### Relevance to EV Adoption:
+
+The graph underscores the dynamic transformation of the U.S. energy grid and its alignment with environmental goals that support electric vehicle (EV) adoption. The rapid expansion of wind and solar energy, in particular, indicates increased availability of clean energy to power EVs, thereby reducing their lifecycle emissions and making them an even more sustainable alternative to conventional vehicles.
+
+Hydro power’s stability ensures a consistent supply of low-carbon electricity, while the growth in wind and solar energy signals that EVs can increasingly rely on truly renewable power sources for charging. These trends reflect the success of state-level policies, including Renewable Portfolio Standards (RPS), aimed at expanding clean energy infrastructure. By linking energy policies with transportation electrification initiatives, states can create a virtuous cycle that accelerates both renewable energy adoption and EV penetration.
+
+As EV adoption hinges not just on the vehicles themselves but also on the cleanliness of the power grid, this analysis reveals a promising trajectory. The growth in renewable energy generation ensures that EVs contribute to emissions reductions, supporting the broader decarbonization goals of the transportation and energy sectors.
+
+```{r}
+library(tidyverse)
+
+# Ensure column names are unique
+colnames(renewable_data) <- make.unique(colnames(renewable_data))
+
+# Inspect the column names (optional)
+print(colnames(renewable_data))
+
+# Rename columns for clarity
+colnames(renewable_data) <- c(
+  "Hydro_Date", "Hydro_Value",
+  "Wind_Date", "Wind_Value",
+  "Solar_Date", "Solar_Value",
+  "Geo_Date", "Geo_Value",
+  "Other_Date", "Other_Value",
+  "Wave_Date", "Wave_Value"
+)
+
+# Pivot longer to create Type and Value columns
+renewable_data_clean <- renewable_data %>%
+  pivot_longer(
+    cols = ends_with("_Value"),
+    names_to = "Type",
+    values_to = "Value"
+  ) %>%
+  # Create a unified Date column from one of the Date columns
+  mutate(
+    Date = as.Date(paste0(substr(Hydro_Date, 1, 4), "-", substr(Hydro_Date, 5, 6), "-01")),
+    Type = gsub("_Value", "", Type)  # Clean up Type column
+  )
+
+# Verify the structure of the cleaned dataset (optional)
+print(head(renewable_data_clean))
+
+# Plot the data
+ggplot(renewable_data_clean, aes(x = Date, y = Value, color = Type)) +
+  geom_smooth(se = FALSE, linewidth = 1.2, method = "loess", formula = y ~ x) +
+  scale_color_manual(
+    values = c(
+      "Hydro" = "blue",
+      "Solar" = "gold",
+      "Wind" = "lightgreen",
+      "Geo" = "brown",
+      "Wave" = "cyan",
+      "Other" = "darkslategray"
+    )
+  ) +
+  labs(
+    title = "Trends in Renewable Energy Generation by Type",
+    x = "Year",
+    y = "Thousand Megawatt-hours",
+    color = "Energy Source"
+  ) +
+  scale_x_date(
+    date_breaks = "5 years",
+    date_labels = "%Y"
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "bottom",
+    legend.title = element_text(face = "bold"),
+    legend.text = element_text(size = 10),
+    axis.title = element_text(face = "bold"),
+    axis.text = element_text(size = 10),
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 14)
+  )
+
+
+```
+
+## Trends in Net Energy Generation by Source in the U.S. Over Time
+
+The graph titled **"Trends in Renewable Energy Generation by Type"** provides a comprehensive view of the evolution of renewable energy sources in the United States over several decades. By focusing on hydro, solar, wind, geothermal, wave, and other energy sources, it sheds light on the growth, stagnation, and emerging trends in renewable energy. This analysis highlights how technological advancements, policy interventions, and environmental concerns shape the renewable energy landscape.
+
+Hydropower remains a stable and reliable contributor to the renewable energy mix, as indicated by the relatively flat blue line on the graph. For decades, hydroelectric power has provided consistent energy output, making it a cornerstone of the renewable sector. However, its limited growth reflects the geographic and environmental constraints of expanding hydroelectric infrastructure. Large-scale projects often require suitable water bodies, and the ecological impacts of dams can pose challenges. Despite this, hydroelectric power’s reliability and efficiency ensure its ongoing importance in the energy mix.
+
+Wind energy, represented by the green line, demonstrates remarkable growth, especially over the past two decades. This upward trend underscores the role of technological advancements and policy incentives in driving wind energy’s adoption. As wind turbines become more efficient and cost-effective, their deployment has accelerated, particularly in regions with favorable wind conditions. The strong growth of wind energy positions it as a leading source of renewable power, contributing significantly to decarbonization efforts.
+
+Solar energy, depicted by the gold line, exhibits exponential growth, particularly in recent years. This rapid increase reflects the falling costs of solar photovoltaic systems, improvements in efficiency, and government policies such as tax credits and subsidies. Solar energy has become increasingly accessible to homeowners, businesses, and utility companies, making it a central component of the renewable energy transition. Its scalability and versatility, from rooftop installations to large-scale solar farms, highlight its transformative potential.
+
+In contrast, geothermal energy, shown by the brown line, has maintained a steady but modest contribution to renewable energy generation. Geothermal systems rely on heat from beneath the Earth's surface, which limits their deployment to regions with suitable geological conditions. Although geothermal energy offers a reliable and low-emission source of power, its high initial costs and geographic limitations have constrained its growth. Nonetheless, it remains an important option for diversifying the renewable energy portfolio in specific areas.
+
+Wave energy and other sources, represented by the cyan and dark slate gray lines, contribute minimally to renewable energy generation. These sources face significant technological, economic, and infrastructural challenges, which have hindered their large-scale adoption. However, they represent untapped potential, and continued research and innovation could unlock new opportunities for integrating these emerging technologies into the energy mix.
+
+The trends depicted in the graph highlight the profound impact of policies and incentives in shaping the renewable energy sector. The rapid growth of wind and solar energy reflects the effectiveness of tax credits, subsidies, and renewable portfolio standards in encouraging investment and adoption. At the same time, the stagnation of geothermal and wave energy underscores the need for additional support and innovation to overcome technical and financial barriers.
+
+These developments also align with global efforts to address climate change by reducing greenhouse gas emissions and transitioning to cleaner energy sources. While the growth of solar and wind energy contributes to decarbonization, it also introduces challenges such as managing grid stability and integrating energy storage solutions to address intermittent supply. Policymakers and industry leaders must address these challenges to ensure a resilient and reliable energy system.
+
+In conclusion, the graph underscores the dynamic evolution of renewable energy generation in the United States. Solar and wind energy have emerged as dominant forces, driven by technological advancements and supportive policies. Hydropower continues to provide a stable foundation, while geothermal, wave, and other sources remain underutilized but hold promise for the future. To achieve a balanced and sustainable energy system, continued investment, innovation, and policy support are essential. By leveraging these insights, the United States can further advance its renewable energy goals and contribute to a cleaner, more sustainable future.
+
+```{r}
+# Load necessary library
+library(tidyverse)
+
+# Read in the dataset, skipping unnecessary rows
+net_generation_data <- read_csv("docs/EV Project/Net_generation_United_States_all_sectors_monthly.csv", skip = 4)
+
+# Rename columns for clarity
+colnames(net_generation_data) <- c(
+  "Month", 
+  "Total_MegawattHours", 
+  "Coal_MegawattHours", 
+  "NaturalGas_MegawattHours", 
+  "Nuclear_MegawattHours", 
+  "ConventionalHydroelectric_MegawattHours"
+)
+
+# Clean and convert columns to proper types
+net_generation_data <- net_generation_data %>%
+  mutate(
+    Total_MegawattHours = as.numeric(gsub(",", "", Total_MegawattHours)),
+    Coal_MegawattHours = as.numeric(gsub(",", "", Coal_MegawattHours)),
+    NaturalGas_MegawattHours = as.numeric(gsub(",", "", NaturalGas_MegawattHours)),
+    Nuclear_MegawattHours = as.numeric(gsub(",", "", Nuclear_MegawattHours)),
+    ConventionalHydroelectric_MegawattHours = as.numeric(gsub(",", "", ConventionalHydroelectric_MegawattHours)),
+    Month = as.Date(paste0("01-", Month), format = "%d-%b-%y")
+  )
+
+# Pivot the data for visualization
+net_generation_long <- net_generation_data %>%
+  pivot_longer(
+    cols = -Month,
+    names_to = "Energy_Source",
+    values_to = "MegawattHours"
+  )
+
+ggplot(net_generation_long, aes(x = Month, y = MegawattHours, color = Energy_Source)) +
+  geom_line(size = 1) +  # Slightly thicker lines for better visibility
+  scale_color_manual(
+    values = c(
+      "Coal_MegawattHours" = "#FF5733", 
+      "ConventionalHydroelectric_MegawattHours" = "#1E90FF", 
+      "NaturalGas_MegawattHours" = "#FFD700", 
+      "Nuclear_MegawattHours" = "#6A5ACD", 
+      "Total_MegawattHours" = "#32CD32"
+    ),
+    labels = c(
+      "Coal",
+      "Conventional Hydroelectric",
+      "Natural Gas",
+      "Nuclear",
+      "Total"
+    )
+  ) +
+  scale_y_continuous(labels = scales::comma) +  # Add comma format for large numbers
+  labs(
+    title = "Net Generation in the United States by Energy Source",
+    x = "Year",
+    y = "Energy Output (Thousand MWh)",  # Compact y-axis label
+    color = "Energy Source"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 14),  # Center and bold title
+    axis.title = element_text(face = "bold", size = 12),  # Bold axis labels
+    axis.text.y = element_text(size = 10),  # Improve y-axis readability
+    legend.position = "right",  # Move legend to the right side
+    legend.title = element_text(size = 10),  # Adjust legend title size
+    legend.text = element_text(size = 9)  # Adjust legend text size
+  )
+
+
+```
+
+# **The Role of Policies in Connecting Renewable Energy and Electric Vehicle Adoption**
+
+The transition to a sustainable future relies heavily on the interplay between renewable energy adoption and electric vehicle (EV) penetration. Policies and incentives play a pivotal role in bridging this connection, addressing financial barriers, expanding infrastructure, and fostering alignment between renewable energy goals and transportation electrification. By exploring the direct and indirect contributions of these policies, we uncover their crucial role in driving the shift toward cleaner transportation and energy systems.
+
+### **Reducing Financial Barriers to Adoption**
+
+Policies such as the **Alternative Fuel Vehicle Refueling Property Tax Credit** (Corporate and Personal) and the **Plug-In Electric Drive Vehicle Tax Credit** lower the upfront costs associated with EV ownership and infrastructure installation. For instance, refueling property tax credits incentivize businesses and individuals to install EV chargers, reducing range anxiety and supporting broader EV adoption. This policy aligns particularly well with states that have a high percentage of renewable energy in their grids, where EV owners can charge vehicles using cleaner electricity.
+
+Similarly, the **Previously Owned Clean Vehicle Tax Credit** makes EVs more affordable by targeting the secondary market, increasing accessibility for middle-income households. This affordability ensures that more individuals in states with renewable-heavy grids can enjoy the environmental benefits of driving on clean energy. By mitigating cost barriers, these policies amplify the positive correlation between renewable energy and EV adoption.
+
+### **Expanding EV Infrastructure**
+
+Infrastructure is a critical enabler of EV adoption, and several policies directly promote its expansion. The **U.S. Department of Energy Loan Guarantee Program** supports innovative renewable energy and EV-related projects, including solar-powered charging stations. By financing infrastructure projects that integrate renewable energy, this policy ensures that EVs are charged with sustainable power, reinforcing the link between renewable energy deployment and transportation electrification.
+
+Similarly, the **USDA Rural Energy for America Program (REAP) Grants** targets underserved rural areas, funding renewable energy systems and EV charging infrastructure. By bridging the gap between rural and urban EV infrastructure, this policy ensures equitable access to clean transportation options, fostering EV adoption in states where renewable energy availability is expanding.
+
+### **Driving Renewable Energy Growth**
+
+Policies such as the **Renewables Portfolio Standard (RPS)** and the **Clean Energy Standard** mandate that utilities generate a specified percentage of their electricity from renewable sources. These policies directly increase the renewable energy percentage in state grids, making EVs more sustainable by reducing the carbon intensity of their electricity consumption. For example, in states with aggressive RPS goals, EVs are more appealing to environmentally conscious consumers, furthering adoption rates.
+
+Localized incentives like the **Solar Sales Tax Exemption** and the **Austin Energy Solar PV Rebate** also contribute to renewable energy growth by reducing the cost of solar installations. These programs encourage the decentralization of renewable energy generation, enabling households to charge EVs using solar power. This creates a direct and tangible connection between renewable energy use and EV adoption, reinforcing the project’s hypothesis.
+
+### **Fostering Equitable Access to EVs**
+
+Equity-focused policies such as the **U.S. Virgin Islands Equitable E-Mobility Rebate Program** play a vital role in expanding EV access to underserved populations. In the Virgin Islands, where solar energy dominates, this program ensures that EV adoption aligns with the availability of renewable energy. By making EVs affordable and accessible, such policies maximize the environmental and economic benefits of clean energy and transportation, highlighting the synergy between renewable and electrification in smaller, isolated grids.
+
+### **Promoting Commercial Electrification**
+
+The **Qualified Commercial Clean Vehicle Tax Credit** incentivizes businesses to adopt clean commercial vehicles, including EVs. This policy has far-reaching implications, as electrified fleets often require extensive charging infrastructure, which can be aligned with renewable energy sources. In states with high renewable energy percentages, fleet electrification reduces operational emissions significantly, demonstrating the practical benefits of integrating renewables with transportation electrification.
+
+### **Conclusion**
+
+The examined policies collectively illustrate how strategic incentives can align renewable energy adoption with EV penetration, fostering a cleaner and more sustainable future. By addressing financial barriers, expanding infrastructure, promoting renewable energy growth, and ensuring equitable access, these policies create a synergistic relationship between clean energy and transportation. States with higher renewable energy percentages benefit most from these policies, as they amplify the environmental and economic advantages of EV adoption. As such, these policies not only support the transition to renewable energy but also catalyze the widespread adoption of EVs, reinforcing the critical connection between the two.
+>>>>>>> 7cff10a20f0a626c37c1cab70310a6f469355f6a
